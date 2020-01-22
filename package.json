@@ -1,0 +1,22 @@
+{
+  "name": "OnlineAssessment",
+  "version": "1.0.0",
+  "description": "My unreal Nuxt.js project",
+  "author": "dipakmeher",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "firebase": "^7.7.0",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.0.0"
+  }
+}

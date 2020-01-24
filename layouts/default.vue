@@ -2,14 +2,14 @@
   <v-app>  
     <v-app-bar app>
 
-      <nuxt-link to="/">
+      <!-- <nuxt-link to="/">
         <v-btn outlined>Home</v-btn>
       </nuxt-link>
         
       <nuxt-link to="/display">
         <v-btn outlined>Contacts</v-btn>
-      </nuxt-link>
-
+      </nuxt-link> -->
+    <h1>Online Assessment</h1>
     </v-app-bar>
     <v-content class="blue lighten-2">
       <v-container>

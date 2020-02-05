@@ -2,11 +2,11 @@
   <div>
     <v-row >
       <!--Column 1-->
-      <v-col cols="3" class="col-1 grey lighten-3" height="100%"></v-col>
+      <v-col cols="3" class="col-1 grey lighten-3" height="100%">Hare Krishna</v-col>
 
       <!--Column 2-->
       <v-col cols="6" class="col-2 white">
-        <v-container fluid v-for="Questions in projects[0]" :key="Questions.Question">
+        <v-container fluid v-for="Questions in projects" :key="Questions.Question">
           <v-card class="mx-auto" max-width="800" >
             <v-card-text>
               <p class="display-1 text--primary">
@@ -14,17 +14,19 @@
               </p>          
               <div class="radio radio-primary"> 
                 <label v-for="choice in Questions.Choices" v-bind:key="choice['c1']">
-                  <input type="radio" :name="Questions.Question" id="radio" :value="choice" v-model="selectedrole"/>
+                  <input type="radio" :name="
+                  Questions.Question" id="radio" :value="choice" v-model="selectedrole"/>
                   {{choice}}
                   <br/>
                 </label>                          
               </div>
               <!-- <span>Picked: {{ picked  }}</span> -->
             </v-card-text>
-            <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn>
+            <!-- <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn> -->
           </v-card>
         </v-container>
       </v-col>
+
       <!--Column 3-->
       <v-col cols="3" class="col-3 grey lighten-3"></v-col>
     </v-row>
@@ -39,59 +41,32 @@
 <script>
 //import firebase from '../plugins/firebase'
 import db from '../plugins/firebase'
-var dict = new Object();
-var dict= {};
-
+import {mapGetters} from 'vuex'
+import {mapState} from 'vuex'
+import {mapActions} from 'vuex'
 
 export default {
   data() {
     return {
-      projects: [],
-      dict:{},
-      selectedrole:""
+             selectedrole:""
     }
+  },
+  computed:{
+      ...mapGetters({
+          projects: 'get'
+      })
+      // ...mapState([
+      //   'projects'
+      // ])
   },
   methods:{
-    Firestoreupdate(){
-      db.collection('Assessment').doc('Book-Distribution').update({
-          "Question1":{
-            "Answer": this.picked,
-            "Choices": this.projects[0].Question1.Choices,
-            "Question":this.projects[0].Question1.Question
-        }
-      });
-    },
-    addRadio(Questions){
-      dict[Questions]=this.picked;
-      console.log(dict[Questions]);
-    }
   },
   created() {
-    db.collection('Assessment').onSnapshot(res => {
-      const changes = res.docChanges();
-      changes.forEach(change => {
-        if(change.type === 'added') {  
-          this.projects.push({
-            ...change.doc.data(),
-            id: change.doc.id
-          })
-        }  
-      })
-    });
-    console.log(this.projects);
+    this.$store.dispatch("fetchCategories");
   }
-}
- 
-          // "Question1":{
-          //   "Question":"who is krsna",
-          //   "Answer": this.picked,  
-          //   "Choices":{
-          //     "c1":"SPOG",
-          //     "c2":"Just a king",
-          //     "c3":"Demigod",
-          //     "c4":"None of These"
-          //   }
+}//default ends
 </script>
+
 <style scoped>
 .col-1,.col-2,.col-3{
     height:auto;

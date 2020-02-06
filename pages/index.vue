@@ -6,16 +6,15 @@
 
       <!--Column 2-->
       <v-col cols="6" class="col-2 white">
-        <v-container fluid v-for="Questions in projects" :key="Questions.Question">
+        <v-container fluid v-for="(Questions,index) in projects" :key="index">
           <v-card class="mx-auto" max-width="800" >
             <v-card-text>
               <p class="display-1 text--primary">
-                {{Questions.Question}}
+                {{index}} <br>{{Questions.Question}}
               </p>          
               <div class="radio radio-primary"> 
-                <label v-for="choice in Questions.Choices" v-bind:key="choice['c1']">
-                  <input type="radio" :name="
-                  Questions.Question" id="radio" :value="choice" v-model="selectedrole"/>
+                <label v-for="(choice,index1) in Questions.Choices" v-bind:key="index1">
+                  <input type="radio" :name="Questions.Question" :id=" 'radio-' + index" :value='choice' v-model="chosen[index]"/>
                   {{choice}}
                   <br/>
                 </label>                          
@@ -28,7 +27,14 @@
       </v-col>
 
       <!--Column 3-->
-      <v-col cols="3" class="col-3 grey lighten-3"></v-col>
+      <v-col cols="3" class="col-3 grey lighten-3">
+            <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn>
+            <ul >
+              <li v-for="(Questions,index) in projects" :key="index">
+                {{chosen[index]}}
+              </li>
+            </ul>
+      </v-col>
     </v-row>
   </div>
   <!-- <v-radio-group :mandatory="false" v-model="picked">
@@ -48,19 +54,32 @@ import {mapActions} from 'vuex'
 export default {
   data() {
     return {
-             selectedrole:""
+        chosen:[]
     }
   },
   computed:{
       ...mapGetters({
           projects: 'get'
-      })
-      // ...mapState([
-      //   'projects'
-      // ])
+      }),
+      // Updated() {
+      //       var category = [];
+      //       category = this.chosen;
+      //       for (let i = 0; i < this.chosen.length; i++) {
+      //           console.log(category);
+      //       }
+      //   }
   },
   methods:{
-  },
+    Firestoreupdate(){
+      //  console.log(this.chosen);
+      // this.chosen.map((contact) => {
+      //   console.log(contact);
+      // });
+       for (let i = 0; i < this.chosen.length; i++) {
+                console.log(i);
+            }
+    }
+   },
   created() {
     this.$store.dispatch("fetchCategories");
   }

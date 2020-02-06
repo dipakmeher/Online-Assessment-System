@@ -18,7 +18,6 @@ export const mutations={
   },
   setCategories(state, val) {
     state.projects = val; 
-    console.log(state.projects["0"].Question1.Question);
   }
 }
 export const actions={
@@ -36,6 +35,9 @@ export const actions={
         commit("setCategories", categories);
       }
     });
+  },
+  UpdateAnswers({commit}){
+
   }
 }
 

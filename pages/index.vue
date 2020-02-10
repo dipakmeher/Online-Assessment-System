@@ -61,23 +61,10 @@ export default {
       ...mapGetters({
           projects: 'get'
       }),
-      // Updated() {
-      //       var category = [];
-      //       category = this.chosen;
-      //       for (let i = 0; i < this.chosen.length; i++) {
-      //           console.log(category);
-      //       }
-      //   }
   },
   methods:{
     Firestoreupdate(){
-      //  console.log(this.chosen);
-      // this.chosen.map((contact) => {
-      //   console.log(contact);
-      // });
-       for (let i = 0; i < this.chosen.length; i++) {
-                console.log(i);
-            }
+      this.$store.dispatch("UpdateAnswers", this.chosen);
     }
    },
   created() {

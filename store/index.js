@@ -18,9 +18,20 @@ export const mutations={
   },
   setCategories(state, val) {
     state.projects = val; 
+  },
+  //Updating Answer
+  Update(state,payload){
+    // var categories = [];
+    // categories = payload;
+    // console.log(categories.Question1);
+
+    // this.state.projects["0"].Question1.Answer = "Dipak"
+    // console.log(this.state.projects["0"].Question1.Answer);
   }
 }
 export const actions={
+
+  // Fetch Categories
   fetchCategories({ commit }) {
     db.collection("Assessment").get().then(querySnapshot => {
       if (querySnapshot.empty) {
@@ -36,22 +47,19 @@ export const actions={
       }
     });
   },
-  UpdateAnswers({commit}){
 
+
+  //============================================================================
+  UpdateAnswers(context,payload){
+    let categories = [];
+    categories = payload;
+    // console.log(categories.Question1);
+    // context.commit('Update',payload);
+    // let arr = [];
+    this.categories.forEach((value, index) => {
+        // arr.push(value);
+        console.log(value);
+        console.log(index);
+    });
   }
 }
-
-  //  db.collection('Assessment').onSnapshot(res => {//GetPaper
-//   const changes = res.docChanges();
-//   console.log(changes);
-//   changes.forEach(change => {
-//     if(change.type === 'added') {  
-//     // this.$store.commit('add', { ...change.doc.data(),id: change.doc.id })
-//     //       console.log(...change.doc.data());
-//       state.projects.push({
-//         ...change.doc.data(),
-//         id: change.doc.id
-//       })
-//     }  
-//   })
-// });

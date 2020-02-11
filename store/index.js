@@ -10,23 +10,29 @@ export const getters = {
     }
   }
 export const mutations={
-  add (state, { text,id}) {
-    state.projects.push({
-      text,
-      id:id
-    })
-  },
+  // add (state, { text,id}) {
+  //   state.projects.push({
+  //     text,
+  //     id:id
+  //   })
+  // },
+  
   setCategories(state, val) {
     state.projects = val; 
   },
+
   //Updating Answer
   Update(state,payload){
     // var categories = [];
     // categories = payload;
     // console.log(categories.Question1);
-
-    // this.state.projects["0"].Question1.Answer = "Dipak"
-    // console.log(this.state.projects["0"].Question1.Answer);
+    // console.log(payload);
+    let key = payload.key;
+    let ans = payload.ans;
+    var hk =  JSON.parse('this.state.projects["0"].'+key);
+    console.log(typeof(hk));
+    // this.state.projects["0"].key.Answer = ans;
+    // console.log('this.state.projects["0"].'+key);
   }
 }
 export const actions={
@@ -42,24 +48,22 @@ export const actions={
         querySnapshot.forEach(doc => {
           categories.push(doc.data());
         });
-
         commit("setCategories", categories);
       }
     });
   },
-
-
   //============================================================================
-  UpdateAnswers(context,payload){
+  UpdateAnswers({commit,state},payload){
     let categories = [];
     categories = payload;
-    // console.log(categories.Question1);
+    for (const [key, value] of Object.entries(this.state.projects["0"])) {
+      let ans = categories[key];
+      if(ans == undefined){
+        ans = "";
+      }
+      commit("Update",{key, ans});
+      //console.log(key,categories[key]);
+    }
     // context.commit('Update',payload);
-    // let arr = [];
-    this.categories.forEach((value, index) => {
-        // arr.push(value);
-        console.log(value);
-        console.log(index);
-    });
   }
 }

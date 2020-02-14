@@ -20,19 +20,11 @@ export const mutations={
   setCategories(state, val) {
     state.projects = val; 
   },
-
-  //Updating Answer
   Update(state,payload){
-    // var categories = [];
-    // categories = payload;
-    // console.log(categories.Question1);
-    // console.log(payload);
     let key = payload.key;
     let ans = payload.ans;
-    var hk =  JSON.parse('this.state.projects["0"].'+key);
-    console.log(typeof(hk));
-    // this.state.projects["0"].key.Answer = ans;
-    // console.log('this.state.projects["0"].'+key);
+    this.state.projects["0"][key].Answer = ans;
+    console.log(this.state.projects["0"][key].Answer);
   }
 }
 export const actions={

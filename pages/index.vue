@@ -2,7 +2,7 @@
   <div>
     <v-row >
       <!--Column 1-->
-      <v-col cols="3" class="col-1 grey lighten-3" height="100%">Hare Krishna</v-col>
+      <v-col cols="3" class="col-1 grey lighten-3" height="100%"></v-col>
 
       <!--Column 2-->
       <v-col cols="6" class="col-2 white">
@@ -29,19 +29,9 @@
       <!--Column 3-->
       <v-col cols="3" class="col-3 grey lighten-3">
             <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn>
-            <ul >
-              <li v-for="(Questions,index) in projects" :key="index">
-                {{chosen[index]}}
-              </li>
-            </ul>
       </v-col>
     </v-row>
   </div>
-  <!-- <v-radio-group :mandatory="false" v-model="picked">
-                <v-radio v-for="choice in Questions.Choices" :key="choice['c1']" v-bind:label="choice" v-bind:value="choice" color="white" v-on:click="addRadio(Questions)"></v-radio>
-              </v-radio-group>
-                    <input type="radio" :name= "Questions" id="radio" :value= choice v-on:click="update" v-model="selectedrole"/>
- -->
 </template>
 
 <script>

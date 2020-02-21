@@ -11,9 +11,12 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^3.5.1",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
     "firebase": "^7.7.0",
+    "firebase-admin": "^8.9.2",
+    "firebase-functions": "^3.3.0",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {

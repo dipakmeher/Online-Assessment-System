@@ -24,9 +24,11 @@ export const mutations={
     let key = payload.key;
     let ans = payload.ans;
     this.state.projects["0"][key].Answer = ans;
-    console.log(this.state.projects["0"][key].Answer);
   }
 }
+
+
+
 export const actions={
 
   // Fetch Categories
@@ -56,6 +58,7 @@ export const actions={
       commit("Update",{key, ans});
       //console.log(key,categories[key]);
     }
-    // context.commit('Update',payload);
+    db.collection("Assessment").doc("Book-Distribution").set(Object.assign({}, state.projects["0"]));
+    console.log("firebase Updated");
   }
 }

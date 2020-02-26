@@ -3,24 +3,70 @@ const functions = require('firebase-functions');
  admin.initializeApp();
 
 exports.writeToFirestore = functions.https.onRequest(async (req, res) => {
-  const pathDir =  await admin.firestore().collection('Assessment').doc('Book-Distribution');
-  const eventDoc = await pathDir.get();
+  const pathDir =  admin.firestore().collection('Assessment').doc('Master-Bank1');
+  const eventDoc = await pathDir.get(); 
   if (!eventDoc.exists) {
     res.json({result: 'failure', message: "Invalid Event ID"});
   } else {
-    return admin.firestore().collection('Assessment').doc('Master-Bank').set({
-      Question1:"message"
-    });
-    res.json({message:"Function got executed"}); 
+    var categories = [];
+    var ans = {};
+    for (const [key, value] of Object.entries(eventDoc._fieldsProto)) {
+      for (const [key1, value1] of Object.entries(eventDoc._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
+        categories.push(value1);
+      }
+      var s = categories.join("");  
+      ans[key] = s;
+      categories = [];
+    }
+    res.json(ans);
     }
 });
 
 exports.updateUser = functions.firestore
     .document('Assessment/{bd}')
-    .onUpdate((change, context) => {
-      return admin.firestore().collection('Assessment').doc('Master-Bank').set({
-        Question1:"dipak"
-      });
+    .onUpdate(async (change, context) => {
+      // return admin.firestore().collection('Assessment').doc('Master-Bank').set({
+      //   Question1:{
+      //     Question:"Who is Krsna",
+      //     Answer:"SPOG"
+      // //   }
+      // });
+      const bd =  admin.firestore().collection('Assessment').doc('Book-Distribution');
+      const mb =  admin.firestore().collection('Assessment').doc('Master-Bank1');
+
+      const getBddata = await bd.get();
+      const getMbdata = await mb.get();
+
+      const ansUser =  getBddata._fieldsProto.Question1.mapValue.fields.Answer.stringValue;
+      const ansMaster = getMbdata._fieldsProto.Question1.mapValue.fields.Answer.stringValue;
+      let score = 0;
+      var categoriesgb = [];
+      var categoriesmb = [];
+      var ansgb = {};
+      var ansmb = {};
+      var ans = {};
+      for (const [key, value] of Object.entries(getBddata._fieldsProto)) {
+        for (const [key1, value1] of Object.entries(getBddata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
+          categoriesgb.push(value1);
+        }
+        var sgb = categoriesgb.join("");  
+        ansgb[key] = sgb;
+        categoriesgb = [];
+        //=============================================================================================
+
+        for (const [key2, value2] of Object.entries(getMbdata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
+          categoriesmb.push(value2);
+        }
+        var smb = categoriesmb.join("");
+        ansmb[key] = smb;
+        categoriesmb=[];
+
+        if(sgb == smb){
+          ans[key]=sgb;
+        }
+      }
+      return admin.firestore().collection('Assessment').doc('Master-Bank').set(ans);
+
     });
 
 // admin.initializeApp({

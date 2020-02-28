@@ -39,12 +39,12 @@ exports.updateUser = functions.firestore
 
       const ansUser =  getBddata._fieldsProto.Question1.mapValue.fields.Answer.stringValue;
       const ansMaster = getMbdata._fieldsProto.Question1.mapValue.fields.Answer.stringValue;
-      let score = 0;
       var categoriesgb = [];
       var categoriesmb = [];
       var ansgb = {};
       var ansmb = {};
       var ans = {};
+      var score = 0;
       for (const [key, value] of Object.entries(getBddata._fieldsProto)) {
         for (const [key1, value1] of Object.entries(getBddata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
           categoriesgb.push(value1);
@@ -60,12 +60,14 @@ exports.updateUser = functions.firestore
         var smb = categoriesmb.join("");
         ansmb[key] = smb;
         categoriesmb=[];
-
+        
         if(sgb == smb){
           ans[key]=sgb;
+          score++;
         }
       }
-      return admin.firestore().collection('Assessment').doc('Master-Bank').set(ans);
+      ans["correct"] = score;
+      return admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
 
     });
 

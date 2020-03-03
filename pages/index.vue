@@ -29,7 +29,7 @@
       <!--Column 3-->
       <v-col cols="3" class="col-3 grey lighten-3">
             <!-- <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn> -->
-            <nuxt-link to="/submit"><v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate()">Submit</v-btn></nuxt-link>
+            <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate()">Submit</v-btn>
 
       </v-col>
     </v-row>
@@ -57,6 +57,7 @@ export default {
   methods:{
     Firestoreupdate(){
       this.$store.dispatch("UpdateAnswers", this.chosen);
+       //window.location.href = "http://localhost:3000/submit";
     }
    },
   created() {

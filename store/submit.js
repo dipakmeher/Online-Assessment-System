@@ -15,7 +15,10 @@ export const getters = {
 export const mutations={
     add(state,title){
         state.CorrectAnswer.push(title)
-      }
+      },
+    // clearList(state){
+    //     state.CorrectAnswer = []
+    // }
 }
 
 export const actions={
@@ -32,5 +35,12 @@ export const actions={
         }).catch(function(error) {
             console.log("Error getting document:", error);
         });
+    },
+    clearList({ commit }) {
+        state.CorrectAnswer=[];
+        db.collection("Assessment").doc("Correct-Answers").set({
+            correct:0
+        });
+        // alert("clearList Invoked");
     }
   }

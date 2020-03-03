@@ -23,7 +23,7 @@ exports.writeToFirestore = functions.https.onRequest(async (req, res) => {
 });
 
 exports.updateUser = functions.firestore
-    .document('Assessment/{bd}')
+    .document('Assessment/Book-Distribution')
     .onUpdate(async (change, context) => {
       // return admin.firestore().collection('Assessment').doc('Master-Bank').set({
       //   Question1:{
@@ -67,24 +67,23 @@ exports.updateUser = functions.firestore
         }
       }
       ans["correct"] = score;
-      return admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
+      await admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
+      admin.firestore().collection('Assessment').doc('Correct-Answers').get().then(function(doc){
+        if (doc.data().exists) {
+          window.location = "http://localhost:3000/submit";
+        } else {
+          admin.firestore().collection('Assessment').doc('Master-Bank').set(ans);
+        }
+      });
+     
+      // .catch(error=>{
+      //   console.log("error");
+      // });
 
     });
 
-// admin.initializeApp({
-//     credential: admin.credential.applicationDefault(),
-//     databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
-//   });
-// const Firestore = require('@google-cloud/firestore');
-
-// const firestore = new Firestore({
-//   projectId: 'onlineassessment-3c952',
-//   keyFilename: '/home/dipak/Documents/Engineering/Finalyr/Sem_2/NuxtJs/OnlineAssessment/onlineassessment-3c952-firebase-adminsdk-8tg49-01c765ff4d.json',
-// });
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-//  console.log("Hello World Invoked");
-// });
+    // exports.updateCorrectAnswer = functions.firestore
+    // .document('Assessment/Correct-Answers')
+    // .onUpdate(async (change, context) => {
+    //   window.location.href = "http://localhost:3000/submit";
+    // });

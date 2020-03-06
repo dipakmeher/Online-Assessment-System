@@ -23,15 +23,9 @@ exports.writeToFirestore = functions.https.onRequest(async (req, res) => {
 });
 
 exports.updateUser = functions.firestore
-    .document('Assessment/Book-Distribution')
+    .document('Assessment/Question-Paper')
     .onUpdate(async (change, context) => {
-      // return admin.firestore().collection('Assessment').doc('Master-Bank').set({
-      //   Question1:{
-      //     Question:"Who is Krsna",
-      //     Answer:"SPOG"
-      // //   }
-      // });
-      const bd =  admin.firestore().collection('Assessment').doc('Book-Distribution');
+      const bd =  admin.firestore().collection('Assessment').doc('Question-Paper');
       const mb =  admin.firestore().collection('Assessment').doc('Master-Bank1');
 
       const getBddata = await bd.get();
@@ -67,23 +61,5 @@ exports.updateUser = functions.firestore
         }
       }
       ans["correct"] = score;
-      await admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
-      admin.firestore().collection('Assessment').doc('Correct-Answers').get().then(function(doc){
-        if (doc.data().exists) {
-          window.location = "http://localhost:3000/submit";
-        } else {
-          admin.firestore().collection('Assessment').doc('Master-Bank').set(ans);
-        }
-      });
-     
-      // .catch(error=>{
-      //   console.log("error");
-      // });
-
+      return admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
     });
-
-    // exports.updateCorrectAnswer = functions.firestore
-    // .document('Assessment/Correct-Answers')
-    // .onUpdate(async (change, context) => {
-    //   window.location.href = "http://localhost:3000/submit";
-    // });

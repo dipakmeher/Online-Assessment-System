@@ -10,7 +10,7 @@
         <p class="display-1">Thank you for giving the exam.</p>
         <span class="display-1">Your Score is 
           <h1 v-for="(Questions,index) in CorrectAnswer" :key="index" class="display-4">
-            {{Questions.correct}}
+            {{Questions.correct}} 
           </h1>
         </span>
       </v-col>
@@ -19,7 +19,6 @@
       <v-col cols="3" class="col-3 grey lighten-3">
             <!-- <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn> -->
             <nuxt-link to="/"><v-btn depressed small color="primary" class="ma-5">Exam Page</v-btn></nuxt-link>
-
       </v-col>
     </v-row>
   </div>

@@ -33,15 +33,17 @@ export const actions={
 
   // Fetch Categories
   fetchCategories({ commit }) {
-    db.collection("Assessment").get().then(querySnapshot => {
+    db.collection("Assessment").doc("Question-Paper").get().then(querySnapshot => {
+      console.log(querySnapshot.data());
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
       } else {
-        this.loading = false;
         var categories = [];
-        querySnapshot.forEach(doc => {
-          categories.push(doc.data());
-        });
+        // querySnapshot.forEach(doc => {
+        //   categories.push(doc.data());
+        // });
+        categories.push(querySnapshot.data());
+        console.log(categories);
         commit("setCategories", categories);
       }
     });
@@ -58,7 +60,7 @@ export const actions={
       commit("Update",{key, ans});
       //console.log(key,categories[key]);
     }
-    db.collection("Assessment").doc("Book-Distribution").set(Object.assign({}, state.projects["0"]));
+    db.collection("Assessment").doc("Question-Paper").set(Object.assign({}, state.projects["0"]));
     console.log("firebase Updated");
   }
 }

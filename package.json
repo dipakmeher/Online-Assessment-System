@@ -14,10 +14,17 @@
     "@google-cloud/firestore": "^3.5.1",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
+    "child_process": "^1.0.2",
+    "dgram": "^1.0.1",
+    "dns": "^0.2.2",
     "firebase": "^7.7.0",
     "firebase-admin": "^8.9.2",
     "firebase-functions": "^3.3.0",
-    "nuxt": "^2.0.0"
+    "fs": "0.0.1-security",
+    "http2": "^3.3.7",
+    "net": "^1.0.2",
+    "nuxt": "^2.0.0",
+    "tls": "0.0.1"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.0.0"

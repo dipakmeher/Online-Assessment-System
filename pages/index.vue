@@ -14,13 +14,13 @@
               </p>          
               <div class="radio radio-primary"> 
                 <label v-for="(choice,index1) in Questions.Choices" v-bind:key="index1">
-                  <input type="radio" :name="Questions.Question" :id=" 'radio-' + index" :value='choice' v-model="chosen[index]"/>
+                  <input type="radio" :name="Questions.Question" :id=" 'radio-' + index" :value='choice' v-model="chosen[index]"  />
                   {{choice}}
                   <br/>
                 </label>                          
               </div>
-              <!-- <span>Picked: {{ picked  }}</span> -->
-            </v-card-text>
+              <!-- <v-btn depressed small color="primary" class="  " @click="remind = null">Clear Response</v-btn> --> 
+              </v-card-text>
             <!-- <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn> -->
           </v-card>
         </v-container>
@@ -62,6 +62,7 @@ export default {
    },
   created() {
     this.$store.dispatch("fetchCategories");
+    
   }
 }//default ends
 </script>

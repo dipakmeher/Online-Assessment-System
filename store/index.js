@@ -60,7 +60,10 @@ export const actions={
       commit("Update",{key, ans});
       //console.log(key,categories[key]);
     }
-    db.collection("Assessment").doc("Question-Paper").set(Object.assign({}, state.projects["0"]));
+    db.collection("Assessment").doc("Question-Paper").set(Object.assign({}, state.projects["0"]))
+    .then(()=>{
+      alert("Answer Submitted");
+    });
     console.log("firebase Updated");
   }
 }

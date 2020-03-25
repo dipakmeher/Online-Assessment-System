@@ -10,14 +10,14 @@
       <v-col cols="6" class="col-2 white">
 
         <v-form ref="form" style="color:black;">
-          <v-text-field light :counter="10" :rules="nameRules" questionno="questionno" label="Question-No" required></v-text-field>
-          <v-text-field light :counter="10" :rules="nameRules" question ="question" label="Question" required></v-text-field>
+          <v-text-field light :counter="10" v-model="questionno" label="Question-No" required></v-text-field>
+          <v-text-field light :counter="10" v-model="question" label="Question" required></v-text-field>
          
          <label for="Choice">Choices(please double click the following options, to fill respective answers) </label>
           <div style="margin-left:10px;">
             <label @click="chooseForm()">
             <input type="radio" id="choice" value="choice" v-model="picked"  >
-            Choices</label>
+            Choice</label>
             <br>
             <label @click="chooseForm()">
             <input type="radio" id="text" value="text" v-model="picked">
@@ -33,16 +33,16 @@
               <v-expansion-panel-content>
                 <v-row>
                   <v-col cols="3">
-                    <v-text-field light single-line outlined c1="c1" label="c1" required></v-text-field>
+                    <v-text-field light single-line outlined v-model="c1" label="c1" required></v-text-field>
                   </v-col>
                   <v-col cols="3">
-                    <v-text-field light single-line outlined c2="c2" label="c2" required></v-text-field>
+                    <v-text-field light single-line outlined v-model="c2" label="c2" required></v-text-field>
                   </v-col>
                   <v-col cols="3">
-                    <v-text-field light single-line outlined c3="c3" label="c3" required></v-text-field>
+                    <v-text-field light single-line outlined v-model="c3" label="c3" required></v-text-field>
                   </v-col>
                   <v-col cols="3">
-                    <v-text-field light single-line outlined c4="c4" label="c4" required></v-text-field>
+                    <v-text-field light single-line outlined v-model="c4" label="c4" required></v-text-field>
                   </v-col>
                 </v-row>
               </v-expansion-panel-content>
@@ -51,13 +51,13 @@
               <v-expansion-panel id="Text" style="display:none" light> 
                 <v-expansion-panel-header>Textual Answers</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <v-text-field light youranswer="youranswer" label="Your Answer" required></v-text-field>
+                  <v-text-field light v-model="youranswer" label="Your Answer" required></v-text-field>
                 </v-expansion-panel-content>
                </v-expansion-panel>
           </v-expansion-panels>
 
           <br>
-          <v-text-field light :counter="10" :rules="nameRules" answer="answer" label="Answer" required></v-text-field>
+          <v-text-field light :counter="10" v-model="answer" label="Answer" required></v-text-field>
 
         </v-form>
       </v-col>
@@ -112,19 +112,70 @@ export default {
       // console.log(choice);
       if(text.style.display == "none"){
         text.style.display = "block";
-        choice.style.display = "none";      }
+        choice.style.display = "none";      
+        }
       }
     },
-    addData(){
-      //  if(this.$refs.form.validate()){
-      //     const project = {
-      //       Question:this.name,
-      //       contactnumber:this.number
+    addData(){   
+      if(this.$refs.form.validate()){
+        let newque = [];
+        let categories = [];
+        const newquestion={
+          newquestion1:{
+          name:this.questionno,
+          add:this.question
+          }
+        }
+      db.collection("Assessment").doc("Check").get().then(querySnapshot => {
+        if (querySnapshot.empty) {
+          //this.$router.push('/HelloWorld')
+        } else {
+          var cat = [];
+          cat.push(querySnapshot.data());
+          cat.push.apply(newquestion);
+           console.log(cat);
+          // cat.push(newque);
+          // db.collection("Assessment").doc("Check").set(Object.assign({}, cat))
+          // .then(()=>{
+          //   alert("Form Submitted");
+          //   this.$refs.form.reset();
+          // })
+        }
+      })
+      // const budgets = Object.assign({}, cat);
+      // const newcat={
+      //     Question:{
+      //       cat:budget
       //     }
-    }
-
+      //   }
+      }
   }
 }
+}
+    //         questionno:this.questionno;
+    //      if(this.picked == 'choice'){
+    //        var newquestion1 = {
+    //         questionno1: {
+    //           Question:this.question,
+    //           Answer:this.answer,
+    //           Choices:{
+    //             c1:this.c1,
+    //             c2:this.c2,
+    //             c3:this.c3,
+    //             c4:this.c4
+    //           }
+    //         }
+    //       }
+    //    }else if(this.picked == "text"){
+    //       var newquestion1 = {
+    //           questionno1: {
+    //             Question:this.question,
+    //             Answer:this.answer,
+    //             Choices:this.text
+    //           }
+    //       } 
+    //    }
+          
 </script>
 
 <style>

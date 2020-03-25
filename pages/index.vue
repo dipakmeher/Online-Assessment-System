@@ -57,6 +57,7 @@ export default {
   methods:{
     Firestoreupdate(){
       this.$store.dispatch("UpdateAnswers", this.chosen);
+      this.$refs.form.reset();
        //window.location.href = "http://localhost:3000/submit";
     }
    },

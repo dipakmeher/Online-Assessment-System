@@ -27,6 +27,8 @@
     "tls": "0.0.1"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.0.0"
+    "@babel/runtime-corejs2": "^7.9.2",
+    "@nuxtjs/vuetify": "^1.0.0",
+    "core-js": "^2.6.11"
   }
 }

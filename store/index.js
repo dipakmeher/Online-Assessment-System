@@ -10,13 +10,6 @@ export const getters = {
     }
   }
 export const mutations={
-  // add (state, { text,id}) {
-  //   state.projects.push({
-  //     text,
-  //     id:id
-  //   })
-  // },
-  
   setCategories(state, val) {
     state.projects = val; 
   },
@@ -28,9 +21,7 @@ export const mutations={
 }
 
 
-
 export const actions={
-
   // Fetch Categories
   fetchCategories({ commit }) {
     db.collection("Assessment").doc("Question-Paper").get().then(querySnapshot => {
@@ -43,8 +34,12 @@ export const actions={
         //   categories.push(doc.data());
         // });
         categories.push(querySnapshot.data());
+
         console.log(categories);
+        // console.log("=====================================================")
         commit("setCategories", categories);
+        console.log(state.projects);
+
       }
     });
   },
@@ -60,7 +55,10 @@ export const actions={
       commit("Update",{key, ans});
       //console.log(key,categories[key]);
     }
-    db.collection("Assessment").doc("Question-Paper").set(Object.assign({}, state.projects["0"]));
+    db.collection("Assessment").doc("Question-Paper").set(Object.assign({}, state.projects["0"]))
+    .then(()=>{
+      alert("Answer Submitted");
+    });
     console.log("firebase Updated");
   }
 }

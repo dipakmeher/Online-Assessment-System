@@ -17,14 +17,14 @@
                   <input type="radio" :name="Questions.Question" :id=" 'radio-' + index" :value='choice' v-model="chosen[index]"  />
                   {{choice}}
                   <br/>
-                </label>                          
+                </label>
               </div>
               <!-- <v-btn depressed small color="primary" class="  " @click="remind = null">Clear Response</v-btn> --> 
               </v-card-text>
             <!-- <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn> -->
           </v-card>
-        </v-container>
-      </v-col>
+          </v-container>
+        </v-col>
 
       <!--Column 3-->
       <v-col cols="3" class="col-3 grey lighten-3">
@@ -62,8 +62,7 @@ export default {
     }
    },
   created() {
-    this.$store.dispatch("fetchCategories");
-    
+    this.$store.dispatch("fetchCategories"); 
   }
 }//default ends
 </script>

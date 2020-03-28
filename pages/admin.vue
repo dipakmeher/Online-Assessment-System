@@ -10,26 +10,13 @@
       <v-col cols="6" class="col-2 white">
 
         <v-form ref="form" style="color:black;">
-          <v-text-field light :counter="10" v-model="questionno" label="Question-No" required></v-text-field>
           <v-text-field light :counter="10" v-model="question" label="Question" required></v-text-field>
-         
-         <label for="Choice">Choices(please double click the following options, to fill respective answers) </label>
-          <div style="margin-left:10px;">
-            <label @click="chooseForm()">
-            <input type="radio" id="choice" value="choice" v-model="picked"  >
-            Choice</label>
-            <br>
-            <label @click="chooseForm()">
-            <input type="radio" id="text" value="text" v-model="picked">
-            Text</label> 
-            <br>
-            <!-- <span>Picked: {{ picked }}</span> -->
-          </div>
-         <br>
-          <v-expansion-panels class="white" light>
 
-            <v-expansion-panel id="Choice" style="display:none;">
-              <v-expansion-panel-header>Filled 4 choices</v-expansion-panel-header>
+          <v-select v-model="variant" :items="items" clearable label="Choices" light></v-select>
+          <v-expansion-panels class="white" light >
+            <v-expansion-panel id="Choice" v-if= "variant === 'Objective'">
+              <v-expansion-panel-header>Fill 4 choices</v-expansion-panel-header>
+
               <v-expansion-panel-content>
                 <v-row>
                   <v-col cols="3">
@@ -48,15 +35,14 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
 
-              <v-expansion-panel id="Text" style="display:none" light> 
-                <v-expansion-panel-header>Textual Answers</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-text-field light v-model="youranswer" label="Your Answer" required></v-text-field>
-                </v-expansion-panel-content>
-               </v-expansion-panel>
+            <v-expansion-panel v-if= "variant === 'Subjective'" style="display:none;" id="Text" light> 
+              <v-expansion-panel-header>Textual Answers</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-text-field light v-model="youranswer" label="Your Answer" required></v-text-field>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
           </v-expansion-panels>
 
-          <br>
           <v-text-field light :counter="10" v-model="answer" label="Answer" required></v-text-field>
 
         </v-form>
@@ -79,103 +65,59 @@ import {mapActions} from 'vuex'
 export default {
   data() {
     return {
-        disabled: 1,
-        picked:'',
         name: '',
         nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters'
       ],
-      questionno:'',
       question:'',
       c1:'',c2:'',c3:'',c4:'',youranswer:'',
-      answer:''
+      answer:'',
+      items: [
+        'Subjective',
+        'Objective',
+      ],
+      variant: ' '
     }
   },
   methods:{
-    chooseForm(){
-      var choice = document.getElementById("Choice");
-     var text = document.getElementById("Text");
-
-      console.log();
-      if(this.picked == 'choice'){
-        
-      console.log("Function run");
-
-      // console.log(choice);
-      if(choice.style.display == "none"){
-        choice.style.display = "block";
-        text.style.display = "none";      }
-
-      }else if(this.picked == 'text'){
-        console.log("text fuction run");
-      // console.log(choice);
-      if(text.style.display == "none"){
-        text.style.display = "block";
-        choice.style.display = "none";      
-        }
-      }
-    },
     addData(){   
       if(this.$refs.form.validate()){
-        let newque = [];
         let categories = [];
         const newquestion={
           newquestion1:{
-          name:this.questionno,
-          add:this.question
+          name:this.question,
+          add:this.answer
           }
         }
-      db.collection("Assessment").doc("Check").get().then(querySnapshot => {
+      db.collection("Assessment").doc("Question-Paper").get().then(querySnapshot => {
         if (querySnapshot.empty) {
           //this.$router.push('/HelloWorld')
         } else {
           var cat = [];
-          cat.push(querySnapshot.data());
-          cat.push.apply(newquestion);
-           console.log(cat);
-          // cat.push(newque);
-          // db.collection("Assessment").doc("Check").set(Object.assign({}, cat))
-          // .then(()=>{
-          //   alert("Form Submitted");
-          //   this.$refs.form.reset();
-          // })
+          var newque = [];
+          var cat1=[];
+          // cat.push(querySnapshot.data());
+          // newque.push(newquestion);
+        
+          var xyz = JSON.stringify(querySnapshot.data());
+          var abc = xyz.substr(0, xyz.length - 1); 
+          var newarray= abc.concat(",");
+          var que = JSON.stringify(newquestion);
+          que = que.substring(1);
+          var newarray1 = newarray.concat(que);
+          // console.log(obj);
+          db.collection("Assessment").doc("Check").set(JSON.parse(newarray1))
+          .then(()=>{ 
+            alert("Form Submitted");
+            this.$refs.form.reset();
+          })
         }
       })
-      // const budgets = Object.assign({}, cat);
-      // const newcat={
-      //     Question:{
-      //       cat:budget
-      //     }
-      //   }
-      }
+    }
   }
 }
-}
-    //         questionno:this.questionno;
-    //      if(this.picked == 'choice'){
-    //        var newquestion1 = {
-    //         questionno1: {
-    //           Question:this.question,
-    //           Answer:this.answer,
-    //           Choices:{
-    //             c1:this.c1,
-    //             c2:this.c2,
-    //             c3:this.c3,
-    //             c4:this.c4
-    //           }
-    //         }
-    //       }
-    //    }else if(this.picked == "text"){
-    //       var newquestion1 = {
-    //           questionno1: {
-    //             Question:this.question,
-    //             Answer:this.answer,
-    //             Choices:this.text
-    //           }
-    //       } 
-    //    }
-          
+}   
 </script>
 
 <style>

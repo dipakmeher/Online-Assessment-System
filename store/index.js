@@ -24,7 +24,7 @@ export const mutations={
 export const actions={
   // Fetch Categories
   fetchCategories({ commit }) {
-    db.collection("Assessment").doc("Question-Paper").get().then(querySnapshot => {
+    db.collection("Assessment").doc("Check").get().then(querySnapshot => {
       console.log(querySnapshot.data());
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')

@@ -34,18 +34,14 @@ export const actions={
         //   categories.push(doc.data());
         // });
         categories.push(querySnapshot.data());
-
-        console.log(categories);
-        // console.log("=====================================================")
         commit("setCategories", categories);
-        console.log(state.projects);
-
       }
     });
   },
   //============================================================================
   UpdateAnswers({commit,state},payload){
     let categories = [];
+    var check = [];
     categories = payload;
     for (const [key, value] of Object.entries(this.state.projects["0"])) {
       let ans = categories[key];

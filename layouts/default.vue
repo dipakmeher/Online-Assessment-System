@@ -8,10 +8,10 @@
         
       <nuxt-link to="/display">
         <v-btn outlined>Contacts</v-btn>
-      </nuxt-link> -->
+      </nuxt-link> -->  
     <h1>Online Assessment</h1>
     </v-app-bar>
-    <v-content class="blue lighten-2">
+    <v-content class="white">
       <v-container>
         <nuxt />
       </v-container>

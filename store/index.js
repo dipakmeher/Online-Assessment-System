@@ -1,4 +1,6 @@
 import db from '../plugins/firebase'
+import JWTDecode from "jwt-decode";
+import cookieparser from "cookieparser";
 
 export const state = () => ({
     projects:[]
@@ -56,5 +58,24 @@ export const actions={
       alert("Answer Submitted");
     });
     console.log("firebase Updated");
+  },
+
+  nuxtServerInit({ commit }, { req }) {
+    if (process.server && process.static) return;
+    if (!req.headers.cookie) return;
+
+    const parsed = cookieparser.parse(req.headers.cookie);
+    const accessTokenCookie = parsed.access_token;
+
+    if (!accessTokenCookie) return;
+
+    const decoded = JWTDecode(accessTokenCookie);
+    console.log("nuxtserverintit invoked");
+    if (decoded) {
+      commit("users/SET_USER", {
+        uid: decoded.user_id,
+        email: decoded.email
+      });
+    }
   }
-}
+};  

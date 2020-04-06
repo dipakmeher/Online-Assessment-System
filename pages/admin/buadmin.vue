@@ -7,9 +7,7 @@
 
     <div class="text-center " >
       <nuxt-link to="/addques"><v-btn rounded color="primary" dark>Create</v-btn></nuxt-link>
-      <v-btn rounded color="primary" dark>Delete</v-btn>
-      <v-btn rounded color="primary" dark>Read</v-btn>
-      <v-btn rounded color="primary" dark>Update</v-btn>
+      <nuxt-link to="/addques"><v-btn rounded color="primary" dark>Delete</v-btn></nuxt-link>
     </div>
 
     <v-footer

@@ -51,7 +51,7 @@
       <!--Column 3-->
       <v-col cols="3" class="col-3 grey lighten-3">
         <v-btn depressed small color="primary" class="ma-5" @click="addData()">Add Data</v-btn>
-        <nuxt-link to="/check"><v-btn depressed small color="primary" class="ma-5">Delete Question</v-btn></nuxt-link> 
+        <nuxt-link to="/delques"><v-btn depressed small color="primary" class="ma-5">Delete Question</v-btn></nuxt-link> 
       </v-col>
     </v-row>
   </div>

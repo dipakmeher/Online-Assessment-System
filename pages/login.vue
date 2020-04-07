@@ -8,19 +8,35 @@
               <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Login form</v-toolbar-title> </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form @submit.prevent="login" @submit.enter="login">
 
-                  <v-text-field label="Name" name="name" prepend-icon="person" type="text"/>
-                  <v-text-field id="password" label="Password" name="password" prepend-icon="lock" type="password"  />
-
+                  <v-text-field
+                    v-model="account.email"
+                      id="nuxtfire-email"
+                      type="email"
+                      class="form-control"
+                      placeholder="E-mail address"
+                      prepend-icon="person"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="account.password"
+                      id="nuxtfire-password"
+                      type="password"
+                      class="form-control"
+                      placeholder="Password"
+                      prepend-icon="lock"
+                  ></v-text-field> 
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-
-                <v-btn color="primary" style="width:100%;" id="login">Login</v-btn>
-                
-              </v-card-actions>
+                <v-btn  @click="login" type="submit" class="btn btn-primary"  color="primary" style="width:100%;" id="login">Login</v-btn>
+                </v-card-actions>
+                <v-card-actions >
+                  <v-alert  v-if="isError" type="error" class="alert alert-danger">
+                    <p class="mb-0">{{ errMsg }}</p>
+                  </v-alert>
+                </v-card-actions>    
               <v-card-text class="text-center">Create an Account? <nuxt-link to="addques" id="signup">SignUp</nuxt-link></v-card-text> 
               
             </v-card>
@@ -35,10 +51,49 @@
 </template>
 
 <script>
-
-  export default {
-    props: {
-      source: String,
+export default {
+  data: () => ({
+    account: {
+      email: "",
+      password: ""
     },
+    isError: false,
+    errMsg: ""
+  }),
+  methods: {
+    login(e) {
+      e.preventDefault();
+      // TODO: add parsing of data.
+      this.$store
+        .dispatch("users/login", this.account)
+        .then(() => { 
+          // this.$router.push("/admin");
+        })
+        .catch(error => {
+          this.isError = true;
+          this.errMsg = error.code;
+          setTimeout(() => {
+            this.isError = false;
+          }, 5000);
+        });
+    }
   }
-</script>   
+};
+
+</script>
+<style scoped>
+/* .form-control{
+  background:#ecf0f1;
+  border: #ccc 1px solid;
+  border-bottom: #ccc 2px solid;
+  padding: 8px;
+  width:90%;
+  color:#AAAAAA;
+  margin-top:10px;
+  font-size:1em;
+  border-radius:4px;
+} */
+.alert{
+  width:100%;
+}
+</style>

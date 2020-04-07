@@ -4,14 +4,13 @@ export default function({ store, route, redirect }) {
     const user = store.state.users.user;
     const blockedRoute = /\/admin\/*/g; 
     const blockedRoute1 = /\/user\/*/g; 
-    const homeRoute = "/bulogin";
-    console.log("authentication method invoked");
+    const homeRoute = "/index";
     if (!user && route.path.match(blockedRoute)) {
-      redirect("/bulogin");
+      redirect("/index");
     }
 
     if (!user && route.path.match(blockedRoute1)) {
-      redirect("/bulogin");
+      redirect("/index");
     }
   
     if (user && route.path === homeRoute) {

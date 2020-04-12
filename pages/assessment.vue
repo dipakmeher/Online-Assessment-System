@@ -52,6 +52,7 @@ export default {
   computed:{
       ...mapGetters({
           projects: 'get'
+          
       }),
   },
   methods:{

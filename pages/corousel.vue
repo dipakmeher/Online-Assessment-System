@@ -1,36 +1,14 @@
 
 <template>
-    <v-content>
-        <!-- <v-card class="mb-4">
-        <v-card-text>
-            <v-select
-            v-model="steps"
-            :items="[2, 3, 4, 5, 6]"
-            label="# of steps"
-            ></v-select>
-        </v-card-text>
-        </v-card> -->
-        
-        <v-stepper v-model="e1">
-        <v-stepper-header>
-          <template v-for="(Questions,index) in projects">
-            <v-stepper-step
-          :key="Questions.Question"
-          :complete="e1 > index"
-          :step="index+1"
-          editable
-        >
-          Step {{ index +1 }}
-        </v-stepper-step>
+    <v-content class="primary"  style="position:relative;">
+     <v-app-bar app>
+    <h1>Gita Contest</h1>
+    </v-app-bar>
+      <v-stepper class="" v-model="e1" style="width:100%;height:90%;position:absolute;">
+      <v-row class="parent"> 
+        <v-col cols="7">
 
-        <v-divider
-          v-if="index+1 !== steps"
-          :key="index"
-        ></v-divider>
-          </template>
-        </v-stepper-header>
-
-        <v-stepper-items>
+ <v-stepper-items>
           <!-- <div > -->
             <v-stepper-content
             v-for="(Questions,index) in projects" :key="index"
@@ -38,7 +16,7 @@
             :step="index+1"
             >
             <br>
-            <v-card class="mx-auto" max-width="100%" raised >
+            <v-card class="mx-auto" max-width="100%" flat >
               <v-card-text>
                 <p class="display-1 text--primary">
                   {{index}} <br>{{Questions.Question}}
@@ -64,21 +42,37 @@
                 </v-card-text>
             </v-card>
 
-            <v-btn
-                color="primary"
-                @click="nextStep(index+1)"
-            >
-                Continue
-            </v-btn>
-
-            <v-btn text>Cancel</v-btn>
-        
             </v-stepper-content>
-         
-            <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate()">Submit</v-btn>
-
         </v-stepper-items>
-        </v-stepper>
+        
+        </v-col>  
+        <v-col cols="5">
+          <v-card outlined class="ma-10" style="height:30%"> 
+            <p class="display-2 text-center" style="">{{ formattedTimeLeft }}</p>
+          </v-card>
+          <v-card flat class="ma-10 my-auto" style="position:absolute;">
+           <v-stepper-header style="height:100%">
+          <template v-for="(Questions,index) in projects">
+            <v-stepper-step
+          :key="Questions.Question"
+          :complete="e1 > index"
+          :step="index+1"
+          editable
+        >
+          Step {{ index +1 }}
+        </v-stepper-step>
+          </template>
+        </v-stepper-header>
+        </v-card>
+        </v-col>
+        
+      </v-row>
+    <v-card width="60%" flat style="bottom:10px;position:absolute;">
+          
+            <v-btn depressed color="primary" class="continue" @click="nextStep(index+1)">Continue</v-btn>
+            <v-btn depressed color="primary" class=" submit" @click="Firestoreupdate()">Submit</v-btn>
+        </v-card>  
+    </v-stepper>
     </v-content>
 </template>
 <script>
@@ -88,12 +82,16 @@ import {mapState} from 'vuex'
 import {mapActions} from 'vuex'
 
   export default {
+    layout:'blog',
     data () {
       return {
         e1: 1,
         chosen:[],
         counter:1,
-        step:1
+        step:1,
+        timeLimit:10,
+        timePassed: 0,
+        timerInterval: null,
       }
     },
 
@@ -110,6 +108,34 @@ import {mapActions} from 'vuex'
             projects: 'getValue',
             steps:'getlen'
         }),
+        timeLeft() {
+          return this.timeLimit - this.timePassed
+        },
+        formattedTimeLeft() {
+        console.log("FormattedTime Ran");
+        const timeLeft = this.timeLeft;
+        if(timeLeft == 0){
+            clearInterval(this.timerInterval);
+        }
+        const hours = Math.floor(timeLeft /60/60);
+
+        // The largest round integer less than or equal to the result of time divided being by 60.
+        const minutes = Math.floor(timeLeft / 60)
+        // Seconds are the remainder of the time divided by 60 (modulus operator)
+        let seconds = timeLeft % 60
+        // If the value of seconds is less than 10,then display seconds with a leading zero
+        if (seconds < 10) {
+            seconds = `0${seconds}`
+        }
+        // if (minutes < 10) {
+        //     minutes = `0${minutes}`
+        // }
+        // if (hours < 10) {
+        //     hours = `0${hours}`
+        // }
+        // The output in MM:SS format
+        return `${hours}:${minutes}:${seconds}`
+        }
     },
 
     methods: {
@@ -133,10 +159,37 @@ import {mapActions} from 'vuex'
          }else{
            return this.counter == this.steps ;
          }
-      }
+      },
+      startTimer() {
+      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+        console.log("Timer Interval",this.timePassed);
+
+    }
     },
     created() {
         this.$store.dispatch("fetchCategories"); 
-    }
+    },
+    mounted() {
+    this.startTimer();
+  }
   }
 </script>
+<style scoped>
+.examfooter{
+position: fixed;
+  /* margin-top:10%;
+  margin-left: 80%; */
+}
+.submit{
+  position: absolute;
+    bottom: 0px;
+    right: 0px; 
+    margin-right: 80px;
+}
+.continue{
+  position: absolute;
+    bottom: 0px;
+    left: 0px; 
+    margin-left: 10px;
+}
+</style>

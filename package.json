@@ -29,7 +29,10 @@
     "net": "^1.0.2",
     "nuxt": "^2.0.0",
     "sentiment": "^5.0.2",
-    "tls": "0.0.1"
+    "tls": "0.0.1",
+    "vue2-flip-countdown": "^0.9.3",
+    "vuejs-countdown": "^0.2.1",
+    "vuejs-countdown-timer": "^2.1.2"
   },
   "devDependencies": {
     "@babel/runtime-corejs2": "^7.9.2",

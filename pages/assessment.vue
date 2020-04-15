@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-content>
     <v-row >
       <!--Column 1-->
       <v-col cols="3" class="col-1 grey lighten-3" height="100%"></v-col>
@@ -30,10 +30,11 @@
       <v-col cols="3" class="col-3 grey lighten-3">
             <!-- <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn> -->
             <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate()">Submit</v-btn>
+            <nuxt-link to="/corousel"><v-btn depressed small color="primary" class="ma-5">Corousel</v-btn></nuxt-link>
 
       </v-col>
     </v-row>
-  </div>
+  </v-content>
 </template>
 
 <script>

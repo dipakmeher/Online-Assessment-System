@@ -8,11 +8,11 @@
     <v-stepper class="stepper" v-model="el">
       <v-row class="parent"> 
         <v-col cols="7">
-          <v-stepper-items>
+          <v-stepper-items >
             <v-stepper-content
               v-for="(Questions,index) in projects" :key="index"
-              :id="index+1"
               :step="index+1"
+              :id="index+1"
             >
               <br>
               <v-card class="mx-auto" max-width="100%" flat >
@@ -30,7 +30,7 @@
                     </label>
                   </div>
                   <div v-else>
-                      <v-textarea
+                    <v-textarea
                       label="Write your answer here"
                       auto-grow
                       outlined
@@ -42,6 +42,12 @@
                   </div>
                 </v-card-text>
               </v-card>
+              <v-btn
+                small
+                depressed
+                color="primary"
+                @click="nextStep(index+1)"
+              >Continue</v-btn>         
             </v-stepper-content>
           </v-stepper-items>
         </v-col>  
@@ -72,7 +78,6 @@
       </v-row>
       <!-- Bottom Button Card -->
       <v-card width="60%" flat style="bottom:10px;position:absolute;">
-        <v-btn depressed color="primary" class="continue" @click="nextStep(el)">Continue</v-btn>
         <v-btn depressed color="primary" class=" submit" @click="overlay1=!overlay1">Submit</v-btn>
       </v-card>  
     </v-stepper>
@@ -115,10 +120,9 @@ export default {
   data () {
     return {
       e1:1,
+      id:'',
       chosen:[],
       counter:1,
-      step:1,
-      id:1,
       timeLimit:10,
       timePassed: 0,
       timerInterval: null,
@@ -172,21 +176,11 @@ export default {
       } else {
         this.el = n + 1
         console.log("steps: ",this.el);
-  // watch: {
-  //   steps (val) {
-  //     if (this.e1 > val) {
-  //       this.e1 = val
-  //     }
-  //   },
-  // },
         console.log("n: ",n);
       }
     },
     Firestoreupdate(){
       this.$store.dispatch("UpdateAnswers", this.chosen);
-    },
-    check(){
-      console.log(this.state);
     },
     startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);

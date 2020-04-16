@@ -117,7 +117,7 @@ import {mapState} from 'vuex'
         id:'',
         chosen:[],
       counter:1,
-      timeLimit:30,
+      timeLimit:10,
       timePassed: 0,
       timerInterval: null,
       absolute: true,

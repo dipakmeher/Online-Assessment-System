@@ -3,24 +3,54 @@ const functions = require('firebase-functions');
  admin.initializeApp();
 
 exports.writeToFirestore = functions.https.onRequest(async (req, res) => {
-  const pathDir =  admin.firestore().collection('Assessment').doc('Master-Bank1');
-  const eventDoc = await pathDir.get(); 
-  if (!eventDoc.exists) {
-    res.json({result: 'failure', message: "Invalid Event ID"});
-  } else {
-    var categories = [];
-    var ans = {};
-    for (const [key, value] of Object.entries(eventDoc._fieldsProto)) {
-      for (const [key1, value1] of Object.entries(eventDoc._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
-        categories.push(value1);
-      }
-      var s = categories.join("");  
-      ans[key] = s;
-      categories = [];
-    }
-    res.json(ans);
-    }
-});
+  const bd =  admin.firestore().collection('Assessment').doc('Question-Paper');
+  const mb =  admin.firestore().collection('Assessment').doc('Master-Bank1');
+  const getBddata = await bd.get();
+  const getMbdata = await mb.get();
+  const ansUser =  getBddata._fieldsProto.Question2.mapValue.fields.Answer.stringValue;
+  const type =  getBddata._fieldsProto.Question2.mapValue.fields.type.stringValue;
+  res.json(type);
+//   var categoriesgb = [];
+//   var categoriesmb = [];
+//   var ansgb = {};
+//   var ansmb = {};
+//   var ans = {};
+//   var score = 0;
+//   for (const [key, value] of Object.entries(getBddata._fieldsProto)) {
+//     // This for-loop is for getting answers of user at one place
+//     if(getBddata._fieldsProto[key].mapValue.fields.type.stringValue === "Objective"){
+//     for (const [key1, value1] of Object.entries(getBddata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
+//       categoriesgb.push(value1);
+//     }
+//     var sgb = categoriesgb.join(""); 
+//     console.log("key", key); 
+//     console.log("categoriesgb: ",sgb);
+//     ansgb[key] = sgb;
+//     categoriesgb = [];
+//     //=============================================================================================
+
+//     for (const [key2, value2] of Object.entries(getMbdata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
+//       categoriesmb.push(value2);
+//     }
+//     var smb = categoriesmb.join("");
+
+//     ansmb[key] = smb;
+//     console.log("key2", key2); 
+//     console.log("categoriesmb: ",smb);
+//     categoriesmb=[];
+    
+//     if(sgb == smb){
+//       ans[key]=sgb;
+//       score++;
+//     }
+//     console.log("Objective function ran");
+//   }
+//   else{
+//     console.log("Subjective Function Ran");
+//   }
+//   }
+//   res.json({message:" Function Ran successfully"});
+ });
 
 exports.updateUser = functions.firestore
     .document('Assessment/Question-Paper')
@@ -31,6 +61,9 @@ exports.updateUser = functions.firestore
       const getBddata = await bd.get();
       const getMbdata = await mb.get();
 
+      console.log("getBddata: ",getBddata);
+      console.log("getMbdata: ",getMbdata);
+
       const ansUser =  getBddata._fieldsProto.Question1.mapValue.fields.Answer.stringValue;
       const ansMaster = getMbdata._fieldsProto.Question1.mapValue.fields.Answer.stringValue;
       var categoriesgb = [];
@@ -38,12 +71,14 @@ exports.updateUser = functions.firestore
       var ansgb = {};
       var ansmb = {};
       var ans = {};
-      var score = 0;
+      var score = 0;  
       for (const [key, value] of Object.entries(getBddata._fieldsProto)) {
         for (const [key1, value1] of Object.entries(getBddata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
           categoriesgb.push(value1);
         }
-        var sgb = categoriesgb.join("");  
+        var sgb = categoriesgb.join(""); 
+        console.log("key", key); 
+        console.log("categoriesgb: ",sgb);
         ansgb[key] = sgb;
         categoriesgb = [];
         //=============================================================================================
@@ -52,7 +87,10 @@ exports.updateUser = functions.firestore
           categoriesmb.push(value2);
         }
         var smb = categoriesmb.join("");
+
         ansmb[key] = smb;
+        console.log("key2", key2); 
+        console.log("categoriesmb: ",smb);
         categoriesmb=[];
         
         if(sgb == smb){

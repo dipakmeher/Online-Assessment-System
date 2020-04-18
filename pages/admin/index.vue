@@ -23,7 +23,7 @@ export default {
     async logout() {
       await auth.signOut();
       await Cookie.remove("access_token");
-      location.href = "/bulogin";
+      location.href = "/";
     },
     admin(){
       const adminForm = document.querySelector('.admin-actions');

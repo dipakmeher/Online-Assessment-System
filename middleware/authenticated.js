@@ -4,13 +4,13 @@ export default function({ store, route, redirect }) {
     const user = store.state.users.user;
     const blockedRoute = /\/admin\/*/g; 
     const blockedRoute1 = /\/user\/*/g; 
-    const homeRoute = "/index";
+    const homeRoute = "/";
     if (!user && route.path.match(blockedRoute)) {
-      redirect("/index");
+      redirect("/");
     }
 
     if (!user && route.path.match(blockedRoute1)) {
-      redirect("/index");
+      redirect("/");
     }
   
     if (user && route.path === homeRoute) {

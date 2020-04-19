@@ -36,8 +36,11 @@
                   <v-alert  v-if="isError" type="error" class="alert alert-danger">
                     <p class="mb-0">{{ errMsg }}</p>
                   </v-alert>
+                  <v-alert  v-if="isSuccess" type="success" class="alert alert-danger">
+                    <p class="mb-0">Successfully SignUp</p>
+                  </v-alert>
                 </v-card-actions>    
-              <v-card-text class="text-center">Create an Account? <nuxt-link to="addques" id="signup">SignUp</nuxt-link></v-card-text> 
+              <v-card-text class="text-center"> Want to Login?<nuxt-link to="/" id="signup">Login</nuxt-link></v-card-text> 
               
             </v-card>
             <div>
@@ -58,7 +61,9 @@ export default {
       password: ""
     },
     isError: false,
-    errMsg: ""
+    isSuccess: false,
+    errMsg: "",
+    successMsg:""
   }),
   methods: {
     signup(e) {
@@ -66,8 +71,13 @@ export default {
       // TODO: add parsing of data.
       this.$store
         .dispatch("users/signup", this.account)
-        .then(() => { 
-          // this.$router.push("/admin");
+        .then(() => {
+          this.isSuccess = true;
+          // this.successMsg="SignUp Successful";
+          setTimeout(() => {
+            this.isSuccess = false;
+          }, 5000);
+           redirect('/signup');
         })
         .catch(error => {
           this.isError = true;

@@ -1,8 +1,17 @@
 <template>
   <v-app id="inspire">
-    <v-content>
-      <v-container class="fill-height" fluid>
+    <v-content >
+      <v-container class="fill-height white" fluid>
         <v-row align="center" justify="center">
+          <v-snackbar
+            top
+            v-model="snackbar"
+            :timeout="timeout"
+            v-if="signupvalue"
+            color="success"
+          >
+            Successfully Registered. Login Now.
+          </v-snackbar>
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
               <v-toolbar color="primary" dark flat>
@@ -36,8 +45,15 @@
                   <v-alert  v-if="isError" type="error" class="alert alert-danger">
                     <p class="mb-0">{{ errMsg }}</p>
                   </v-alert>
+                  <!-- <v-alert  v-if="snackbar" type="success" class="alert alert-danger">
+                    <p class="mb-0">Successfully Registered. Login Now.</p>
+                  </v-alert> -->
                 </v-card-actions>    
-              <v-card-text class="text-center">Create an Account? <nuxt-link to="/signup" id="signup">SignUp</nuxt-link></v-card-text> 
+              <v-card-text class="text-center">Create an Account?
+                 <nuxt-link to="/signup" id="signup">
+                   <button @click="$store.commit('users/signupalert',false)" text class="body-2"> SignUp</button>
+                </nuxt-link>
+              </v-card-text> 
               
             </v-card>
             <div>
@@ -51,6 +67,9 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import {mapState} from 'vuex'
+
 export default {
   data: () => ({
     account: {
@@ -58,8 +77,16 @@ export default {
       password: ""
     },
     isError: false,
-    errMsg: ""
+    errMsg: "",
+     snackbar: true,
+      text: 'My timeout is set to 2000.',
+      timeout: 3000,
   }),
+  computed:{
+    ...mapGetters({
+      signupvalue:'users/getSnackbar'
+    }),
+    },
   methods: {
     login(e) {
       e.preventDefault();

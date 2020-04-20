@@ -3,7 +3,6 @@
     <v-container>
       <h1>Admin route</h1>
       <a @click="logout">Logout</a>
-      <!-- ADMIN ACTIONS -->
       <form class="center-align admin-actions admin" style="margin: 40px auto; max-width: 300px;">
         <input type="email" placeholder="User email" id="admin-email" required />
         <button class="btn-small yellow darken-2 z-depth-0" v-on:click="admin">Make admin</button>
@@ -19,6 +18,7 @@ import { functions } from "@/plugins/firebase";
 import { auth } from "@/plugins/firebase";
 import Cookie from "js-cookie";
 export default {
+  // layout:'adminlayout',
   methods: {
     async logout() {
       await auth.signOut();

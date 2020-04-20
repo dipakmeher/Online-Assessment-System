@@ -169,11 +169,12 @@ import {mapState} from 'vuex'
     timeLeft() {
       return this.timeLimit - this.timePassed
     },
+
     formattedTimeLeft() {
       const timeLeft = this.timeLeft;
       if(timeLeft == 0){
         clearInterval(this.timerInterval);
-        // this.overlay = !this.overlay;
+        this.overlay = !this.overlay;
       }
       const hours = Math.floor(timeLeft /60/60);
 

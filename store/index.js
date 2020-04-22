@@ -44,7 +44,7 @@ export const actions={
   // Fetch Categories
   fetchCategories({ commit }) {
     var len = 1;
-    db.collection("Assessment").doc("Check").get().then(querySnapshot => {
+    db.collection("Assessment").doc("Question-Paper").get().then(querySnapshot => {
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
       } else {

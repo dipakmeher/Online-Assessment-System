@@ -5,7 +5,8 @@ const functions = require('firebase-functions');
 const fetch = require("node-fetch");
 
 // exports.writeToFirestore = functions.https.onRequest(async (req, res) => {
-//  });
+  
+// });
 
 exports.updateUser = functions.firestore
     .document('Assessment/Question-Paper')
@@ -21,12 +22,11 @@ exports.updateUser = functions.firestore
       var ansmb = {};
       var ans = {};
       var score = 0;
-      var nature="";
+      
       var sgb = ""; 
     
       for (const [key, value] of Object.entries(getBddata._fieldsProto)) {
         var type =  getBddata._fieldsProto[key].mapValue.fields.type.stringValue;
-        console.log(type);
         // This for-loop is for getting answers of user at one place
       
         for (const [key1, value1] of Object.entries(getBddata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
@@ -51,104 +51,15 @@ exports.updateUser = functions.firestore
         }
       }
       else if(type === "Subjective"){
-      // ML Code
-      messages.push({"body":sgb})
+      messages.push(sgb);
       ans[key]=sgb;
      }
    }
-
-   const setup = async () => {
-     console.log("Setup function exectued");
-    return messages.map(m => m.body);
-  }
-
-  const getMetaData = async () => {
-    const metadata = await fetch("https://storage.googleapis.com/tfjs-models/tfjs/sentiment_cnn_v1/metadata.json")
-    return metadata.json()
-  }
-
-  const padSequences = (sequences, metadata) => {
-    return sequences.map(seq => {
-      if (seq.length > metadata.max_len) {
-        seq.splice(0, seq.length - metadata.max_len);
-      }
-      if (seq.length < metadata.max_len) {
-        const pad = [];
-        for (let i = 0; i < metadata.max_len - seq.length; ++i) {
-          pad.push(0);
-        }
-        seq = pad.concat(seq);
-      }
-      return seq;
-    });
-  }
-
-  const loadModel = async () => {
-    const url = `https://storage.googleapis.com/tfjs-models/tfjs/sentiment_cnn_v1/model.json`;
-    const model = await tf.loadLayersModel(url);
-    return model;
-};
-
-const predict = (text, model, metadata) => {
-    const trimmed = text.trim().toLowerCase().replace(/(\.|\,|\!)/g, '').split(' ');
-    const sequence = trimmed.map(word => {
-      const wordIndex = metadata.word_index[word];
-      if (typeof wordIndex === 'undefined') {
-        return 2; //oov_index
-      }
-      return wordIndex + metadata.index_from;
-    });
-    const paddedSequence = padSequences([sequence], metadata);
-    const input = tf.tensor2d(paddedSequence, [1, metadata.max_len]);
-  
-    const predictOut = model.predict(input);
-    const score = predictOut.dataSync()[0];
-    predictOut.dispose();
-    return score;
-  }
-
-  // const getSentiment = (score) => {
-  //   if (score > 0.66) {
-  //     return `Score of ${score} is Positive`;
-  //   }
-  //   else if (score > 0.4) {
-  //     return `Score of ${score} is Neutral`;
-  //   }
-  //   else {
-  //     return `Score of ${score} is Negative`;
-  //   }
-  // }
-
-  const run = async (text) => {
-    const model = await loadModel(); 
-    const metadata = await getMetaData();
-    let sum = 0;
-    text.forEach(function (prediction) {
-      console.log(` ${prediction}`);
-      perc = predict(prediction, model, metadata);
-      sum += parseFloat(perc, 10);
-    })
-    var finalscore = sum/text.length;
-    if (finalscore > 0.66) {
-      nature = "Goodness";
-    }
-    else if (finalscore > 0.4) {
-      nature = "Passion";
-    }
-    else {
-      nature = "Ignorance";
-    }
-  }
-
-  setup().then(function(result) {
-    run(result); 
-  });
-  ans["nature"] = nature;
+  //  await this.$store.commit("assessment/setSubAns",messages);
+  ans["subans"] = messages;
   ans["score"] = score;
 
-      return admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans).then(()=>{
-        console.log("CorrectAnswer got executed");
-      });
+      return admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
     });
     
 exports.addAdminRole = functions.https.onCall((data, context) => {

@@ -154,7 +154,9 @@ import {mapState} from 'vuex'
         }
       },
        Firestoreupdate(){
-      this.$store.dispatch("UpdateAnswers", this.chosen);
+      this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
+        this.$store.dispatch("assessment/fetchSubAns");
+      });
     },
       startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);

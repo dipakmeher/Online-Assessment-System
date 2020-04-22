@@ -120,7 +120,7 @@ export default {
           que = que.substring(1);
           var newarray1 = newarray.concat(que);
            //console.log(que);
-          db.collection("Assessment").doc("Master-Bank1").set(JSON.parse(newarray1))
+          db.collection("Assessment").doc("Question-Paper").set(JSON.parse(newarray1))
           .then(()=>{ 
             alert("Form Submitted");
             this.$refs.form.reset();

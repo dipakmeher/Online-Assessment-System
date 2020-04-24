@@ -66,6 +66,7 @@ import {mapState} from 'vuex'
 import {mapActions} from 'vuex'
 
 export default {
+  layout:'adminlayout',
   data() {
     return {
         name: '',

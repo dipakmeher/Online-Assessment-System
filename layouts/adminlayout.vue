@@ -1,58 +1,108 @@
-<template>
-  <v-card
-    class="mx-auto overflow-hidden"
-    height="700"
-  >
-    <v-app-bar
-      color="deep-purple"
-      dark
-    >
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+<template >
+  <v-app>
+    <v-row no-gutters>
+      <v-col cols="3" class="success">
+        <!-- <v-container class="purple" > -->
+           <v-card tile flat height="630px" >
+            <v-navigation-drawer permanent width="500px">
 
-      <v-toolbar-title>Title</v-toolbar-title>
-    </v-app-bar>
+              <v-list rounded dense>
+                <v-list-item  >
+                  <v-list-item-content>
+                    <v-list-item-title class="title">
+                      Welcome Admin 
+                    </v-list-item-title>
+                    <br><br>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-divider></v-divider>
+                <v-subheader>Pages</v-subheader>
+                <!-- groups -->
+                <v-list-item-group color="primary">
+                    <v-list-item to="/admin/addques" @click="item='Add Question'">
+                       <v-list-item-icon>
+                        <v-icon> mdi-inbox</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title>Inbox</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item to="/admin/delques" @click="item='Delete Question'">
+                       <v-list-item-icon>
+                        <v-icon> mdi-star</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title>Star</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item to="/admin/makeadmin" @click="item='Make Admin'">
+                       <v-list-item-icon>
+                        <v-icon> mdi-send</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title>Send</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item to="/admin/changetiming" @click="item='Change Exam Timings'">
+                       <v-list-item-icon>
+                        <v-icon> mdi-email-open</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title>Drafts</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+            </v-navigation-drawer>
+           </v-card>
+        <!-- </v-container> -->
+      </v-col>
+      <v-col cols="9" class="">
+        
+        <v-app-bar color="" >
+          <span class="display-1 font-weight-bold	text--success">{{item}}</span>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-    >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
+          <v-spacer></v-spacer>
+          <v-btn text color="white darken-1" @click="logout" v-if="accounts"> Logout </v-btn>
+          <v-dialog v-model="dialog" persistent max-width="400" v-if="accounts">
+            <template v-slot:activator="{ on }">
+              <v-btn text color="white darken-1" dark v-on="on"> <v-icon left>mdi-account</v-icon> Account</v-btn>
+            </template>
+            <v-card>
+              <v-card-title class="headline">Logged in:- </v-card-title>
+              <v-card-title v-if="accounts">{{accounts.email}}</v-card-title>
+              <v-card-text v-if="claim">You are admin.</v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="dialog = false">Ok</v-btn>
+                <v-btn text color="green darken-1" @click="logout"> Logout </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-app-bar>
+        <nuxt />
+      </v-col>
+    </v-row>
+      
 
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Account</v-list-item-title>
-          </v-list-item>
-
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
-  </v-card>
+  <v-footer class="footer" color="primary">
+    dipak
+  </v-footer>
+  </v-app>
 </template>
-
 <script>
   export default {
-    data: () => ({
-      drawer: false,
-    }),
+    data () {
+      return {
+        item:"Admin Page",
+        dialog: false,
+      }
+      
+    }
   }
 </script>
-
-<style>
-
+<style scoped>
+.footer{
+  position: absolute;
+}
 </style>

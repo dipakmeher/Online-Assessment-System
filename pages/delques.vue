@@ -1,96 +1,182 @@
 <template>
-  <div>
-    <v-row >
-      <!--Column 1-->
-      <v-col cols="3" class="col-1 grey lighten-3" height="100%"></v-col>
-
-      <!--Column 2-->
-      <v-col cols="6" class="col-2 white">
-        <div id="cafelist">
-          <v-container fluid v-for="(Questions,index) in projects" :key="index" :id='index'>
-              <v-card class="mx-auto" max-width="800">
-                <v-card-text class="parent">
-                  <v-btn class="outlined child" v-on:click="Delete(index)">x</v-btn>
-                  <p class="display-1 text--primary">
-                    {{index}} <br>{{Questions.Question}}
-                  </p>          
-                  <div class="radio radio-primary"> 
-                    <label v-for="(choice,index1) in Questions.Choices" v-bind:key="index1">
-                      <input type="radio" :name="Questions.Question" :id=" 'radio-' + index" :value='choice' v-model="chosen[index]"  />
+  <v-content style="position:relative;">
+    <v-stepper class="stepper" v-model="e1">
+    <v-row>
+        <v-col cols="7">
+            <v-stepper-items id="cafelist">
+        <v-stepper-content
+          v-for="(Questions,index) in projects" :key="index+1"
+          :step="index+1"
+          :id="index+1"
+        >
+           <v-card class="mx-auto" max-width="100%" flat >
+                <v-card-text>
+                  <p class="title">Q.{{index+1}}</p>
+                  <p class="display-1 text--primary display-1 font-weight-medium">
+                    {{Questions.Question}}
+                  </p>
+                  <br>
+                  <div class="radio radio-primary" v-if="Questions.type === 'Objective'"> 
+                    <label v-for="(choice,index1) in Questions.Choices" v-bind:key="index1"  class="title font-weight-bold">
+                      <input type="radio" :name="Questions.Question" :id=" 'radio-' + index" :value='choice' v-model="chosen[Questions.Question]"  />
                       {{choice}}
                       <br/>
                     </label>
                   </div>
-                  <!-- <v-btn depressed small color="primary" class="  " @click="remind = null">Clear Response</v-btn> --> 
-                  </v-card-text>
-                <!-- <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn> -->
+                  <div v-else>
+                    <v-textarea
+                      label="Write your answer here"
+                      auto-grow
+                      outlined
+                      rows="1"
+                      row-height="10"
+                      shaped
+                      v-model="chosen[Questions.Question]"
+                    ></v-textarea>
+                  </div>
+                </v-card-text>
               </v-card>
-           
-          </v-container>
-         </div>
+
+          <v-btn small depressed color="primary" @click="nextStep(index+1)">
+            Continue
+          </v-btn> 
+          <v-btn small depressed color="primary" @click="Delete(index+1);nextStep(index+1)">
+            Delete
+          </v-btn> 
+
+          <v-btn small depressed class="primary" @click="clearResponse(Questions.Question)">Clear Response</v-btn>
+        </v-stepper-content>
+      </v-stepper-items>
         </v-col>
 
-      <!--Column 3-->
-      <v-col cols="3" class="col-3 grey lighten-3">
-            <!-- <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate">Submit</v-btn> -->
-            <v-btn depressed small color="primary" class="ma-5" @click="Firestoreupdate()">Submit</v-btn>
-            <nuxt-link to="/addques"><v-btn depressed small color="primary" class="ma-5">Add Question</v-btn></nuxt-link> 
-      </v-col>
-    </v-row>
-  </div>
-</template>
+        <v-col cols="5">
+             
+            <v-card flat class="ma-10 my-auto" style="position:absolute;">
+            <v-stepper-header style="height:100%" id="questionno">
+        <template v-for="(Questions,index) in projects">
+          <v-stepper-step
+            :key="index+1"
+            :complete="e1 > index"
+            :step="index+1"
+            :a="index+1"
+            editable
+          >
+            Step {{ index+1 }}
+          </v-stepper-step>
 
+        </template>
+      </v-stepper-header>
+        </v-card>
+        </v-col>
+    </v-row>
+    <!-- Bottom Button Card -->
+      <v-card width="60%" flat style="bottom:10px;position:absolute;">
+        <v-btn depressed color="primary" class=" submit" @click="overlay1=!overlay1">Submit</v-btn>
+      </v-card>  
+     </v-stepper>
+  </v-content>
+</template>
 <script>
-//import firebase from '../plugins/firebase'
 import db from '../plugins/firebase'
 import {mapGetters} from 'vuex'
 import {mapState} from 'vuex'
-import {mapActions} from 'vuex'
-
-export default {
-  data() {
-    return {
+  export default {
+      layout:'adminlayout',
+    data () {
+      return {
+        e1: 1,  
+        id:'',
+        a:'',
         chosen:[],
-        id:''
-    }
-  },
-  computed:{
-      ...mapGetters({
-          projects: 'delques/get'
-      }),
-  },
-  methods:{
-    Firestoreupdate(){
-      this.$store.dispatch("delques/UpdateAnswers", this.chosen);
-      this.$refs.form.reset();
-       //window.location.href = "http://localhost:3000/submit";
+      counter:1,
+      timeLimit:30,
+      timePassed: 0,
+      timerInterval: null,
+      absolute: true,
+      overlay:false,
+      overlay1:false,
+      opacity:1
+      }
     },
-    Delete(index){
-      this.$store.dispatch("delques/DeleteQuestion",index);
-    }
+     created() {
+    this.$store.dispatch("fetchCategories"); 
   },
-  created() {
-    this.$store.dispatch("delques/fetchCategories"); 
+  mounted() {
+    this.startTimer();
+  },
+    watch: {
+      steps (val) {
+        if (this.e1 > val) {
+          this.e1 = val
+        }
+      },
+    },
+
+    methods: {
+        clearResponse(name){
+            var ele = document.getElementsByName(name);
+            for(var i=0;i<ele.length;i++)
+                ele[i].checked = false;
+        },
+         Delete(index){
+          this.$store.dispatch("DeleteQuestion",index);
+          },
+      nextStep (n) {
+        if (n === this.steps) {
+          this.e1 = 1
+        } else {
+          this.e1 = n + 1
+        }
+      },
+       Firestoreupdate(){
+      this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
+        this.$store.dispatch("assessment/fetchSubAns");
+      });
+    },
+      startTimer() {
+      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+        console.log("Timer Interval",this.timePassed);
+    }
+    },
+    computed:{
+    ...mapGetters({
+        projects: 'getValue',
+        steps:'getlen'
+    }),
+    }
   }
-}//default ends
 </script>
-
 <style scoped>
-.parent {
-	position: relative;
+.examfooter{
+position: fixed;
+  /* margin-top:10%;
+  margin-left: 80%; */
 }
-.child {
-	position: absolute;
-	width: 30px;
-	height: 30px;
-
-	top: 0;
-	right: 0;
+.submit{
+  position: absolute;
+    bottom: 0px;
+    right: 0px; 
+    margin-right: 80px;
 }
-.col-1,.col-2,.col-3{
-    height:auto;
+.continue{
+  position: absolute;
+    bottom: 0px;
+    left: 0px; 
+    margin-left: 10px;
 }
-.radio{
-  background: "#212121";
+.stepper{
+  margin:30px;
+  height:70%;
+  width:67%;
+  position: fixed;
+  overflow: auto;
+}
+.navbar{
+  text-align: center;
+  width:100%;
+}
+.question-no{
+  overflow: auto;
+  position:fixed;
 }
 </style>

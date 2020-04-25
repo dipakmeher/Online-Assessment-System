@@ -3,8 +3,8 @@
     <v-row no-gutters>
       <v-col cols="3" class="success">
         <!-- <v-container class="purple" > -->
-           <v-card tile flat height="630px" >
-            <v-navigation-drawer permanent width="500px">
+           <v-card tile flat height="630px" class="navcard" >
+            <v-navigation-drawer permanent min- width="320px" color="blue darken-1">
 
               <v-list rounded dense>
                 <v-list-item  >
@@ -27,7 +27,7 @@
                         <v-list-item-title>Inbox</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
-                    <v-list-item to="/admin/delques" @click="item='Delete Question'">
+                    <v-list-item to="/delques" @click="item='Delete Question'">
                        <v-list-item-icon>
                         <v-icon> mdi-star</v-icon>
                       </v-list-item-icon>
@@ -59,7 +59,7 @@
       </v-col>
       <v-col cols="9" class="">
         
-        <v-app-bar color="" >
+        <v-app-bar>
           <span class="display-1 font-weight-bold	text--success">{{item}}</span>
 
           <v-spacer></v-spacer>
@@ -80,7 +80,11 @@
             </v-card>
           </v-dialog>
         </v-app-bar>
-        <nuxt />
+
+        <v-card class="ma-5 primary darken-2 main" min-height="80%" min-width="72%">
+          <nuxt />
+        </v-card>
+        
       </v-col>
     </v-row>
       
@@ -103,6 +107,17 @@
 </script>
 <style scoped>
 .footer{
-  position: absolute;
+  position: fixed;
+  bottom:0;
+  width:100%;
+}
+.navcard{
+  position: fixed;
+  left:0;
+  overflow:auto;
+}
+.main{
+  position: fixed;
+  overflow: auto;
 }
 </style>

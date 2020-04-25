@@ -1,7 +1,7 @@
 <template>
   <v-content class="">
     <v-container>
-      <h1>Admin Page</h1>
+      <!-- <h1>Admin Page</h1> -->
       <!-- <h1>Admin route</h1>
       <a @click="logout">Logout</a>
       <form class="center-align admin-actions admin" style="margin: 40px auto; max-width: 300px;">

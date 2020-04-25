@@ -44,7 +44,7 @@ export const actions={
   // Fetch Categories
   fetchCategories({ commit }) {
     var len = 1;
-    db.collection("Assessment").doc("Question-Paper").get().then(querySnapshot => {
+    db.collection("Assessment").doc("Check").get().then(querySnapshot => {
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
       } else {
@@ -60,6 +60,28 @@ export const actions={
         commit("setValue", valueCat);
       }
     });
+  },
+  // ========================================================================
+  DeleteQuestion({commit,state},index){
+    if(confirm('Are you sure? ')){
+      var parent = document.getElementById('cafelist');
+      var child = document.getElementById(index);
+      var parent1 = document.getElementById('questionno');
+      var queno = document.querySelector("div#questionno div[a='"+index+"']");
+      // console.log("child:- ",child)
+      // console.log("quesno:- ",queno)
+      // parent.removeChild(child);
+      // delete state.value[index];
+
+      // parent1.removeChild(queno);
+
+      
+      db.collection("Assessment").doc("Check").set(Object.assign({}, state.projects["0"]))
+          .then(()=>{ 
+            alert("Question is deleted successfully...");
+          });
+    }
+    console.log("Value:- ",state.value);
   },
   //============================================================================
   UpdateAnswers({commit,state},payload){

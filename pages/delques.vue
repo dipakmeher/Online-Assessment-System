@@ -3,13 +3,14 @@
     <v-stepper class="stepper" v-model="e1">
     <v-row>
         <v-col cols="7">
-            <v-stepper-items id="cafelist">
+      <v-stepper-items id="cafelist" >
         <v-stepper-content
           v-for="(Questions,index) in projects" :key="index+1"
           :step="index+1"
-          :id="index+1"
+           :id="index+1"
         >
-           <v-card class="mx-auto" max-width="100%" flat >
+      
+           <v-card class="mx-auto" max-width="100%" flat  >
                 <v-card-text>
                   <p class="title">Q.{{index+1}}</p>
                   <p class="display-1 text--primary display-1 font-weight-medium">
@@ -40,34 +41,14 @@
           <v-btn small depressed color="primary" @click="nextStep(index+1)">
             Continue
           </v-btn> 
-          <v-btn small depressed color="primary" @click="Delete(index+1);nextStep(index+1)">
+          <v-btn small depressed color="primary" @click="Delete(index+1);created();">
             Delete
           </v-btn> 
 
           <v-btn small depressed class="primary" @click="clearResponse(Questions.Question)">Clear Response</v-btn>
         </v-stepper-content>
       </v-stepper-items>
-        </v-col>
-
-        <v-col cols="5">
-             
-            <v-card flat class="ma-10 my-auto" style="position:absolute;">
-            <v-stepper-header style="height:100%" id="questionno">
-        <template v-for="(Questions,index) in projects">
-          <v-stepper-step
-            :key="index+1"
-            :complete="e1 > index"
-            :step="index+1"
-            :a="index+1"
-            editable
-          >
-            Step {{ index+1 }}
-          </v-stepper-step>
-
-        </template>
-      </v-stepper-header>
-        </v-card>
-        </v-col>
+    </v-col>
     </v-row>
     <!-- Bottom Button Card -->
       <v-card width="60%" flat style="bottom:10px;position:absolute;">

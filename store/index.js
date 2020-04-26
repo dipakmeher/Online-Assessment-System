@@ -1,8 +1,7 @@
 import db from '../plugins/firebase'
 import JWTDecode from "jwt-decode";
 import cookieparser from "cookieparser";
-var Sentiment = require('sentiment');
-var sentiment = new Sentiment();
+
 
 export const state = () => ({
     projects:[],
@@ -66,22 +65,13 @@ export const actions={
     if(confirm('Are you sure? ')){
       var parent = document.getElementById('cafelist');
       var child = document.getElementById(index);
-      var parent1 = document.getElementById('questionno');
-      var queno = document.querySelector("div#questionno div[a='"+index+"']");
-      // console.log("child:- ",child)
-      // console.log("quesno:- ",queno)
-      // parent.removeChild(child);
-      // delete state.value[index];
-
-      // parent1.removeChild(queno);
-
-      
+      parent.removeChild(child);
+      delete state.projects["0"][index];
       db.collection("Assessment").doc("Check").set(Object.assign({}, state.projects["0"]))
           .then(()=>{ 
             alert("Question is deleted successfully...");
           });
     }
-    console.log("Value:- ",state.value);
   },
   //============================================================================
   UpdateAnswers({commit,state},payload){

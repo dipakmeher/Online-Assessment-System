@@ -27,7 +27,7 @@
                         <v-list-item-title>Inbox</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
-                    <v-list-item to="/delques" @click="item='Delete Question'">
+                    <v-list-item to="/trialdel" @click="item='Delete Question'">
                        <v-list-item-icon>
                         <v-icon> mdi-star</v-icon>
                       </v-list-item-icon>

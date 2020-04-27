@@ -4,11 +4,23 @@ const fetch = require("node-fetch");
 
 
 export const state = () => ({
-    messages:[]
+    messages:[],
+    time:30,
+    msgupdated:false
 })
+export const getters = {
+  getmsgupdate (state) {
+    return state.msgupdated;
+  }
+}
 export const mutations = {
     setSubAns(state,payload){
         state.messages = payload;
+    },
+    setTime(state,payload){
+      state.time=payload;
+      state.msgupdated=true;
+      console.log("SetTime Mutation invoked.",state.msgupdated)
     }
   };
 

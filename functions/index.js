@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
- const admin = require('firebase-admin');
- admin.initializeApp();
- const tf = require("@tensorflow/tfjs");
+const admin = require('firebase-admin');
+admin.initializeApp();
+const tf = require("@tensorflow/tfjs");
 const fetch = require("node-fetch");
 
 // exports.writeToFirestore = functions.https.onRequest(async (req, res) => {

@@ -1,107 +1,86 @@
 <template>
   <v-content>
-         
-      <v-container
-       >
-         <v-app-bar class="white smallnav">
-            <p>Total Questions:- {{length}}</p>
-         </v-app-bar>
-    
-    <div  class="scrollmenu" id="cafelist">
-      <v-card  
-        class="ma-4 maincards"
-         v-for="(Questions,index) in projects" :key="index+1"
-         :id="index"
-        >
-         <v-btn class="outlined child" v-on:click="Delete(index)">x</v-btn>
-
-        {{Questions.Question}}
-        <br>
-        <br>
-        
-        <div class="radio radio-primary" v-if="Questions.type === 'Objective'"> 
-                    <label v-for="(choice,index1) in Questions.Choices" v-bind:key="index1"  class="title font-weight-bold">
-                      <input type="radio" :name="Questions.Question" :id=" 'radio-' + index" :value='choice' v-model="chosen[Questions.Question]"  />
-                      {{choice}}
-                      <br/>
-                    </label>
-                  </div>
-                  <div v-else>
-                    <v-textarea
-                      label="Write your answer here"
-                      auto-grow
-                      outlined
-                      rows="1"
-                      row-height="10"
-                      shaped
-                      v-model="chosen[Questions.Question]"
-                    ></v-textarea>
-                  </div>    
-      </v-card>
-      </div>
-      </v-container>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      top
+    >
+      Time Updated Successfully.
+      <v-btn
+        color="blue"
+        text
+        @click="snackbar = false"
+      >
+        Closeoutlined
+      </v-btn>
+    </v-snackbar>
+    <v-card class="main-card" max-width="400px" :elevation="24">
+      <v-toolbar color="primary darken-2" dark flat>
+        <v-toolbar-title class="addquestion display-1 font-weight-medium">Make Admin</v-toolbar-title> 
+      </v-toolbar>
+        <v-form ref="form">
+            <v-text-field class="ma-3" :rules="rules.name" outlined v-model="adminemail" label="Enter Email Address" ></v-text-field>
+            <v-card-action>
+              <v-btn class=" adminbtn primary darken-2 " @click="admin">Make Admin</v-btn>
+            </v-card-action>
+              <v-alert  v-if="isError" type="error" class="alert alert-danger">
+                    <p class="mb-0">{{ errMsg }}</p>
+                  </v-alert>
+        </v-form>
+    </v-card>
+   
   </v-content>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import {mapState} from 'vuex'
-import {mapActions} from 'vuex' 
+import { functions } from "@/plugins/firebase";
+import { auth } from "@/plugins/firebase";
+import Cookie from "js-cookie";
 export default {
-    layout:'adminlayout',
-    data() {
-    return {
-        chosen:[],
-        id:''
-    }
-  },
-  created() {
-    this.$store.dispatch("fetchCategories"); 
-  },
-  computed:{
-      ...mapGetters({
-          projects: 'get',
-          length:'getlen'
-      }),
-  },
-  methods:{
-      Delete(index){
-      this.$store.dispatch("DeleteQuestion",index);
-    }
+layout:'adminlayout',
+data(){
+  return{
+      snackbar: false,
+      timeout: 3000,
+      isError: false,
+      errMsg: "",
+      adminemail:"",
+      rules:{
+        name:[val=> !!val || "Enter Email Please"]
+      }
   }
+},
+methods: {
+    admin(e){
+        e.preventDefault();
+        const adminEmail = this.adminemail;
+        const addAdminRole = functions.httpsCallable('addAdminRole');
+        addAdminRole({ email: adminEmail }).then(result => {
+          console.log("message",result);
+        })
+        .catch(err => {
+          this.isError = true;
+          this.errMsg = err.code;
+          setTimeout(() => {
+            this.isError = false;
+          }, 5000);
+        });   
+    }
+}
 }
 </script>
 
 <style>
-.scrollmenu {
-    height: 450px;
-    width:75%;
-    margin-left:30px;
-  background-color:#607D8B;
-  overflow: auto;
-  white-space: nowrap;
-}   
-.maincards{
-    width: 300px;
-    height:340px ;
- display: inline-block;
-  color: white;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
+.main-card{
+  margin-left: 280px;
+  margin-top: 120px;
 }
-.child {
-	position: absolute;
-	width: 30px;
-	height: 30px;
-
-	top: 0;
-	right: 0;
+.adminbtn{
+  bottom: 0;
+  margin-top: -30px;
+  margin-left: 120px;
 }
-.smallnav{
-    height: 450px;
-    width:75%;
-    top:0;
-    margin-left:30px;
+.addquestion{
+  margin-left: 80px;
 }
 </style>

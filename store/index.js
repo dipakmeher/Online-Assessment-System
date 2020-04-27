@@ -5,7 +5,7 @@ import cookieparser from "cookieparser";
 
 export const state = () => ({
     projects:[],
-    projectlen:null,
+    projectlen:0,
     value:[]
 })
 
@@ -55,6 +55,7 @@ export const actions={
          len = len + 1;
           valueCat.push(value);
         }
+        console.log("len:- ",len);
         commit("setlen",len-1);
         commit("setValue", valueCat);
       }

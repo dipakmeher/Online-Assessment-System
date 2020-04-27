@@ -18,7 +18,7 @@ import { functions } from "@/plugins/firebase";
 import { auth } from "@/plugins/firebase";
 import Cookie from "js-cookie";
 export default {
-  // layout:'adminlayout',
+  layout:'adminlayout',
   methods: {
     async logout() {
       await auth.signOut();

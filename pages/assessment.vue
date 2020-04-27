@@ -117,7 +117,7 @@ import {mapState} from 'vuex'
         id:'',
         chosen:[],
       counter:1,
-      timeLimit:30,
+      timeLimit:0,
       timePassed: 0,
       timerInterval: null,
       absolute: true,
@@ -127,7 +127,8 @@ import {mapState} from 'vuex'
       }
     },
      created() {
-    this.$store.dispatch("fetchCategories"); 
+    this.$store.dispatch("fetchCategories");
+    this.timeLimit = this.$store.state.assessment.time;
   },
   mounted() {
     this.startTimer();

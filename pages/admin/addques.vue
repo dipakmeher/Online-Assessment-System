@@ -3,7 +3,7 @@
     <v-row >
       <v-col cols="12" sm="8" md="4">
       <v-card class="main-card" min-width="600px">
-              <v-toolbar color="primary" dark flat>
+              <v-toolbar color="primary darken-2" dark flat>
                 <v-toolbar-title class="addquestion display-1 font-weight-medium">Add Question</v-toolbar-title> 
               </v-toolbar>
               

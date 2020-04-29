@@ -1,14 +1,14 @@
 <template >
   <v-app>
     <v-row no-gutters>
-      <v-col cols="3" class="success">
+      <v-col cols="3">
         <!-- <v-container class="purple" > -->
-           <v-card tile flat height="630px" class="navcard" >
-            <v-navigation-drawer permanent min- width="320px" color="blue darken-1">
+           <v-card tile flat height="640px" class="navcard" >
+            <v-navigation-drawer permanent min- width="320px" color="blue-grey lighten-5">
 
-              <v-list rounded dense>
+              <v-list rounded dense  >
                 <v-list-item  >
-                  <v-list-item-content>
+                  <v-list-item-content >
                     <v-list-item-title class="title">
                       Welcome Admin 
                     </v-list-item-title>
@@ -18,10 +18,10 @@
                 <v-divider></v-divider>
                 <v-subheader>Pages</v-subheader>
                 <!-- groups -->
-                <v-list-item-group color="primary">
+                <v-list-item-group color="primary darken-2">
                     <v-list-item to="/admin/addques" @click="item='Add Question'">
-                       <v-list-item-icon>
-                        <v-icon> mdi-inbox</v-icon>
+                       <v-list-item-icon >
+                        <v-icon > mdi-inbox</v-icon>
                       </v-list-item-icon>
                       <v-list-item-content>
                         <v-list-item-title>Add Question</v-list-item-title>
@@ -59,14 +59,14 @@
       </v-col>
       <v-col cols="9" class="">
         
-        <v-app-bar class="">
-          <span class="display-1 font-weight-bold	">{{item}}</span>
+        <v-app-bar class="blue-grey lighten-5" flat>
+          <span class="display-1 font-weight-bold ">{{item}}</span>
 
           <v-spacer></v-spacer>
-          <v-btn text color="primary darken-4" @click="logout" v-if="accounts"> Logout </v-btn>
+          <v-btn text color="black darken-4" @click="logout" v-if="accounts"> Logout </v-btn>
           <v-dialog v-model="dialog" persistent max-width="400" v-if="accounts">
             <template v-slot:activator="{ on }">
-              <v-btn text color="primary darken-4" dark v-on="on"> <v-icon left>mdi-account</v-icon> Account</v-btn>
+              <v-btn text color="black darken-4" dark v-on="on"> <v-icon left>mdi-account</v-icon> Account</v-btn>
             </template>
             <v-card>
               <v-card-title class="headline">Logged in:- </v-card-title>
@@ -87,8 +87,8 @@
     
       </v-col>
     </v-row>
-  <v-footer class="footer" color="primary">
-    dipak
+  <v-footer class="footer" color="blue-grey lighten-5">
+  Hare Krishna
   </v-footer>
   </v-app>
 </template>

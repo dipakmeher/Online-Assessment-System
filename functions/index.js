@@ -80,3 +80,28 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
     return err;
   });
 });
+
+exports.listUser = functions.https.onCall((data, context) => {
+  function listAllUsers(nextPageToken) {
+    // List batch of users, 1000 at a time.
+    var emails=[];
+    var claims=[];
+    admin.auth().listUsers(1000, nextPageToken)
+      .then(function(listUsersResult) {
+        listUsersResult.users.forEach(function(userRecord) {
+          emails.push(userRecord.toJSON().email);
+          // console.log('user', userRecord.toJSON());
+        });
+        if (listUsersResult.pageToken) {
+          // List next batch of users.
+          listAllUsers(listUsersResult.pageToken);
+        }
+        console.log("Emails:- ",emails);   
+       })
+      .catch(function(error) {
+        console.log('Error listing users:', error);
+      });
+  }
+  // Start listing users from the beginning, 1000 at a time.
+  listAllUsers();
+});

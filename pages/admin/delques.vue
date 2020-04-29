@@ -3,13 +3,13 @@
          
       <v-container
        >
-         <v-app-bar class="white smallnav red lighten-5">
+         <v-app-bar class="white smallnav">
 
             <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p></p>
         
          </v-app-bar>
     
-    <div  class="scrollmenu" id="cafelist">
+    <div  class="scrollmenu primary darken-2" id="cafelist">
       <v-card  
         class="ma-4 maincards"
          v-for="(Questions,index) in projects" :key="index+1"
@@ -88,8 +88,6 @@ export default {
     height: 450px;
     width:83%;
     margin-left:30px;
-  background-color:
-#880E4F;
   overflow: auto;
   white-space: nowrap;
 }   

@@ -8,11 +8,13 @@ export const state = () => ({
     time:30,
     msgupdated:false
 })
+
 export const getters = {
   getmsgupdate (state) {
     return state.msgupdated;
   }
 }
+
 export const mutations = {
     setSubAns(state,payload){
         state.messages = payload;

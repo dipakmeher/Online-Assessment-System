@@ -81,27 +81,41 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
   });
 });
 
+
+exports.setFalseClaim = functions.https.onCall((data, context) => {
+  // get user and add admin custom claim
+  return admin.auth().getUserByEmail(data.email).then(user => {
+    return admin.auth().setCustomUserClaims(user.uid, {
+      admin: false
+    })
+  }).then(() => {
+    return {
+      message: `Success! ${data.email} has False Claimed`
+    }
+  }).catch(err => {
+    return err;
+  });
+});
+
 exports.listUser = functions.https.onCall((data, context) => {
-  function listAllUsers(nextPageToken) {
-    // List batch of users, 1000 at a time.
     var emails=[];
     var claims=[];
-    admin.auth().listUsers(1000, nextPageToken)
+     return admin.auth().listUsers(1000)
       .then(function(listUsersResult) {
         listUsersResult.users.forEach(function(userRecord) {
-          emails.push(userRecord.toJSON().email);
-          // console.log('user', userRecord.toJSON());
+          var email = userRecord.toJSON().email;
+          var adminclaim = userRecord.toJSON().customClaims.admin;
+          emails[email] = adminclaim;
+          //  return userRecord.toJSON();
         });
         if (listUsersResult.pageToken) {
           // List next batch of users.
           listAllUsers(listUsersResult.pageToken);
         }
-        console.log("Emails:- ",emails);   
+         return admin.firestore().collection('Assessment').doc('Emails').set(Object.assign({},emails));
+         console.log("listUser executed");
        })
       .catch(function(error) {
         console.log('Error listing users:', error);
       });
-  }
-  // Start listing users from the beginning, 1000 at a time.
-  listAllUsers();
 });

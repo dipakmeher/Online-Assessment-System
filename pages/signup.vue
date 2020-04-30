@@ -41,10 +41,8 @@
                   </v-alert>
                 </v-card-actions>    
               <v-card-text class="text-center"> Want to Login?<nuxt-link to="/" id="signup">Login</nuxt-link></v-card-text> 
-              
             </v-card>
             <div>
-
             </div>
           </v-col>
         </v-row>
@@ -77,7 +75,6 @@ export default {
           setTimeout(() => {
             this.isSuccess = false;
           }, 5000);
-           redirect('/signup');
         })
         .catch(error => {
           this.isError = true;
@@ -86,6 +83,8 @@ export default {
             this.isError = false;
           }, 5000);
         });
+
+         this.$store.dispatch("users/fbsignup", this.account)
     }
   }
 };

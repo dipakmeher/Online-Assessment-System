@@ -11,7 +11,6 @@ export default function ({store,redirect}) {
         }else{
           redirect("/user");
         }
-        //   setupUI(user);
         });
       console.log('signed in==>insidelogin')
     } else {

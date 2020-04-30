@@ -18,12 +18,12 @@
       <v-toolbar color="primary darken-2" dark flat>
         <v-toolbar-title class="addquestion display-1 font-weight-medium">Make Admin</v-toolbar-title> 
       </v-toolbar>
-            <v-card-action>
-              <v-btn class=" adminbtn primary darken-2 " @click="admin">Make Admin</v-btn>
-            </v-card-action>
-              <v-alert  v-if="isError" type="error" class="alert alert-danger">
-                    <p class="mb-0">{{ errMsg }}</p>
-                  </v-alert>
+        <v-text-field class="ma-3" :rules="rules.name" name="email" outlined v-model="adminemail" label="Enter Email Address" ></v-text-field>
+        <v-btn class=" adminbtn primary darken-2 " @click="admin">Make Admin</v-btn>
+        <v-btn class=" adminbtn primary darken-2 " @click="listUser">listUser</v-btn>
+      <v-alert  v-if="isError" type="error" class="alert alert-danger">
+        <p class="mb-0">{{ errMsg }}</p>
+      </v-alert>
     </v-card>
    
   </v-content>
@@ -34,7 +34,6 @@ import { functions } from "@/plugins/firebase";
 import { auth } from "@/plugins/firebase";
 import Cookie from "js-cookie";
 export default {
-layout:'adminlayout',
 data(){
   return{
       snackbar: false,
@@ -49,10 +48,20 @@ data(){
 },
 methods: {
     admin(e){
-        e.preventDefault();
+         e.preventDefault();
+        const adminEmail = this.adminemail;
+        const setFalseClaim = functions.httpsCallable('setFalseClaim');
+        setFalseClaim({ email: adminEmail }).then(result => {
+          console.log("message",result);
+        },err=>{
+            console.log("err:-", err);
+        })
+     
+    },
+    listUser(){
         const listUser = functions.httpsCallable('listUser');
         listUser().then(result => {
-          console.log("message",result);
+          console.log("message after listUser",result);
         })
         .catch(err => {
           this.isError = true;
@@ -61,7 +70,7 @@ methods: {
             this.isError = false;
           }, 5000);
         });   
-    },
+    }
 
   }
 }

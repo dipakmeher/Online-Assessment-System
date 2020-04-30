@@ -1,6 +1,6 @@
 import { auth } from "@/plugins/firebase";
 import Cookie from "js-cookie";
-
+import { functions } from "@/plugins/firebase";
 export const state = () => ({
   user: null,
   claim:null,
@@ -51,18 +51,29 @@ export const actions = {
   },
   async signup({ commit }, account) {
       await auth.createUserWithEmailAndPassword(account.email, account.password);
-      //  //Get JWT from Firebase
-      //  const token = await auth.currentUser.getIdToken();
-      //  const { email, uid } = auth.currentUser;
-      //  // Set JWT to the cookie
-      //  Cookie.set("access_token", token);
+
+     
+       //Get JWT from Firebase
+       const token = await auth.currentUser.getIdToken();
+       const { email, uid } = auth.currentUser;
+       // Set JWT to the cookie
+       Cookie.set("access_token", token);
  
-      //  // Set the user locally
-      //  commit("SET_USER", { email, uid });
-       await auth.signOut();
+       // Set the user locally
+       commit("SET_USER", { email, uid });
+       
       //  await Cookie.remove("access_token");
       commit("signupalert",true);
+      console.log("Successfully Signup function from signup"); 
       //  location.href = "/";
       //  this.$router.push('/admin');
-  }
+  },
+  async fbsignup({ commit }, account) {
+    const setFalseClaim = functions.httpsCallable('setFalseClaim');
+    await setFalseClaim({ email: account.email}).then(result => {
+      console.log("message",result);
+    });
+
+    console.log("account",account); 
+}
 };

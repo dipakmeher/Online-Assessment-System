@@ -1,31 +1,47 @@
 <template>
   <v-content>
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="timeout"
-      top
-    >
-      Time Updated Successfully.
-      <v-btn
-        color="blue"
-        text
-        @click="snackbar = false"
-      >
-        Closeoutlined
-      </v-btn>
-    </v-snackbar>
-    <v-card class="main-card" max-width="400px" :elevation="24">
-      <v-toolbar color="primary darken-2" dark flat>
-        <v-toolbar-title class="addquestion display-1 font-weight-medium">Make Admin</v-toolbar-title> 
-      </v-toolbar>
-        <v-text-field class="ma-3" :rules="rules.name" name="email" outlined v-model="adminemail" label="Enter Email Address" ></v-text-field>
-        <v-btn class=" adminbtn primary darken-2 " @click="admin">Make Admin</v-btn>
-        <v-btn class=" adminbtn primary darken-2 " @click="listUser">listUser</v-btn>
-      <v-alert  v-if="isError" type="error" class="alert alert-danger">
-        <p class="mb-0">{{ errMsg }}</p>
-      </v-alert>
-    </v-card>
-   
+     <v-container class="container">
+         <v-app-bar class="yellow lighten-4 smallnav">
+           <p class="ma-2 font-weight-medium subtitle-1">Total Questions:-</p>
+        </v-app-bar>
+        <v-card class="scrollmenu" height="300px" flat>
+            <v-list>
+              <v-row>
+                <v-list-item
+                  v-for="(Questions,index) in projects"
+                  :key="index"
+                >
+                  <v-col cols="5">
+                  <v-list-item-content>
+                    <v-list-item-title> {{index}}:</v-list-item-title>
+                  </v-list-item-content>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="3" >
+                   <v-list-item-content class="ml-5">
+                      <v-list-item-title v-if="Questions === true">
+                        <v-chip class="success darken-2" text-color="white"> admin  </v-chip>
+                      </v-list-item-title>
+                    <v-list-item-title v-else>
+                      <v-chip class="red" text-color="white">Not admin</v-chip>  
+                    </v-list-item-title>
+                  </v-list-item-content>
+                  </v-col>
+                 
+                  <v-divider vertical></v-divider>
+                  <v-col cols="4" >
+                   <v-list-item-content class="ml-2">  
+                    <v-btn depressed class="red lighten-1 white--text" v-if="Questions === true" @click="removeAdmin(index)">Remove Admin</v-btn>
+                    <v-btn depressed class="success darken-2" v-else @click="addadmin(index)">Make Admin</v-btn>
+                  </v-list-item-content>
+                  </v-col>
+                </v-list-item>
+              </v-row>
+              <!-- </v-list-item-group> -->
+              
+            </v-list>
+        </v-card> 
+     </v-container>
   </v-content>
 </template>
 
@@ -33,7 +49,11 @@
 import { functions } from "@/plugins/firebase";
 import { auth } from "@/plugins/firebase";
 import Cookie from "js-cookie";
+import {mapGetters} from 'vuex'
+import {mapState} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
+   layout:'adminlayout',
 data(){
   return{
       snackbar: false,
@@ -43,8 +63,17 @@ data(){
       adminemail:"",
       rules:{
         name:[val=> !!val || "Enter Email Please"]
-      }
+      },
+      item: 1,
   }
+},
+created(){
+  this.$store.dispatch("makeadmin/fetchCategories");
+},
+computed:{
+  ...mapGetters({
+      projects:'makeadmin/get',
+  }),
 },
 methods: {
     admin(e){
@@ -57,6 +86,14 @@ methods: {
             console.log("err:-", err);
         })
      
+    },
+    removeAdmin(index){
+      this.$store.commit("makeadmin/removeadmin",index);
+      this.$store.dispatch("makeadmin/removeAdmin",index);
+    },
+    addadmin(index){
+      this.$store.commit("makeadmin/addadmin",index);
+      this.$store.dispatch("makeadmin/addAdmin",index);
     },
     listUser(){
         const listUser = functions.httpsCallable('listUser');
@@ -77,16 +114,21 @@ methods: {
 </script>
 
 <style>
-.main-card{
-  margin-left: 280px;
-  margin-top: 120px;
+
+.smallnav{
+    width:70%;
+    top:0;
 }
-.adminbtn{
-  bottom: 0;
-  margin-top: -30px;
-  margin-left: 120px;
-}
-.addquestion{
-  margin-left: 80px;
-}
+.scrollmenu {
+    width:70%;
+    overflow: auto;
+    white-space: nowrap;
+}  
+.container{
+  /* width:70%; */
+  margin-left: 45px;
+  height: 30px;
+  margin-top: 20px;
+  position: fixed;
+} 
 </style>

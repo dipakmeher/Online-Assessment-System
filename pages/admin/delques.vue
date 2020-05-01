@@ -1,13 +1,9 @@
 <template>
   <v-content>
-         
-      <v-container
-       >
+     <v-container class="container">
          <v-app-bar class="white smallnav">
-
-            <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p></p>
-        
-         </v-app-bar>
+           <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p></p>
+        </v-app-bar>
     
     <div  class="scrollmenu primary darken-2" id="cafelist">
       <v-card  
@@ -85,9 +81,8 @@ export default {
 
 <style>
 .scrollmenu {
-    height: 450px;
-    width:83%;
-    margin-left:30px;
+  width: 70%;
+  height: 400px;
   overflow: auto;
   white-space: nowrap;
 }   
@@ -96,7 +91,6 @@ export default {
   height:340px ;
  display: inline-block;
   color: white;
-
   padding: 14px;
   text-decoration: none;
 }
@@ -108,11 +102,13 @@ export default {
 	right: 0;
 }
 .smallnav{
-    height: 450px;
-    width:83%;
+    width:70%;
     top:0;
-    margin-left:30px;
 }
+.container{
+  margin-left: 50px;
+  position: fixed;
+} 
 .options{
   text-align: left; 
 }

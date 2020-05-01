@@ -73,9 +73,24 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
       admin: true
     })
   }).then(() => {
-    return {
-      message: `Success! ${data.email} has been made an admin.`
-    }
+    var emails=[];
+    return admin.auth().listUsers(1000)
+    .then(function(listUsersResult) {
+      listUsersResult.users.forEach(function(userRecord) {
+         var email = userRecord.toJSON().email;
+         var adminclaim = userRecord.toJSON().customClaims.admin;
+         emails[email] = adminclaim;
+      });
+      if (listUsersResult.pageToken) {
+        // List next batch of users.
+        listAllUsers(listUsersResult.pageToken);
+      }
+      // console.log("listUser of add admin role");
+       return admin.firestore().collection('Assessment').doc('Emails').set(Object.assign({},emails));
+      })
+    .catch(function(error) {
+      console.log('Error listing users:', error);
+    });
   }).catch(err => {
     return err;
   });
@@ -89,9 +104,25 @@ exports.setFalseClaim = functions.https.onCall((data, context) => {
       admin: false
     })
   }).then(() => {
-    return {
-      message: `Success! ${data.email} has False Claimed`
-    }
+    var emails=[];
+    return admin.auth().listUsers(1000)
+    .then(function(listUsersResult) {
+      listUsersResult.users.forEach(function(userRecord) {
+        var email = userRecord.toJSON().email;
+        var adminclaim = userRecord.toJSON().customClaims.admin;
+        emails[email] = adminclaim;
+        // console.log(userRecord.toJSON());
+      });
+      if (listUsersResult.pageToken) {
+        // List next batch of users.
+        listAllUsers(listUsersResult.pageToken);
+      }
+        console.log("listUser of setFalseClaim");
+       return admin.firestore().collection('Assessment').doc('Emails').set(Object.assign({},emails));
+      })
+    .catch(function(error) {
+      console.log('Error listing users:', error);
+    });
   }).catch(err => {
     return err;
   });
@@ -99,7 +130,6 @@ exports.setFalseClaim = functions.https.onCall((data, context) => {
 
 exports.listUser = functions.https.onCall((data, context) => {
     var emails=[];
-    var claims=[];
      return admin.auth().listUsers(1000)
       .then(function(listUsersResult) {
         listUsersResult.users.forEach(function(userRecord) {

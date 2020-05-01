@@ -130,7 +130,4 @@ export default {
   margin-left: 200px;
   margin-top: 10px;
 }
-.addquestion{
-  margin-left:35%;
-}
 </style>

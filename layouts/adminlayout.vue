@@ -35,7 +35,7 @@
                         <v-list-item-title>Delete Question</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
-                    <v-list-item to="/admin/makeadmin" @click="item='Make Admin'">
+                    <v-list-item to="/trialdel" @click="item='Make Admin'">
                        <v-list-item-icon>
                         <v-icon> mdi-send</v-icon>
                       </v-list-item-icon>

@@ -1,12 +1,7 @@
 <template>
   <v-content>
     <v-container>
-      <!-- <h1>Admin route</h1>
-      <a @click="logout">Logout</a>
-      <form class="center-align admin-actions admin" style="margin: 40px auto; max-width: 300px;">
-        <input type="email" placeholder="User email" id="admin-email" required />
-        <button class="btn-small yellow darken-2 z-depth-0" v-on:click="admin">Make admin</button>
-      </form> -->
+     
     </v-container>
   </v-content>
 </template>

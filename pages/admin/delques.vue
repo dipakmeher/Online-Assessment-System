@@ -57,12 +57,12 @@ export default {
     }
   },
   created() {
+    this.noofque = this.$store.state.projectlen;
     this.$store.dispatch("fetchCategories"); 
   },
   computed:{
       ...mapGetters({
           projects: 'get',
-          length:'getlen'
       }),
       Quecount(){
         return noofque;
@@ -81,11 +81,16 @@ export default {
 
 <style>
 .scrollmenu {
-  width: 70%;
+  width: 75%;
   height: 400px;
   overflow: auto;
   white-space: nowrap;
-}   
+}  
+.smallnav{
+    width:75%;
+    top:0;
+    white-space: nowrap;
+} 
 .maincards{
   width: 300px;
   height:340px ;
@@ -101,10 +106,7 @@ export default {
 	top: 0;
 	right: 0;
 }
-.smallnav{
-    width:70%;
-    top:0;
-}
+
 .container{
   margin-left: 50px;
   position: fixed;

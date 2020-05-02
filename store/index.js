@@ -42,7 +42,7 @@ export const mutations={
 export const actions={
   // Fetch Categories
   fetchCategories({ commit }) {
-    var len = 1;
+    var len = 0;
     db.collection("Assessment").doc("Check").get().then(querySnapshot => {
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
@@ -56,7 +56,7 @@ export const actions={
           valueCat.push(value);
         }
         console.log("len:- ",len);
-        commit("setlen",len-1);
+        commit("setlen",len);
         commit("setValue", valueCat);
       }
     });

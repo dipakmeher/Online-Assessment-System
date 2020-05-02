@@ -10,6 +10,9 @@ export const state = () => ({
 export const getters = {
   get (state) {
     return state.projects["0"];
+  },
+  getUser (state) {
+    return state.user;
   }
 }
 export const mutations = {
@@ -40,11 +43,10 @@ export const actions = {
             var categories = [];
             categories.push(querySnapshot.data());
             commit("setCategories", categories);
-            // for (index in this.state.projects['0']) {
-            //     console.log("Value:-",index);
-            // }
-            // console.log("len:- ",len);
-            // commit("setlen",len);           
+            for (const [key, value] of Object.entries(this.state.projects["0"])) {
+                len = len + 1;
+               }
+            commit("setlen",len);           
          }
         });
     },

@@ -1,11 +1,9 @@
 <template>
   <v-content>
-    <v-row >
-      <v-col cols="12" sm="8" md="4">
-      <v-card class="main-card" min-width="600px">
-              <v-toolbar color="primary darken-2" dark flat>
-                <v-toolbar-title class="addquestion display-1 font-weight-medium">Add Question</v-toolbar-title> 
-              </v-toolbar>
+      <v-card class="main-card" min-width="48%" min-height="50%"> 
+        <v-toolbar color="primary darken-2" dark flat>
+          <v-toolbar-title class="addquestion display-1 font-weight-medium">Add Question</v-toolbar-title> 
+        </v-toolbar>
               
         <v-form ref="form" style="color:black;" class="ma-6">
           <v-text-field light :counter="10" v-model="question" label="Question" prepend-icon="question_answer" required></v-text-field>
@@ -45,8 +43,6 @@
 
         </v-form>
      </v-card>
-     </v-col>
-    </v-row>
   </v-content>
 </template>
 
@@ -127,7 +123,9 @@ export default {
 
 <style>
 .main-card{
-  margin-left: 200px;
-  margin-top: 10px;
+  margin-left: 170px;
+  margin-top: 20px;
+  position: fixed;
+  overflow: auto;
 }
 </style>

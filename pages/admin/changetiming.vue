@@ -16,7 +16,7 @@
     </v-snackbar>
     <v-card class="main-card" max-width="400px" :elevation="24">
       <v-toolbar color="primary darken-2" dark flat>
-        <v-toolbar-title class="addquestion display-1 font-weight-medium">Change The Timings</v-toolbar-title> 
+        <v-toolbar-title class="addquestion headline font-weight-medium">Change The Timings</v-toolbar-title> 
       </v-toolbar>
 
       <v-card-title>
@@ -40,6 +40,7 @@
             </v-card>
               <v-btn
               class="updatebtn"
+              color="primary darken-2"
               outlined
               @click="validate"
             >
@@ -95,7 +96,7 @@ methods: {
 }
 .updatebtn{
   bottom: 0;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-left: 130px;
 }
 </style>

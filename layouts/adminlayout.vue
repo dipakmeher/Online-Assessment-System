@@ -19,6 +19,14 @@
                 <v-subheader>Pages</v-subheader>
                 <!-- groups -->
                 <v-list-item-group color="primary darken-2">
+                    <v-list-item to="/admin" @click="item='Home'">
+                      <v-list-item-icon >
+                        <v-icon > home</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title>Home</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
                     <v-list-item to="/admin/addques" @click="item='Add Question'">
                        <v-list-item-icon >
                         <v-icon > mdi-inbox</v-icon>

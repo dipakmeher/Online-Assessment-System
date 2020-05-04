@@ -3,6 +3,7 @@
      <v-container class="container">
          <v-app-bar class="yellow lighten-4 smallnav">
            <p class="ma-2 font-weight-medium subtitle-1">Total User:-<p class=" ma-1 display-1 font-weight-bold"> {{user}}</p></p>
+            <v-btn depressed class="red lighten-1 white--text" @click="randomPicker">Random Picker</v-btn>
         </v-app-bar>
         <v-card class="scrollmenu" height="300px" flat>
             <v-list>
@@ -69,6 +70,7 @@ data(){
 },
 created(){
   this.$store.dispatch("makeadmin/fetchCategories");
+  // this.$store.dispatch("makeadmin/measureLen");
 },
 computed:{
   ...mapGetters({
@@ -77,6 +79,10 @@ computed:{
   }),
 },
 methods: {
+    randomPicker(){
+      this.$store.dispatch("makeadmin/randomPicker");
+      
+    },
     admin(e){
          e.preventDefault();
         const adminEmail = this.adminemail;

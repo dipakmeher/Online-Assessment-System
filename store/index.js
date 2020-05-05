@@ -1,7 +1,7 @@
 import db from '../plugins/firebase'
 import JWTDecode from "jwt-decode";
 import cookieparser from "cookieparser";
-
+import { functions } from "@/plugins/firebase";
 
 export const state = () => ({
     projects:[],
@@ -43,7 +43,7 @@ export const actions={
   // Fetch Categories
   fetchCategories({ commit }) {
     var len = 0;
-    db.collection("Assessment").doc("Check").get().then(querySnapshot => {
+    db.collection("Question-Paper").doc("Question-Paper").get().then(querySnapshot => {
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
       } else {
@@ -111,5 +111,14 @@ export const actions={
         email: decoded.email
       });
     }
+  },
+  randomPicker({ commit }){
+    console.log("Random Picker ran");
+    const randomPicker = functions.httpsCallable('randomPicker');
+    randomPicker().then(result => {
+      console.log("Random Picker message",result);
+    },err=>{
+        console.log("Random Picker error:-", err);
+    })
   }
 };  

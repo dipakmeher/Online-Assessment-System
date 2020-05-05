@@ -1,16 +1,42 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-admin.initializeApp();
 const tf = require("@tensorflow/tfjs");
 const fetch = require("node-fetch");
+admin.initializeApp();
 
 // exports.writeToFirestore = functions.https.onRequest(async (req, res) => {
   
 // });
 
-exports.updateUser = functions.firestore
-    .document('Assessment/Question-Paper')
-    .onUpdate(async (change, context) => {
+exports.randomPicker = functions.https.onCall(async(data, context) => {
+  await admin.firestore().collection('Assessment').doc('Master-Bank1').get().then(querySnapshot => {
+    if (querySnapshot.empty) {
+      console.log("QuerySnapshot is empty");
+    } else {
+    var categories = [];
+    var masterbank=[];
+    categories.push(querySnapshot.data());
+    console.log("Categories:- ",categories);
+     for (const [key, value] of Object.entries(categories["0"])) {
+      masterbank.push(value);
+    }
+    var masterlen = masterbank.length;
+    var setque = 3;//Must be less than @Masterlen
+    var a = Math.floor(Math.random() * Math.floor(masterlen));
+    var b = a + setque; 
+    if(b>masterlen){
+      b=masterlen;
+      a=b-setque;
+    }
+    var newmaster = masterbank.slice(a,b);
+    return admin.firestore().collection('Question-Paper').doc('Question-Paper').set(Object.assign({},newmaster));
+
+    }
+  });
+});
+
+exports.updateUser = functions.firestore.document('Assessment/Question-Paper')
+  .onUpdate(async (change, context) => {
       const bd =  admin.firestore().collection('Assessment').doc('Question-Paper');
       const mb =  admin.firestore().collection('Assessment').doc('Master-Bank1');
       const getBddata = await bd.get();
@@ -53,14 +79,14 @@ exports.updateUser = functions.firestore
       else if(type === "Subjective"){
       messages.push(sgb);
       ans[key]=sgb;
-     }
-   }
+    }
+  }
   //  await this.$store.commit("assessment/setSubAns",messages);
   ans["subans"] = messages;
   ans["score"] = score;
 
-      return admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
-    });
+    return admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
+});
     
 exports.addAdminRole = functions.https.onCall((data, context) => {
   // check request is made by an admin

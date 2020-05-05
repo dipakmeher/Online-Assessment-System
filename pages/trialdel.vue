@@ -2,7 +2,7 @@
   <v-content>
      <v-container class="container">
          <v-app-bar class="yellow lighten-4 smallnav">
-           <p class="ma-2 font-weight-medium subtitle-1">Total User:-<p class=" ma-1 display-1 font-weight-bold"> {{user}}</p></p>
+           <p class="ma-2 font-weight-medium subtitle-1">Total User:-<p class=" ma-1 display-1 font-weight-bold"> {{user}}</p>
             <v-btn depressed class="red lighten-1 white--text" @click="randomPicker">Random Picker</v-btn>
         </v-app-bar>
         <v-card class="scrollmenu" height="300px" flat>

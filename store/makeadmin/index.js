@@ -56,15 +56,7 @@ export const actions = {
              commit("setlen",len);          
          }
         });
-    },
-    // async measureLen({ commit }) {
-    //  var len=0;
-    //   for (const [key, value] of Object.entries(this.state.projects["0"])) {
-    //     len = len + 1;
-    //   }
-    //   commit("setlen",len);
-    //   console.log("Measure Length");
-    // },
+    },  
     async removeAdmin({ commit },index) {
         const setFalseClaim = functions.httpsCallable('setFalseClaim');
         await setFalseClaim({ email: index}).then(result => {
@@ -94,7 +86,6 @@ export const actions = {
          commit("setRandom", categories);
          for (const [key, value] of Object.entries(categories["0"])) {
           masterbank.push(value);
-          len = len + 1;
         }
         var masterlen = masterbank.length;
         var setque = 3;//Must be less than @Masterlen
@@ -105,13 +96,7 @@ export const actions = {
           a=b-setque;
         }
         var newmaster = masterbank.slice(a,b);
-
-        for (const [key, value] of Object.entries(categories["0"])) {
-          let ans = newmaster[value.Question];
-          
-        }
-
-        db.collection('Question-Paper').doc('Question-Paper').set(Object.assign({},newmaster));
+         db.collection('Question-Paper').doc('Question-Paper').set(Object.assign({},newmaster));
 
      }
     });

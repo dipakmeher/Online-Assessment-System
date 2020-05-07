@@ -155,8 +155,8 @@ import {mapState} from 'vuex'
         }
       },
        Firestoreupdate(){
-      this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
-        this.$store.dispatch("assessment/fetchSubAns");
+        this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
+        // this.$store.dispatch("assessment/fetchSubAns");
       });
     },
       startTimer() {

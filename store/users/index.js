@@ -36,7 +36,6 @@ export const actions = {
     try {
       // Login the user
       await auth.signInWithEmailAndPassword(account.email, account.password);
-
       // Get JWT from Firebase
       const token = await auth.currentUser.getIdToken();
       const { email, uid } = auth.currentUser;
@@ -51,8 +50,6 @@ export const actions = {
   },
   async signup({ commit }, account) {
       await auth.createUserWithEmailAndPassword(account.email, account.password);
-
-     
        //Get JWT from Firebase
        const token = await auth.currentUser.getIdToken();
        const { email, uid } = auth.currentUser;
@@ -61,7 +58,6 @@ export const actions = {
  
        // Set the user locally
        commit("SET_USER", { email, uid });
-       
       //  await Cookie.remove("access_token");
       commit("signupalert",true);
       console.log("Successfully Signup function from signup"); 

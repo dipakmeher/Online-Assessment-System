@@ -59,6 +59,14 @@
                         <v-list-item-title>Change Exam Timings</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
+                     <v-list-item to="/assessment" @click="item='Assessment'">
+                       <v-list-item-icon>
+                        <v-icon> open_in_browser</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title>Take Assessment</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
                   </v-list-item-group>
                 </v-list>
             </v-navigation-drawer>

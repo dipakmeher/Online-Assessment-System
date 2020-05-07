@@ -40,7 +40,7 @@ export const mutations = {
 export const actions = {
      async fetchCategories({ commit }) {
       var len=0;
-        db.collection("Assessment").doc("Emails").get().then(querySnapshot => {
+        db.collection("Question-Paper").doc("Emails").get().then(querySnapshot => {
             if (querySnapshot.empty) {
             //this.$router.push('/HelloWorld')
             } else {
@@ -73,33 +73,50 @@ export const actions = {
             console.log("err:-", err);
         })
     },
-
-     randomPicker({ commit }) {
-      var len = 0;
-      db.collection("Assessment").doc("Master-Bank1").get().then(querySnapshot => {
+    evaluation({commit}){
+      var categories = [];
+      var master = [];
+      var masterqid = [];
+       db.collection("Assessment").get().then(querySnapshot => {
         if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
         } else {
-        var categories = [];
-        var masterbank=[];
-        categories.push(querySnapshot.data());
-         commit("setRandom", categories);
-         for (const [key, value] of Object.entries(categories["0"])) {
-          masterbank.push(value);
+         
+          querySnapshot.forEach(function(doc) {
+            categories[doc.id]=doc.data();
+          });
         }
-        var masterlen = masterbank.length;
-        var setque = 3;//Must be less than @Masterlen
-        var a = Math.floor(Math.random() * Math.floor(masterlen));
-        var b = a + setque; 
-        if(b>masterlen){
-          b=masterlen;
-          a=b-setque;
+      });
+
+      db.collection("Master-Bank").doc("Master-Bank").get().then(querySnapshot => {
+        if (querySnapshot.empty) {
+        //this.$router.push('/HelloWorld')
+        } else {
+          master.push(querySnapshot.data())
+          for (const [key, value] of Object.entries(master["0"])) {
+           masterqid[value.Qid] = value;  
+          }
         }
-        var newmaster = masterbank.slice(a,b);
-         db.collection('Question-Paper').doc('Question-Paper').set(Object.assign({},newmaster));
+      });
 
-     }
-    });
-  },
+      console.log("categories", categories);
+      console.log("Master-Bank",masterqid);
 
+      // for(const [key, value] of Object.entries(masterqid)) {
+      //   console.log("key:- ",key,"value:- ",value);
+      //   console.log("categories:- ",categories);
+      //   // for(const [key1, value1] of Object.entries(value)) {
+      //   //   var type = value1.type;
+      //   //   if(type === "Subjective"){
+            
+      //   //   }
+      //   //   else if(type === "Objective"){
+      //   //     var mqid = masterqid[value1.Qid].Qid;
+      //   //     if(mqid === value1.Qid){
+      //   //       console.log("Master:- ",masterqid["Question"]," Question:- ", value.Question);
+      //   //     }
+      //   //   }
+      //   // }
+      // }
+    }
 };

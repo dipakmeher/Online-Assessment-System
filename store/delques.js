@@ -24,7 +24,7 @@ export const mutations={
 export const actions={
   // Fetch Categories
   fetchCategories({ commit }) {
-    db.collection("Assessment").doc("Check").get().then(querySnapshot => {
+    db.collection("Master-Bank").doc("Master-Bank").get().then(querySnapshot => {
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
       } else {
@@ -33,19 +33,6 @@ export const actions={
         commit("setCategories", categories);
       }
     });
-    // db.collection("Assessment").doc("Check").onSnapshot(res => {
-    //   const changes = res.docChanges();
-      
-    //   changes.forEach(change => {
-    //     if (change.type === 'added') {
-    //       this.projects.push({
-    //         ...change.doc.data(),
-    //         id: change.doc.id
-    //       })
-    //     }  
-    //     console.log(change.doc.id);
-    //   })
-    // });
   },
   //=========================================================================
   DeleteQuestion({commit,state},index){
@@ -54,7 +41,7 @@ export const actions={
       var child = document.getElementById(index);
       parent.removeChild(child);
       delete state.disk["0"][index];
-      db.collection("Assessment").doc("Check").set(Object.assign({}, state.disk["0"]))
+      db.collection("Master-Bank").doc("Master-Bank").set(Object.assign({}, state.disk["0"]))
           .then(()=>{ 
             alert("Question is deleted successfully...");
           });

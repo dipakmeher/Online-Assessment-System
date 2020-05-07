@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-container>
-     
+     <v-btn @click="transfer" class="primary">Transfer Document</v-btn>
     </v-container>
   </v-content>
 </template>
@@ -15,6 +15,9 @@ import Cookie from "js-cookie";
 export default {
   layout:'adminlayout',
   methods: {
+    transfer(){
+      this.$store.dispatch("makeadmin/evaluation");
+    },
     async logout() {
       await auth.signOut();
       await Cookie.remove("access_token");

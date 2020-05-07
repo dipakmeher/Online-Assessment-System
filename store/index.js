@@ -68,7 +68,7 @@ export const actions={
       var child = document.getElementById(index);
       parent.removeChild(child);
       delete state.projects["0"][index];
-      db.collection("Assessment").doc("Check").set(Object.assign({}, state.projects["0"]))
+      db.collection("Master-Bank").doc("Master-Bank").set(Object.assign({}, state.projects["0"]))
           .then(()=>{ 
             alert("Question is deleted successfully...");
           });
@@ -83,16 +83,17 @@ export const actions={
       let ans = categories[value.Question];
       if(ans == undefined){
         ans = "";
-      }
-      
+      } 
       commit("Update",{key, ans});
     }
-
-    db.collection("Assessment").doc("Question-Paper").set(Object.assign({}, state.projects["0"]))
+    var user = this.state.users.user;
+    console.log("GetUser:- ",user);    
+    return db.collection("Assessment").doc(user.uid).set(Object.assign({}, state.projects["0"]))
     .then(()=>{
       alert("Answer Submitted");
+    }).catch(error=>{
+      console.log("Error:- ",error);
     });
-    console.log("firebase Updated");
   },
   nuxtServerInit({ commit }, { req }) {
     if (process.server && process.static) return;
@@ -113,12 +114,28 @@ export const actions={
     }
   },
   randomPicker({ commit }){
-    console.log("Random Picker ran");
     const randomPicker = functions.httpsCallable('randomPicker');
     randomPicker().then(result => {
       console.log("Random Picker message",result);
     },err=>{
         console.log("Random Picker error:-", err);
     })
+  },
+  transferDoc({commit}){
+    db.collection("Assessment").doc("Correct-Answers").get().then(querySnapshot => {
+      if (querySnapshot.empty) {
+        //this.$router.push('/HelloWorld')
+      } else {
+        var categories = [];
+        var valueCat=[];
+        categories.push(querySnapshot.data());
+        return db.collection("Question-Paper").doc("Correct-Answers").set(Object.assign({}, categories["0"]))
+        .then(()=>{
+          alert("Document Transferred.");
+        }).catch(error=>{
+          console.log("Error:- ",error);
+        });
+      }
+    });
   }
-};  
+}

@@ -8,8 +8,8 @@ admin.initializeApp();
   
 // });
 
-exports.randomPicker = functions.https.onCall(async(data, context) => {
-  await admin.firestore().collection('Assessment').doc('Master-Bank1').get().then(querySnapshot => {
+exports.randomPicker = functions.https.onCall((data, context) => {
+   admin.firestore().collection('Master-Bank').doc('Master-Bank').get().then(querySnapshot => {
     if (querySnapshot.empty) {
       console.log("QuerySnapshot is empty");
     } else {
@@ -34,59 +34,61 @@ exports.randomPicker = functions.https.onCall(async(data, context) => {
     }
   });
 });
+exports.updateUser = functions.https.onCall((data, context) => {
 
-exports.updateUser = functions.firestore.document('Assessment/Question-Paper')
-  .onUpdate(async (change, context) => {
-      const bd =  admin.firestore().collection('Assessment').doc('Question-Paper');
-      const mb =  admin.firestore().collection('Assessment').doc('Master-Bank1');
-      const getBddata = await bd.get();
-      const getMbdata = await mb.get();
-      var categoriesgb = [];
-      var categoriesmb = [];
-      var messages=[];
-      var ansgb = {};
-      var ansmb = {};
-      var ans = {};
-      var score = 0;
+})
+// exports.updateUser = functions.firestore.document('Assessment/Question-Paper')
+//   .onUpdate(async (change, context) => {
+//       const bd =  admin.firestore().collection('Question-Paper').doc('Question-Paper');
+//       const mb =  admin.firestore().collection('Master-Bank').doc('Master-Bank');
+//       const getBddata = await bd.get();
+//       const getMbdata = await mb.get();
+//       var categoriesgb = [];
+//       var categoriesmb = [];
+//       var messages=[];
+//       var ansgb = {};
+//       var ansmb = {};
+//       var ans = {};
+//       var score = 0;
       
-      var sgb = ""; 
+//       var sgb = ""; 
     
-      for (const [key, value] of Object.entries(getBddata._fieldsProto)) {
-        var type =  getBddata._fieldsProto[key].mapValue.fields.type.stringValue;
-        // This for-loop is for getting answers of user at one place
+//       for (const [key, value] of Object.entries(getBddata._fieldsProto)) {
+//         var type =  getBddata._fieldsProto[key].mapValue.fields.type.stringValue;
+//         // This for-loop is for getting answers of user at one place
       
-        for (const [key1, value1] of Object.entries(getBddata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
-          categoriesgb.push(value1);
-        }
-        sgb = categoriesgb.join(""); 
-        ansgb[key] = sgb;
-        categoriesgb = [];
-        //=============================================================================================
-        if(type === "Objective"){
-        for (const [key2, value2] of Object.entries(getMbdata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
-          categoriesmb.push(value2);
-        }
-        var smb = categoriesmb.join("");
+//         for (const [key1, value1] of Object.entries(getBddata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
+//           categoriesgb.push(value1);
+//         }
+//         sgb = categoriesgb.join(""); 
+//         ansgb[key] = sgb;
+//         categoriesgb = [];
+//         //=============================================================================================
+//         if(type === "Objective"){
+//         for (const [key2, value2] of Object.entries(getMbdata._fieldsProto[key].mapValue.fields.Answer.stringValue)) {
+//           categoriesmb.push(value2);
+//         }
+//         var smb = categoriesmb.join("");
 
-        ansmb[key] = smb;
-        categoriesmb=[];
+//         ansmb[key] = smb;
+//         categoriesmb=[];
         
-        if(sgb == smb){
-          ans[key]=sgb;
-          score++;
-        }
-      }
-      else if(type === "Subjective"){
-      messages.push(sgb);
-      ans[key]=sgb;
-    }
-  }
-  //  await this.$store.commit("assessment/setSubAns",messages);
-  ans["subans"] = messages;
-  ans["score"] = score;
+//         if(sgb == smb){
+//           ans[key]=sgb;
+//           score++;
+//         }
+//       }
+//       else if(type === "Subjective"){
+//       messages.push(sgb);
+//       ans[key]=sgb;
+//     }
+//   }
+//   //  await this.$store.commit("assessment/setSubAns",messages);
+//   ans["subans"] = messages;
+//   ans["score"] = score;
 
-    return admin.firestore().collection('Assessment').doc('Correct-Answers').set(ans);
-});
+//     return admin.firestore().collection('Question-Paper').doc('Correct-Answers').set(ans);
+// });
     
 exports.addAdminRole = functions.https.onCall((data, context) => {
   // check request is made by an admin
@@ -112,7 +114,7 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
         listAllUsers(listUsersResult.pageToken);
       }
       // console.log("listUser of add admin role");
-       return admin.firestore().collection('Assessment').doc('Emails').set(Object.assign({},emails));
+       return admin.firestore().collection('Question-Paper').doc('Emails').set(Object.assign({},emails));
       })
     .catch(function(error) {
       console.log('Error listing users:', error);
@@ -144,7 +146,7 @@ exports.setFalseClaim = functions.https.onCall((data, context) => {
         listAllUsers(listUsersResult.pageToken);
       }
         console.log("listUser of setFalseClaim");
-       return admin.firestore().collection('Assessment').doc('Emails').set(Object.assign({},emails));
+       return admin.firestore().collection('Question-Paper').doc('Emails').set(Object.assign({},emails));
       })
     .catch(function(error) {
       console.log('Error listing users:', error);
@@ -152,26 +154,4 @@ exports.setFalseClaim = functions.https.onCall((data, context) => {
   }).catch(err => {
     return err;
   });
-});
-
-exports.listUser = functions.https.onCall((data, context) => {
-    var emails=[];
-     return admin.auth().listUsers(1000)
-      .then(function(listUsersResult) {
-        listUsersResult.users.forEach(function(userRecord) {
-          var email = userRecord.toJSON().email;
-          var adminclaim = userRecord.toJSON().customClaims.admin;
-          emails[email] = adminclaim;
-          //  return userRecord.toJSON();
-        });
-        if (listUsersResult.pageToken) {
-          // List next batch of users.
-          listAllUsers(listUsersResult.pageToken);
-        }
-         return admin.firestore().collection('Assessment').doc('Emails').set(Object.assign({},emails));
-         console.log("listUser executed");
-       })
-      .catch(function(error) {
-        console.log('Error listing users:', error);
-      });
 });

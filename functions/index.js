@@ -34,8 +34,50 @@ exports.randomPicker = functions.https.onCall((data, context) => {
     }
   });
 });
-exports.updateUser = functions.https.onCall((data, context) => {
 
+exports.updateUser = functions.https.onCall((data, context) => {
+  var categories = [];
+  var master = [];
+  var masterqid = [];
+  admin.firestore().collection("Assessment").get().then(querySnapshot => {
+    if (querySnapshot.empty) {
+    //this.$router.push('/HelloWorld')
+    } else {
+      querySnapshot.forEach(function(doc) {
+        categories[doc.id]=doc.data();
+      });
+    }
+  });
+  console.log("Categories:- ",categories);
+  // admin.firestore().collection("Master-Bank").doc("Master-Bank").get().then(querySnapshot => {
+  //   if (querySnapshot.empty) {
+  //   //this.$router.push('/HelloWorld')
+  //   } else {
+  //     master.push(querySnapshot.data())
+  //     for (const [key, value] of Object.entries(master["0"])) {
+  //      masterqid[value.Qid] = value;  
+  //     }
+  //   }
+  // });
+
+  // console.log("categories", categories);
+  // console.log("Master-Bank",masterqid);
+
+  for(const [key, value] of Object.entries(categories)) {
+    console.log("key:- ",key,"value:- ",value);
+    // for(const [key1, value1] of Object.entries(value)) {
+    //   var type = value1.type;
+    //   if(type === "Subjective"){
+        
+    //   }
+    //   else if(type === "Objective"){
+    //     var mqid = masterqid[value1.Qid].Qid;
+    //     if(mqid === value1.Qid){
+    //       console.log("Master:- ",masterqid["Question"]," Question:- ", value.Question);
+    //     }
+    //   }
+    // }
+  }
 })
 // exports.updateUser = functions.firestore.document('Assessment/Question-Paper')
 //   .onUpdate(async (change, context) => {

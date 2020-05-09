@@ -12,7 +12,7 @@
     "node": "8"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "^1.7.2",
+    "@tensorflow/tfjs": "^1.7.4",
     "firebase-admin": "^8.6.0",
     "firebase-functions": "^3.3.0",
     "node-fetch": "^2.6.0",

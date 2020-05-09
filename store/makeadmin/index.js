@@ -200,15 +200,15 @@ export const actions = {
                 }//temp over
                 
                  subans[key]=Result;
-                 db.collection("Result").doc(key).set(Result)
+                
+              }//End of Main Forloop
+                console.log("Subans:- ",subans);
+                db.collection("Question-Paper").doc("Result").set(subans)
                 .then(()=>{
-                 
+                 alert("Answer Submited")
                 }).catch(error=>{
                   console.log("Error:- ",error);
                 });
-              }//End of Main Forloop
-                console.log("Subans:- ",subans);
-               
             }
           });
           

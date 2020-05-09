@@ -80,7 +80,7 @@ export const actions = {
       var categories = [];
       var master = [];
       var masterqid = [];
-      var subans=[];
+      var subans={};
       
        db.collection("Assessment").get().then(querySnapshot => {
         if (querySnapshot.empty) {
@@ -90,7 +90,7 @@ export const actions = {
           querySnapshot.forEach(function(doc) {
             categories[doc.id]=doc.data();
           });
-          db.collection("Master-Bank").doc("Master-Bank").get().then(querySnapshot => {
+          db.collection("Master-Bank").doc("Master-Bank").get().then(async querySnapshot => {
             if (querySnapshot.empty) {
             //this.$router.push('/HelloWorld')
             } else {
@@ -102,7 +102,7 @@ export const actions = {
               for(const [key, value] of Object.entries(categories)) {
                 var score = 0;
                 var temp=[];
-                var Result=[];
+                var Result={};
                 console.log("key:- ",key,"Value:- ",value);
                 // Second For Loop
                 for(const [key1, value1] of Object.entries(value)) {
@@ -122,7 +122,7 @@ export const actions = {
 
                 if(temp.length === 0){
                   console.log("temp is zero");
-                  // Result["nature"] = "Cannot be determine"
+                  Result["nature"] = "Cannot be determine"
                 }else{
                   // ML Code
               
@@ -190,21 +190,29 @@ export const actions = {
                       else {
                         nature = "Ignorance"
                       }
-                      Result["nature"] = nature;
-                      console.log("Nature:- ",Result);    
-                      console.log("Nature:- ",nature);    
+                      console.log("Nature:- ",nature);
+                      return nature;
                   }
                  
-                  run(temp);
+                  await run(temp).then(result =>{
+                    Result["nature"] = result;
+                  });
                 }//temp over
                 
-                subans[key]=Result;
+                 subans[key]=Result;
+                 db.collection("Result").doc(key).set(Result)
+                .then(()=>{
+                 
+                }).catch(error=>{
+                  console.log("Error:- ",error);
+                });
               }//End of Main Forloop
-               console.log("Subans:- ",subans);
+                console.log("Subans:- ",subans);
+               
             }
           });
           
         }
       });
-      }
+    }
 };

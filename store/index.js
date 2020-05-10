@@ -51,7 +51,7 @@ export const actions={
         var valueCat=[];
         categories.push(querySnapshot.data());
         commit("setCategories", categories);
-        for (const [key, value] of Object.entries(this.state.projects["0"])) {
+        for (const [key, value] of Object.entries(categories["0"])) {
          len = len + 1;
           valueCat.push(value);
         }

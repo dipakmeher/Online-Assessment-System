@@ -53,11 +53,11 @@
 
         <v-col cols="5">
              <!-- Timer Card -->
-          <v-card outlined class="ma-10" style="height:30%"> 
+          <v-card outlined class="ma-10 timer-card" min-height="110px"> 
             <p class="subtitle-2 text-center">Time Left:-</p>
             <p class="display-2 text-center" style="">{{ formattedTimeLeft }}</p>
           </v-card>
-            <v-card flat class="ma-10 my-auto" style="position:absolute;">
+            <v-card flat class="ma-10 my-auto question-no">
             <v-stepper-header style="height:100%">
         <template v-for="(Questions,index) in projects">
           <v-stepper-step
@@ -177,7 +177,7 @@ import {mapState} from 'vuex'
       const timeLeft = this.timeLeft;
       if(timeLeft == 0){
         clearInterval(this.timerInterval);
-        this.overlay = !this.overlay;
+        // this.overlay = !this.overlay;
       }
       const hours = Math.floor(timeLeft /60/60);
 
@@ -219,5 +219,11 @@ position: fixed;
 .navbar{
   text-align: center;
   width:100%;
+}
+  /* .timer-card{
+    position: fixed;
+  } */
+.question-no{
+  position: fixed;
 }
 </style>

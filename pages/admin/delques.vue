@@ -2,7 +2,7 @@
   <v-content>
      <v-container class="container">
          <v-app-bar class="white smallnav">
-           <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p></p>
+           <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p>
         </v-app-bar>
     
     <div  class="scrollmenu primary darken-2" id="cafelist">
@@ -81,13 +81,13 @@ export default {
 
 <style>
 .scrollmenu {
-  width: 75%;
+  width: 70%;
   height: 400px;
   overflow: auto;
   white-space: nowrap;
 }  
 .smallnav{
-    width:75%;
+    width:70%;
     top:0;
     white-space: nowrap;
 } 

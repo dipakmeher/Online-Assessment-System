@@ -156,7 +156,7 @@ import {mapState} from 'vuex'
       },
        Firestoreupdate(){
         this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
-        // this.$store.dispatch("assessment/fetchSubAns");
+         this.$store.dispatch("assessment/fetchSubAns");
       });
     },
       startTimer() {
@@ -220,9 +220,6 @@ position: fixed;
   text-align: center;
   width:100%;
 }
-  /* .timer-card{
-    position: fixed;
-  } */
 .question-no{
   position: fixed;
 }

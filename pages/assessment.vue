@@ -106,7 +106,7 @@
   </v-content>
 </template>
 <script>
-import db from '../plugins/firebase'
+import db from '@/plugins/firebase'
 import {mapGetters} from 'vuex'
 import {mapState} from 'vuex'
   export default {
@@ -156,7 +156,7 @@ import {mapState} from 'vuex'
       },
        Firestoreupdate(){
         this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
-         this.$store.dispatch("assessment/fetchSubAns");
+         //this.$store.dispatch("assessment/fetchSubAns");
       });
     },
       startTimer() {

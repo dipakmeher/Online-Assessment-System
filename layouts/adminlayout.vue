@@ -53,18 +53,26 @@
                     </v-list-item>
                     <v-list-item to="/admin/changetiming" @click="item='Change Exam Timings'">
                        <v-list-item-icon>
-                        <v-icon> mdi-email-open</v-icon>
+                        <v-icon> timer</v-icon>
                       </v-list-item-icon>
                       <v-list-item-content>
                         <v-list-item-title>Change Exam Timings</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
-                     <v-list-item to="/assessment" @click="item='Assessment'">
+                     <v-list-item to="/user/assessment" @click="item='Assessment'">
                        <v-list-item-icon>
                         <v-icon> open_in_browser</v-icon>
                       </v-list-item-icon>
                       <v-list-item-content>
                         <v-list-item-title>Take Assessment</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item to="/admin/result" @click="item='Results'">
+                       <v-list-item-icon>
+                        <v-icon> settings_ethernet</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title>Results</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>

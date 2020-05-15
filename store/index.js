@@ -1,7 +1,9 @@
-import db from '../plugins/firebase'
+import db from '@/plugins/firebase'
 import JWTDecode from "jwt-decode";
 import cookieparser from "cookieparser";
 import { functions } from "@/plugins/firebase";
+const tf = require("@tensorflow/tfjs");
+const fetch = require("node-fetch");
 
 export const state = () => ({
     projects:[],
@@ -89,8 +91,12 @@ export const actions={
     var user = this.state.users.user;
     console.log("GetUser:- ",user);    
     return db.collection("Assessment").doc(user.uid).set(Object.assign({}, state.projects["0"]))
-    .then(()=>{
-      alert("Answer Submitted");
+    .then(async()=>{
+      const evaluateAnswer = functions.httpsCallable('evaluateAnswer');
+      await evaluateAnswer({ email: user.uid }).then(result => {
+        this.$store.dispatch("assessment/fetchSubAns",user.uid);
+      })
+
     }).catch(error=>{
       console.log("Error:- ",error);
     });

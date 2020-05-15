@@ -6,18 +6,26 @@ import { functions } from "@/plugins/firebase";
 export const state = () => ({
     messages:[],
     time:30,
-    msgupdated:false
+    msgupdated:false,
+    result:[]
 })
 
 export const getters = {
   getmsgupdate (state) {
     return state.msgupdated;
+  },
+  getresult(state){
+    return state.result;
   }
 }
 
 export const mutations = {
     setSubAns(state,payload){
         state.messages = payload;
+    },
+    setResult(state,payload){
+      state.result = payload;
+      console.log("Set Result invoked=> ",payload);
     },
     setTime(state,payload){
       state.time=payload;
@@ -28,9 +36,7 @@ export const mutations = {
 
 export const actions={
   // Fetch Categories
-  fetchSubAns({ commit }) {
-    const updateUser = functions.httpsCallable('updateUser');
-    updateUser().then(result => {
+  fetchSubAns({ commit },payload) {
       var master=[];
       var subans = {};
        db.collection("Question-Paper").doc("Subjective-Answers").get().then(async querySnapshot => {
@@ -38,7 +44,7 @@ export const actions={
          //this.$router.push('/HelloWorld')
          } else {
            master.push(querySnapshot.data())
-
+           fetchSubAns
            // Main for loop
            for(const [key, value] of Object.entries(master["0"])) {
              var Result = {};
@@ -148,6 +154,17 @@ export const actions={
            })
          }
        })
-    });
-  } 
+  },
+  // showResult
+  async showResult({commit}){
+    console.log("showResult got invoked");
+    db.collection("Question-Paper").doc("Result").get().then(async querySnapshot => {
+      if (querySnapshot.empty) {
+      //this.$router.push('/HelloWorld')
+      } else {
+        await commit("setResult",querySnapshot.data());
+        // console.log("Result=> ",this.state.result);
+      }
+    })
+  }
 };  

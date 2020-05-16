@@ -93,8 +93,9 @@ exports.updateUser = functions.https.onCall((data, context) => {
   })
 })
 
-exports.evaluateAnswer = functions.https.onCall((data, context) => {
-  admin.firestore().collection("Assessment").doc(data.email).get().then(querySnapshot => {
+exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
+  console.log("Data.email=> ",data.uid);
+  await admin.firestore().collection("Assessment").doc(data.uid).get().then(querySnapshot => {
     if (querySnapshot.empty) {
     //this.$router.push('/HelloWorld')
     } else {
@@ -129,10 +130,9 @@ exports.evaluateAnswer = functions.https.onCall((data, context) => {
             }//End of Second For Loop
             Result["score"]=score;
             Result['subans']=temp;
-            console.log("Result=> ",Result);
-            admin.firestore().collection("Result").doc(data.email).set(Result)
+            admin.firestore().collection("Result").doc(data.uid).set(Result)
             .then(()=>{
-             alert("Answer Submited")
+             console.log("Evaluate Answer ran successfully.");
             }).catch(error=>{
               console.log("Error:- ",error);
             });

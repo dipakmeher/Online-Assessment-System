@@ -1,9 +1,11 @@
 <template>
   <v-content>
-    <v-btn @click="evaluation()" class="evaluate-btn">Evaluation</v-btn>
+    <v-card class="evaluate-btn text-center" max-height="50px" max-width="110px">
+      <v-card-title>Results</v-card-title> 
+    </v-card>
     <v-container class="container">
          <v-app-bar class="yellow lighten-4 smallnav">
-           <p class="ma-2 font-weight-medium subtitle-1">Total User:-<p class=" ma-1 display-1 font-weight-bold"> </p></p>
+           <p class="ma-2 font-weight-medium subtitle-1"><p class=" ma-1 display-1 font-weight-bold"> </p>
         </v-app-bar>
         <v-card class="scrollmenu" height="300px" flat>
             <v-list>
@@ -21,13 +23,13 @@
                   <v-col cols="3" >
                    <v-list-item-content class="ml-5">
                     <v-list-item-title v-if="Questions.score <= 1">
-                      <v-chip class="yellow" text-color="white">{{Questions.score}}</v-chip>  
+                      <v-chip class="red" text-color="white">{{Questions.score}}</v-chip>  
                     </v-list-item-title>
                     <v-list-item-title v-else-if="Questions.score <= 2">
-                      <v-chip class="yellow" text-color="white">{{Questions.score}}</v-chip>  
+                      <v-chip class="yellow" text-color="primary darken-4">{{Questions.score}}</v-chip>  
                     </v-list-item-title>
                     <v-list-item-title v-else>
-                      <v-chip class="green" text-color="white">{{Questions.score}}</v-chip>  
+                      <v-chip class="green darken-4" text-color="white">{{Questions.score}}</v-chip>  
                     </v-list-item-title>
                   </v-list-item-content>
                   </v-col>
@@ -35,8 +37,14 @@
                   <v-divider vertical></v-divider>
                   <v-col cols="3" >
                    <v-list-item-content class="ml-2">  
-                    <v-list-item-title>
-                        <v-chip class="green" text-color="white">{{Questions.nature}}</v-chip>  
+                    <v-list-item-title v-if="Questions.nature === 'Ignorance'">
+                        <v-chip class="red" text-color="white">{{Questions.nature}}</v-chip>  
+                    </v-list-item-title>
+                    <v-list-item-title v-else-if="Questions.nature === 'Passion'">
+                        <v-chip class="yellow" text-color="primary darken-4">{{Questions.nature}}</v-chip>  
+                    </v-list-item-title>
+                    <v-list-item-title v-else>
+                        <v-chip class="green darken-4" text-color="white">{{Questions.nature}}</v-chip>  
                     </v-list-item-title>
                   </v-list-item-content>
                   </v-col>
@@ -56,14 +64,17 @@ import {mapGetters} from 'vuex'
 import {mapState} from 'vuex'
 export default {
     layout:'adminlayout',
-    methods:{
-        evaluation(){
-            this.$store.dispatch("assessment/showResult");
-            // this.$store.dispatch("assessment/fetchSubAns").then(()=>{
-            //     // this.$store.dispatch("assessment/showResult");
-            // });
-        }
+    created(){
+      this.$store.dispatch("assessment/showResult");
     },
+    // methods:{
+    //     evaluation(){
+    //         this.$store.dispatch("assessment/showResult");
+    //         // this.$store.dispatch("assessment/fetchSubAns").then(()=>{
+    //         //     // this.$store.dispatch("assessment/showResult");
+    //         // });
+    //     }
+    // },
     computed:{
         ...mapGetters({
             projects:'assessment/getresult',
@@ -77,5 +88,8 @@ export default {
 .evaluate-btn{
     margin-left:380px;
     margin-top:20px;
+}
+.container{
+  position: auto;
 }
 </style>

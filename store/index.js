@@ -77,7 +77,7 @@ export const actions={
     }
   },
   //============================================================================
-  UpdateAnswers({commit,state},payload){
+  UpdateAnswers({commit,state,dispatch},payload){
     let categories = [];
     var check = [];
     categories = payload;
@@ -91,12 +91,13 @@ export const actions={
     var user = this.state.users.user;
     console.log("GetUser:- ",user);    
     return db.collection("Assessment").doc(user.uid).set(Object.assign({}, state.projects["0"]))
-    .then(async()=>{
+    .then(async()=>{      
       const evaluateAnswer = functions.httpsCallable('evaluateAnswer');
-      await evaluateAnswer({ email: user.uid }).then(result => {
-        this.$store.dispatch("assessment/fetchSubAns",user.uid);
+      await evaluateAnswer({ uid: user.uid }).then(result => {
+        dispatch("assessment/fetchSubAns",user.uid).then(()=>{
+          alert("ML code executed");
+        })
       })
-
     }).catch(error=>{
       console.log("Error:- ",error);
     });

@@ -16,7 +16,7 @@ export default {
   layout:'adminlayout',
   methods: {
     transfer(){
-      this.$store.dispatch("makeadmin/evaluation");
+      this.$store.dispatch("assessment/fetchSubAns");
     },
     async logout() {
       await auth.signOut();

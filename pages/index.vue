@@ -14,7 +14,7 @@
           </v-snackbar>
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
+              <v-toolbar color="primary darken-2" dark flat>
                 <v-toolbar-title>Login form</v-toolbar-title> </v-toolbar>
               <v-card-text>
                 <v-form @submit.prevent="login" @submit.enter="login">
@@ -39,7 +39,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn  @click="login" type="submit" class="btn btn-primary"  color="primary" style="width:100%;" id="login">Login</v-btn>
+                <v-btn  @click="login" type="submit" class="btn btn-primary primary darken-2"  color="primary" style="width:100%;" id="login">Login</v-btn>
                 </v-card-actions>
                 <v-card-actions >
                   <v-alert  v-if="isError" type="error" class="alert alert-danger">

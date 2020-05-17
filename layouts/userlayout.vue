@@ -10,7 +10,7 @@
                 <v-list-item  >
                   <v-list-item-content >
                     <v-list-item-title class="title">
-                      Welcome Admin 
+                      Welcome User 
                     </v-list-item-title>
                     <br><br>
                   </v-list-item-content>
@@ -19,44 +19,12 @@
                 <v-subheader>Pages</v-subheader>
                 <!-- groups -->
                 <v-list-item-group color="primary darken-2">
-                    <v-list-item to="/admin" @click="item='Home'">
+                    <v-list-item to="/user" @click="item='Home'">
                       <v-list-item-icon >
                         <v-icon > home</v-icon>
                       </v-list-item-icon>
                       <v-list-item-content>
                         <v-list-item-title>Home</v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item to="/admin/addques" @click="item='Add Question'">
-                       <v-list-item-icon >
-                        <v-icon > mdi-inbox</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title>Add Question</v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item to="/admin/delques" @click="item='Delete Question'">
-                       <v-list-item-icon>
-                        <v-icon> mdi-star</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title>Delete Question</v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item to="/admin/makeadmin" @click="item='Make Admin'">
-                       <v-list-item-icon>
-                        <v-icon> mdi-send</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title>MakeAdmin</v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item to="/admin/changetiming" @click="item='Change Exam Timings'">
-                       <v-list-item-icon>
-                        <v-icon> timer</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title>Change Exam Timings</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
                      <v-list-item to="/user/assessment" @click="item='Assessment'">
@@ -67,12 +35,12 @@
                         <v-list-item-title>Take Assessment</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
-                    <v-list-item to="/admin/result" @click="item='Results'">
+                    <v-list-item to="/user/result" @click="item='Results'">
                        <v-list-item-icon>
                         <v-icon> settings_ethernet</v-icon>
                       </v-list-item-icon>
                       <v-list-item-content>
-                        <v-list-item-title>Results</v-list-item-title>
+                        <v-list-item-title>Your Results</v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
@@ -126,7 +94,7 @@ import Cookie from "js-cookie";
   export default {
     data () {
       return {
-        item:"Admin Page",
+        item:"User Page",
         dialog: false,
       }
       

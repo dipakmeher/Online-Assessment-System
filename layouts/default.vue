@@ -1,7 +1,7 @@
 <template>
   <v-app>  
-    <v-app-bar app color="primary" dark >
-    <span class="display-1 font-weight-bold	text--success">Online Assessment Portal</span>
+    <v-app-bar app color="primary darken-4" dark >
+    <span class="display-1 font-weight-bold">Online Assessment Portal</span>
 
     <v-spacer></v-spacer>
     <v-btn text color="white darken-1" @click="logout" v-if="accounts"> Logout </v-btn>
@@ -24,7 +24,7 @@
      
     <nuxt />  
         
-    <v-footer app class="primary" dark >
+    <v-footer app class="primary darken-4" dark >
        <v-col
         class="text-center"
         cols="12"

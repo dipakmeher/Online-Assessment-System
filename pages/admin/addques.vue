@@ -1,6 +1,6 @@
 <template>
   <v-content>
-      <v-card class="main-card" min-width="48%" min-height="50%"> 
+      <v-card class="main-card" min-width="60%" min-height="50%"> 
         <v-toolbar color="primary darken-2" dark flat>
           <v-toolbar-title class="addquestion display-1 font-weight-medium">Add Question</v-toolbar-title> 
         </v-toolbar>
@@ -16,16 +16,16 @@
               <v-expansion-panel-content>
                 <v-row>
                   <v-col cols="3">
-                    <v-text-field light single-line outlined v-model="c1" label="c1"  required></v-text-field>
+                    <v-text-field light single-line outlined v-model="c1" label="c1" class="t1" required></v-text-field>
                   </v-col>
                   <v-col cols="3">
-                    <v-text-field light single-line outlined v-model="c2" label="c2" required></v-text-field>
+                    <v-text-field light single-line outlined v-model="c2" label="c2" class="t1" required></v-text-field>
                   </v-col>
                   <v-col cols="3">
-                    <v-text-field light single-line outlined v-model="c3" label="c3" required></v-text-field>
+                    <v-text-field light single-line outlined v-model="c3" label="c3" class="t1" required></v-text-field>
                   </v-col>
                   <v-col cols="3">
-                    <v-text-field light single-line outlined v-model="c4" label="c4" required></v-text-field>
+                    <v-text-field light single-line outlined v-model="c4" label="c4" class="t1" required></v-text-field>
                   </v-col>
                 </v-row>
               </v-expansion-panel-content>
@@ -40,7 +40,7 @@
           </v-expansion-panels>
 
           <v-text-field light :counter="10" v-model="answer" label="Answer" prepend-icon="library_books" required></v-text-field>
-
+          <v-btn class="primary darken-2 add-btn" @click="addData()">Add Question</v-btn>
         </v-form>
      </v-card>
   </v-content>
@@ -51,7 +51,7 @@ import db from '@/plugins/firebase'
 import {mapGetters} from 'vuex'
 import {mapState} from 'vuex'
 import {mapActions} from 'vuex'
-
+import { uuid } from 'vue-uuid';
 export default {
   layout:'adminlayout',
   data() {
@@ -76,9 +76,10 @@ export default {
       if(this.$refs.form.validate()){
         if(this.variant === "Objective"){
           var newquestion={
-            [Date.now()]:{
+            [uuid.v1()]:{
               Question:this.question,
               type:this.variant,
+              Qid:uuid.v1(),
               Choices:{
                 c1:this.c1,
                 c2:this.c2,
@@ -90,14 +91,15 @@ export default {
           }
         }else if(this.variant === "Subjective"){
           var newquestion={
-            [Date.now()]:{
+            [uuid.v1()]:{
               Question:this.question,
+              Qid:uuid.v1(),
               type:this.variant,
               Answer:""
             }
           }
         }
-      db.collection("Assessment").doc("Question-Paper").get().then(querySnapshot => {
+      db.collection("Master-Bank").doc("Master-Bank").get().then(querySnapshot => {
         if (querySnapshot.empty) {
           //this.$router.push('/HelloWorld')
         } else {
@@ -108,10 +110,10 @@ export default {
           que = que.substring(1);
           var newarray1 = newarray.concat(que);
            //console.log(que);
-          db.collection("Assessment").doc("Question-Paper").set(JSON.parse(newarray1))
+          db.collection("Master-Bank").doc("Master-Bank").set(JSON.parse(newarray1))
           .then(()=>{ 
             alert("Form Submitted");
-            this.$refs.form.reset();
+             this.$refs.form.reset();
           })
         }
       })
@@ -123,9 +125,15 @@ export default {
 
 <style>
 .main-card{
-  margin-left: 170px;
+  margin-left: 80px;
   margin-top: 20px;
   position: fixed;
   overflow: auto;
+}
+.add-btn{
+  margin-left: 38%;
+}
+.t1{
+  width: 150px;
 }
 </style>

@@ -1,7 +1,19 @@
 <template>
   <v-content>
     <v-container>
-     <v-btn @click="transfer" class="primary">Transfer Document</v-btn>
+      <v-row>
+        <v-col cols="4">
+          <v-card class="success" min-height="100px">
+            <v-btn @click="transfer">Checking UUID</v-btn>
+          </v-card>
+        </v-col>
+        <v-col cols="3">
+          <v-card class="primary"></v-card>
+        </v-col>
+        <v-col cols="3">
+          <v-card class="primary"></v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </v-content>
 </template>
@@ -12,11 +24,13 @@
 import { functions } from "@/plugins/firebase";
 import { auth } from "@/plugins/firebase";
 import Cookie from "js-cookie";
+import { uuid } from 'vue-uuid';
 export default {
   layout:'adminlayout',
   methods: {
     transfer(){
-      this.$store.dispatch("assessment/fetchSubAns");
+      // this.$store.dispatch("assessment/Uuid");
+      console.log("Uuid:- ",uuid.v1());
     },
     async logout() {
       await auth.signOut();

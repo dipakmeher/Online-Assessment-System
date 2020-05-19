@@ -1,6 +1,7 @@
 import db from '@/plugins/firebase'
 const tf = require("@tensorflow/tfjs");
 const fetch = require("node-fetch");
+
 import { functions } from "@/plugins/firebase";
 
 export const state = () => ({
@@ -89,7 +90,7 @@ export const actions={
                     const paddedSequence = padSequences([sequence], metadata);
                     const input = tf.tensor2d(paddedSequence, [1, metadata.max_len]);
                   
-                    const predictOut = model.predict(input);
+                    const predictOut = modthis.$store.dispatch("assessment/Uuid");el.predict(input);
                     const score = predictOut.dataSync()[0];
                     predictOut.dispose();
                     return score;
@@ -152,5 +153,8 @@ export const actions={
         console.log("Result=> ",result);
       }
     })
+  },
+  Uuid({commit}){
+    console.log("uuid:- ",uuid.v1());
   }
 };  

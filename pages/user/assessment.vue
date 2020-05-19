@@ -66,7 +66,7 @@
             :step="index+1"
             editable
           >
-            Step {{ index }}
+            Q.{{ index }}
           </v-stepper-step>
 
         </template>

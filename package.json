@@ -30,8 +30,11 @@
     "net": "^1.0.2",
     "node-fetch": "^2.6.0",
     "nuxt": "^2.0.0",
+    "nuxt-uid-module": "^0.2.0",
     "sentiment": "^5.0.2",
     "tls": "0.0.1",
+    "uuid": "^8.0.0",
+    "vue-uuid": "^1.1.1",
     "vue2-flip-countdown": "^0.9.3",
     "vuejs-countdown": "^0.2.1",
     "vuejs-countdown-timer": "^2.1.2"

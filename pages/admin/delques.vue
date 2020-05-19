@@ -58,11 +58,11 @@ export default {
   },
   created() {
     this.noofque = this.$store.state.projectlen;
-    this.$store.dispatch("fetchCategories"); 
+    this.$store.dispatch("fetchMasterBank"); 
   },
   computed:{
       ...mapGetters({
-          projects: 'get',
+          projects: 'getMasterBank',
       }),
       Quecount(){
         return noofque;

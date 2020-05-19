@@ -8,12 +8,16 @@ const fetch = require("node-fetch");
 export const state = () => ({
     projects:[],
     projectlen:0,
-    value:[]
+    value:[],
+    masterbank:[]
 })
 
 export const getters = {
     get (state) {
       return state.projects["0"]
+    },
+    getMasterBank (state) {
+      return state.masterbank["0"]
     },
     getlen (state) {
       return state.projectlen;
@@ -26,6 +30,9 @@ export const getters = {
 export const mutations={
   setCategories(state, val) {
     state.projects = val; 
+  },
+  setMasterBank(state, val) {
+    state.masterbank = val; 
   },
   setValue(state, val) {
     state.value = val; 
@@ -57,9 +64,25 @@ export const actions={
          len = len + 1;
           valueCat.push(value);
         }
+        commit("setValue", valueCat);
+      }
+    });
+  },
+  fetchMasterBank({ commit }) {
+    var len = 0;
+    db.collection("Master-Bank").doc("Master-Bank").get().then(querySnapshot => {
+      if (querySnapshot.empty) {
+        //this.$router.push('/HelloWorld')
+      } else {
+        var categories = [];
+        var valueCat=[];
+        categories.push(querySnapshot.data());
+        commit("setMasterBank", categories);
+        for (const [key, value] of Object.entries(categories["0"])) {
+         len = len + 1;
+        }
         console.log("len:- ",len);
         commit("setlen",len);
-        commit("setValue", valueCat);
       }
     });
   },

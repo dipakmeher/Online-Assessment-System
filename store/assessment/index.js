@@ -6,7 +6,7 @@ import { functions } from "@/plugins/firebase";
 
 export const state = () => ({
     messages:[],
-    time:30,
+    time:0,
     msgupdated:false,
     result:[]
 })
@@ -28,10 +28,14 @@ export const mutations = {
       state.result = payload;
       console.log("Set Result invoked=> ",payload);
     },
-    setTime(state,payload){
+    // setTime(state,payload){
+    //   state.time=payload;
+    //   state.msgupdated=true;
+    //   console.log("SetTime Mutation invoked.",state.msgupdated)
+    // },
+    fetchTime(state,payload){
       state.time=payload;
-      state.msgupdated=true;
-      console.log("SetTime Mutation invoked.",state.msgupdated)
+      console.log("FetchTime Mutation invoked.",state.time);
     }
   };
 
@@ -46,7 +50,6 @@ export const actions={
            var Result = {};
            var subanswer = {};
            var temp = querySnapshot.data().subans;
-           console.log("Master=> ", temp);
            if(temp.length === 0){
                 Result["nature"] = "Cannot be determind";
               }else{
@@ -90,7 +93,7 @@ export const actions={
                     const paddedSequence = padSequences([sequence], metadata);
                     const input = tf.tensor2d(paddedSequence, [1, metadata.max_len]);
                   
-                    const predictOut = modthis.$store.dispatch("assessment/Uuid");el.predict(input);
+                    const predictOut = model.predict(input);
                     const score = predictOut.dataSync()[0];
                     predictOut.dispose();
                     return score;
@@ -115,18 +118,15 @@ export const actions={
                     else {
                       nature = "Ignorance"
                     }
-                    console.log("Nature:- ",nature);
                     return nature;
                 }
                
                 await run(temp).then(result =>{
                   Result["nature"] = result;
                 });
-                console.log("Result=> ",Result);
              // ML Code ends
             }//end of subans if loop
             Result["score"]= querySnapshot.data().score;
-            console.log("Result=> ",Result);
             // subanswer[payload]=Result;
                return db.collection("Result").doc(payload).set(Result)
                .then(()=>{
@@ -139,7 +139,6 @@ export const actions={
   },
   // showResult
   async showResult({commit}){
-    console.log("showResult got invoked");
     db.collection("Result").get().then(async querySnapshot => {
       if (querySnapshot.empty) {
       //this.$router.push('/HelloWorld')
@@ -150,11 +149,24 @@ export const actions={
           result[doc.id]=doc.data();
       });
        await commit("setResult",result);
-        console.log("Result=> ",result);
       }
     })
   },
-  Uuid({commit}){
-    console.log("uuid:- ",uuid.v1());
-  }
+  async fetchTime({commit}){
+    db.collection("Question-Paper").doc('time').get().then(async querySnapshot => {
+      if (querySnapshot.empty) {
+      //this.$router.push('/HelloWorld')
+      } else {
+        // console.log("Time:- ",querySnapshot.data());
+        await commit("fetchTime",querySnapshot.data().time);
+      }
+    })
+  },
+  async changeTime({commit},payload){
+    var time = {};
+    time["time"] = payload;
+    await db.collection("Question-Paper").doc('time').set(time).then(()=>{
+      state.msgupdated=true;
+    });
+  },
 };  

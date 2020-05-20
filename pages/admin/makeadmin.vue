@@ -67,9 +67,6 @@ data(){
       item: 1,
   }
 },
-created(){
-  this.$store.dispatch("makeadmin/fetchCategories");
-},
 computed:{
   ...mapGetters({
       projects:'makeadmin/get',

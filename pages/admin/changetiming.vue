@@ -77,7 +77,8 @@ methods: {
     validate () {
       if(this.$refs.form.validate()){
         var examtime = (this.hour*60*60)+(this.minute*60)+(this.second);
-        this.$store.commit("assessment/setTime",examtime)
+        //Time will be stored in seconds
+        this.$store.dispatch("assessment/changeTime",examtime);
           this.snackbar=true;
       }
     },

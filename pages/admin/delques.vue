@@ -56,10 +56,6 @@ export default {
         noofque:this.$store.state.projectlen
     }
   },
-  created() {
-    this.noofque = this.$store.state.projectlen;
-    this.$store.dispatch("fetchMasterBank"); 
-  },
   computed:{
       ...mapGetters({
           projects: 'getMasterBank',

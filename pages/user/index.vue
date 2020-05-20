@@ -8,7 +8,13 @@
 
 <script>
  export default{
-   layout:'userlayout'
+   layout:'userlayout',
+  created() {
+    this.$store.dispatch("fetchCategories");
+  },
+   async destroyed(){
+    await this.$store.dispatch("assessment/fetchTime");
+  },
  }
 </script>
 

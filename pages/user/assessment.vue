@@ -127,7 +127,7 @@ import {mapState} from 'vuex'
       }
     },
      created() {
-    this.$store.dispatch("fetchCategories");
+    // this.$store.dispatch("fetchCategories");
     this.timeLimit = this.$store.state.assessment.time;
   },
   mounted() {
@@ -167,7 +167,7 @@ import {mapState} from 'vuex'
     computed:{
     ...mapGetters({
         projects: 'getValue',
-        steps:'getlen'
+        steps:'getQlen'
     }),
     timeLeft() {
       return this.timeLimit - this.timePassed

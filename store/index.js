@@ -8,6 +8,7 @@ const fetch = require("node-fetch");
 export const state = () => ({
     projects:[],
     projectlen:0,
+    Qlen:0,
     value:[],
     masterbank:[]
 })
@@ -21,6 +22,9 @@ export const getters = {
     },
     getlen (state) {
       return state.projectlen;
+    },
+    getQlen (state) {
+      return state.Qlen;
     },
     getValue (state) {
       return state.value;
@@ -45,6 +49,9 @@ export const mutations={
   setlen(state, val) {
     state.projectlen = val; 
   },
+  setQlen(state, val) {
+    state.Qlen = val; 
+  },
 }
 
 
@@ -60,10 +67,13 @@ export const actions={
         var valueCat=[];
         categories.push(querySnapshot.data());
         commit("setCategories", categories);
+        
         for (const [key, value] of Object.entries(categories["0"])) {
          len = len + 1;
           valueCat.push(value);
         }
+        commit("setQlen",len);
+        console.log("Len:- ",len);
         commit("setValue", valueCat);
       }
     });
@@ -78,6 +88,7 @@ export const actions={
         var valueCat=[];
         categories.push(querySnapshot.data());
         commit("setMasterBank", categories);
+        console.log("Master-Bank=> ",categories);
         for (const [key, value] of Object.entries(categories["0"])) {
          len = len + 1;
         }
@@ -92,8 +103,12 @@ export const actions={
       var parent = document.getElementById('cafelist');
       var child = document.getElementById(index);
       parent.removeChild(child);
-      delete state.projects["0"][index];
-      db.collection("Master-Bank").doc("Master-Bank").set(Object.assign({}, state.projects["0"]))
+      delete state.masterbank["0"][index];
+      console.log("Index:-",index);
+      console.log("===========");
+
+      console.log("Master Bank:- ", state.masterbank);
+      db.collection("Master-Bank").doc("Master-Bank").set(Object.assign({}, state.masterbank["0"]))
           .then(()=>{ 
             alert("Question is deleted successfully...");
           });
@@ -144,8 +159,9 @@ export const actions={
     }
   },
   randomPicker({ commit }){
+    var user = this.state.users.user;
     const randomPicker = functions.httpsCallable('randomPicker');
-    randomPicker().then(result => {
+    randomPicker({uid:user.uid}).then(result => {
       console.log("Random Picker message",result);
     },err=>{
         console.log("Random Picker error:-", err);

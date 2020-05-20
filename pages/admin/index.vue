@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-container>
-      <v-row>
+      <!-- <v-row>
         <v-col cols="4">
           <v-card class="success" min-height="100px">
             <v-btn @click="transfer">Checking UUID</v-btn>
@@ -13,7 +13,7 @@
         <v-col cols="3">
           <v-card class="primary"></v-card>
         </v-col>
-      </v-row>
+      </v-row> -->
     </v-container>
   </v-content>
 </template>
@@ -27,6 +27,15 @@ import Cookie from "js-cookie";
 import { uuid } from 'vue-uuid';
 export default {
   layout:'adminlayout',
+  created() {
+    this.$store.dispatch("randomPicker");
+    this.$store.dispatch("fetchCategories");
+    this.$store.dispatch("fetchMasterBank");
+    this.$store.dispatch("makeadmin/fetchCategories");   
+  },
+  async destroyed(){
+    await this.$store.dispatch("assessment/fetchTime");
+  },
   methods: {
     transfer(){
       // this.$store.dispatch("assessment/Uuid");

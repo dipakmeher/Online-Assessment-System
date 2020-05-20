@@ -28,8 +28,12 @@ exports.randomPicker = functions.https.onCall((data, context) => {
       a=b-setque;
     }
     var newmaster = masterbank.slice(a,b);
-    return admin.firestore().collection('Question-Paper').doc('Question-Paper').set(Object.assign({},newmaster));
-
+    var finalquestion = [];
+    for (const [key, value] of Object.entries(newmaster)) {
+      delete value["Answer"]; 
+      finalquestion.push(value);
+    }
+    return admin.firestore().collection('Assessment').doc(data.uid).set(Object.assign({},finalquestion));
     }
   });
 });

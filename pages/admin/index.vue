@@ -1,6 +1,7 @@
 <template>
   <v-content>
     <v-container>
+      <v-btn @click="transfer">Fetch Categories</v-btn>
       <!-- <v-row>
         <v-col cols="4">
           <v-card class="success" min-height="100px">
@@ -27,19 +28,19 @@ import Cookie from "js-cookie";
 import { uuid } from 'vue-uuid';
 export default {
   layout:'adminlayout',
-  created() {
-    this.$store.dispatch("randomPicker");
+  async created() {
+    await this.$store.dispatch("randomPicker");
+    this.$store.dispatch("assessment/fetchTime");
     this.$store.dispatch("fetchCategories");
     this.$store.dispatch("fetchMasterBank");
     this.$store.dispatch("makeadmin/fetchCategories");   
   },
-  async destroyed(){
-    await this.$store.dispatch("assessment/fetchTime");
-  },
+  // async beforeDestroy(){
+  //   alert("Before Destroy");
+  // },
   methods: {
     transfer(){
-      // this.$store.dispatch("assessment/Uuid");
-      console.log("Uuid:- ",uuid.v1());
+     this.$store.dispatch("UpdateAnswers");
     },
     async logout() {
       await auth.signOut();

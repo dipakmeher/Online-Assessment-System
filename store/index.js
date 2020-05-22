@@ -10,7 +10,9 @@ export const state = () => ({
     projectlen:0,
     Qlen:0,
     value:[],
-    masterbank:[]
+    masterbank:[],
+    starttime:0,
+    endtime:0
 })
 
 export const getters = {
@@ -46,6 +48,12 @@ export const mutations={
     let ans = payload.ans;
     this.state.projects["0"][key].Answer = ans;
   },
+  updateStartTime(state,payload){
+    this.state.starttime = payload;
+  },
+  updateEndTime(state,payload){
+    this.state.endtime= payload;
+  },
   setlen(state, val) {
     state.projectlen = val; 
   },
@@ -59,27 +67,28 @@ export const actions={
   // Fetch Categories
   fetchCategories({ commit }) {
     var len = 0;
-    db.collection("Question-Paper").doc("Question-Paper").get().then(querySnapshot => {
+    var user = this.state.users.user;
+    db.collection("Assessment").doc(user.uid).get().then(querySnapshot => {
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
       } else {
         var categories = [];
         var valueCat=[];
-        categories.push(querySnapshot.data());
-        commit("setCategories", categories);
-        
+         categories.push(querySnapshot.data());
+         commit("setCategories", categories);
+        //console.log("User uid:- ",categories);
         for (const [key, value] of Object.entries(categories["0"])) {
          len = len + 1;
           valueCat.push(value);
         }
         commit("setQlen",len);
-        console.log("Len:- ",len);
         commit("setValue", valueCat);
       }
     });
   },
   fetchMasterBank({ commit }) {
     var len = 0;
+    
     db.collection("Master-Bank").doc("Master-Bank").get().then(querySnapshot => {
       if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
@@ -126,16 +135,17 @@ export const actions={
       } 
       commit("Update",{key, ans});
     }
-    var user = this.state.users.user;
-    console.log("GetUser:- ",user);    
+    this.state.projects["0"]["start-time"] = this.state.starttime;
+    this.state.projects["0"]["end-time"] = this.state.endtime;
+    var user = this.state.users.user;    
     return db.collection("Assessment").doc(user.uid).set(Object.assign({}, state.projects["0"]))
     .then(async()=>{      
-      const evaluateAnswer = functions.httpsCallable('evaluateAnswer');
-      await evaluateAnswer({ uid: user.uid }).then(result => {
-        dispatch("assessment/fetchSubAns",user.uid).then(()=>{
-          alert("ML code executed");
-        })
-      })
+      // const evaluateAnswer = functions.httpsCallable('evaluateAnswer');
+      // await evaluateAnswer({ uid: user.uid }).then(result => {
+      //   dispatch("assessment/fetchSubAns",user.uid).then(()=>{
+      //     alert("ML code executed");
+      //   })
+      // })
     }).catch(error=>{
       console.log("Error:- ",error);
     });
@@ -158,10 +168,10 @@ export const actions={
       });
     }
   },
-  randomPicker({ commit }){
+  async randomPicker({ commit }){
     var user = this.state.users.user;
     const randomPicker = functions.httpsCallable('randomPicker');
-    randomPicker({uid:user.uid}).then(result => {
+    await randomPicker({uid:user.uid}).then(result => {
       console.log("Random Picker message",result);
     },err=>{
         console.log("Random Picker error:-", err);

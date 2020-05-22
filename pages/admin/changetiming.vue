@@ -78,8 +78,11 @@ methods: {
       if(this.$refs.form.validate()){
         var examtime = (this.hour*60*60)+(this.minute*60)+(this.second);
         //Time will be stored in seconds
-        this.$store.dispatch("assessment/changeTime",examtime);
+        this.$store.dispatch("assessment/changeTime",examtime).then(()=>{
           this.snackbar=true;
+          this.$store.dispatch("assessment/fetchTime");
+
+        });
       }
     },
 }

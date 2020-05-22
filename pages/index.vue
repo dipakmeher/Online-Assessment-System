@@ -82,6 +82,9 @@ export default {
       text: 'My timeout is set to 2000.',
       timeout: 3000,
   }),
+  // created(){
+  //   this.$store.dispatch("randomPicker");
+  // },
   computed:{
     ...mapGetters({
       signupvalue:'users/getSnackbar'

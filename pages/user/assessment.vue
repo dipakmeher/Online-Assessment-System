@@ -126,12 +126,16 @@ import {mapState} from 'vuex'
       opacity:1
       }
     },
-     created() {
+    async created() {
     // this.$store.dispatch("fetchCategories");
     this.timeLimit = this.$store.state.assessment.time;
   },
   mounted() {
     this.startTimer();
+    var today = new Date();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    console.log("start time=> ",time);
+    this.$store.commit("updateStartTime",time);
   },
     watch: {
       steps (val) {
@@ -155,6 +159,10 @@ import {mapState} from 'vuex'
         }
       },
        Firestoreupdate(){
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        this.$store.commit("updateEndTime",time);
+
         this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
          //this.$store.dispatch("assessment/fetchSubAns");
       });

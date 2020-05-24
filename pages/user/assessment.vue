@@ -85,8 +85,11 @@
           <span class="title indigo--text">Thank you very much... <br> Results will be announced soon</span>   
         </v-card-text>
         <v-divider></v-divider>
-        <v-card-actions>
-            <nuxt-link to="/thankyou"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-2 mr-2">Click here to submit the test</v-btn></nuxt-link>
+        <v-card-actions v-if="claim">
+            <nuxt-link to="/admin"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-2 mr-2">Click here to submit the test</v-btn></nuxt-link>
+        </v-card-actions>
+         <v-card-actions v-else>
+            <nuxt-link to="/user"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-2 mr-2">Click here to submit the test</v-btn></nuxt-link>
         </v-card-actions>
       </v-card>
     </v-overlay>
@@ -97,8 +100,12 @@
           <span class="title indigo--text">Are you surely want to submit the test?</span>   
         </v-card-text>
         <v-divider></v-divider>
-        <v-card-actions>
-          <nuxt-link to="/thankyou"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-4">Yes</v-btn></nuxt-link>
+        <v-card-actions v-if="claim">
+          <nuxt-link to="/admin"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-4">Yes</v-btn></nuxt-link>
+          <v-btn outlined @click="overlay1=false" class="primary white--text ml-4">Cancel</v-btn>
+        </v-card-actions>
+         <v-card-actions v-else>
+          <nuxt-link to="/user"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-4">Yes</v-btn></nuxt-link>
           <v-btn outlined @click="overlay1=false" class="primary white--text ml-4">Cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -129,12 +136,12 @@ import {mapState} from 'vuex'
     async created() {
     // this.$store.dispatch("fetchCategories");
     this.timeLimit = this.$store.state.assessment.time;
+   
   },
   mounted() {
     this.startTimer();
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    console.log("start time=> ",time);
     this.$store.commit("updateStartTime",time);
   },
     watch: {
@@ -175,7 +182,8 @@ import {mapState} from 'vuex'
     computed:{
     ...mapGetters({
         projects: 'getValue',
-        steps:'getQlen'
+        steps:'getQlen',
+        claim:'users/getClaim'
     }),
     timeLeft() {
       return this.timeLimit - this.timePassed
@@ -185,7 +193,12 @@ import {mapState} from 'vuex'
       const timeLeft = this.timeLeft;
       if(timeLeft == 0){
         clearInterval(this.timerInterval);
-        // this.overlay = !this.overlay;
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        this.$store.commit("updateEndTime",time);
+        this.$store.dispatch("UpdateAnswers", this.chosen)
+         //this.overlay = !this.overlay;
+         //this.$router.push("/admin");
       }
       const hours = Math.floor(timeLeft /60/60);
 

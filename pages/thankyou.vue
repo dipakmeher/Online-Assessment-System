@@ -1,6 +1,7 @@
 <template>
   <v-content>
       <p class="display-1">Thank you very much....</p>
+      <v-btn @click="admin">Admin</v-btn>
   </v-content>
 </template>
 

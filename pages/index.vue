@@ -39,7 +39,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn  @click="login" type="submit" class="btn btn-primary primary darken-2"  color="primary" style="width:100%;" id="login">Login</v-btn>
+                <v-btn  @click="login();loading=true" type="submit" class="btn btn-primary primary darken-2"  color="primary" style="width:100%;" id="login">Login</v-btn>
                 </v-card-actions>
                 <v-card-actions >
                   <v-alert  v-if="isError" type="error" class="alert alert-danger">
@@ -56,9 +56,6 @@
               </v-card-text> 
               
             </v-card>
-            <div>
-
-            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -80,7 +77,7 @@ export default {
     errMsg: "",
      snackbar: true,
       text: 'My timeout is set to 2000.',
-      timeout: 3000,
+      timeout: 3000
   }),
   // created(){
   //   this.$store.dispatch("randomPicker");
@@ -92,7 +89,7 @@ export default {
     },
   methods: {
     login(e) {
-      e.preventDefault();
+      //e.preventDefault();
       // TODO: add parsing of data.
       this.$store
         .dispatch("users/login", this.account)

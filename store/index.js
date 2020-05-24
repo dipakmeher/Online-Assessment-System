@@ -76,7 +76,7 @@ export const actions={
         var valueCat=[];
          categories.push(querySnapshot.data());
          commit("setCategories", categories);
-        //console.log("User uid:- ",categories);
+        console.log("Categories:- ",categories);
         for (const [key, value] of Object.entries(categories["0"])) {
          len = len + 1;
           valueCat.push(value);
@@ -140,12 +140,12 @@ export const actions={
     var user = this.state.users.user;    
     return db.collection("Assessment").doc(user.uid).set(Object.assign({}, state.projects["0"]))
     .then(async()=>{      
-      // const evaluateAnswer = functions.httpsCallable('evaluateAnswer');
-      // await evaluateAnswer({ uid: user.uid }).then(result => {
-      //   dispatch("assessment/fetchSubAns",user.uid).then(()=>{
-      //     alert("ML code executed");
-      //   })
-      // })
+      const evaluateAnswer = functions.httpsCallable('evaluateAnswer');
+      await evaluateAnswer({ uid: user.uid }).then(result => {
+        dispatch("assessment/fetchSubAns",user.uid).then(()=>{
+          alert("ML code executed");
+        })
+      })
     }).catch(error=>{
       console.log("Error:- ",error);
     });

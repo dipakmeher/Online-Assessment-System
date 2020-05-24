@@ -30,7 +30,7 @@
           <v-window-item :value="3">
             <v-card-text>
                <h1>Ready for exam??</h1>
-                <v-btn @click="user/assessment"> Take Assessment</v-btn>
+                <nuxt-link to="/user/assessment"><v-btn> Take Assessment</v-btn></nuxt-link>
             </v-card-text>
           </v-window-item>
         </v-window>
@@ -60,10 +60,19 @@
   </v-content>
 </template>
 <script>
+import db from '@/plugins/firebase'
+import {mapGetters} from 'vuex'
+import {mapState} from 'vuex'
+import {mapActions} from 'vuex'
   export default {
     data: () => ({
       step: 1,
     }),
+    async created(){
+    await this.$store.dispatch("randomPicker").then(async ()=>{
+      await this.$store.dispatch("fetchCategories");
+    });
+    },
     computed: {
       currentTitle () {
         switch (this.step) {

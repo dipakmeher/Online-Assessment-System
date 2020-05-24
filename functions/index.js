@@ -98,7 +98,6 @@ exports.updateUser = functions.https.onCall((data, context) => {
 })
 
 exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
-  console.log("Data.email=> ",data.uid);
   await admin.firestore().collection("Assessment").doc(data.uid).get().then(querySnapshot => {
     if (querySnapshot.empty) {
     //this.$router.push('/HelloWorld')
@@ -109,6 +108,9 @@ exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
       var subans={};
       var Result={};
       categories.push(querySnapshot.data());
+      delete categories["0"]["start-time"];
+      delete categories["0"]["end-time"];
+      console.log("Categories:- ",categories);
       admin.firestore().collection("Master-Bank").doc("Master-Bank").get().then(async querySnapshot => {
         if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')

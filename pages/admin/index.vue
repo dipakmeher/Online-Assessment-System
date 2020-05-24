@@ -29,9 +29,8 @@ import { uuid } from 'vue-uuid';
 export default {
   layout:'adminlayout',
   async created() {
-    await this.$store.dispatch("randomPicker");
+     alert("created invoked");
     this.$store.dispatch("assessment/fetchTime");
-    this.$store.dispatch("fetchCategories");
     this.$store.dispatch("fetchMasterBank");
     this.$store.dispatch("makeadmin/fetchCategories");   
   },
@@ -40,7 +39,7 @@ export default {
   // },
   methods: {
     transfer(){
-     this.$store.dispatch("UpdateAnswers");
+     this.$store.dispatch("makeadmin/evaluation");
     },
     async logout() {
       await auth.signOut();

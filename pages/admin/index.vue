@@ -29,7 +29,6 @@ import { uuid } from 'vue-uuid';
 export default {
   layout:'adminlayout',
   async created() {
-     alert("created invoked");
     this.$store.dispatch("assessment/fetchTime");
     this.$store.dispatch("fetchMasterBank");
     this.$store.dispatch("makeadmin/fetchCategories");   

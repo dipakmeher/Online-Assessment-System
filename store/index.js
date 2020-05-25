@@ -113,14 +113,14 @@ export const actions={
       var child = document.getElementById(index);
       parent.removeChild(child);
       delete state.masterbank["0"][index];
-      console.log("Index:-",index);
-      console.log("===========");
+      // console.log("Parent:- ",parent);
+      // console.log("Child:- ",child);
 
       console.log("Master Bank:- ", state.masterbank);
       db.collection("Master-Bank").doc("Master-Bank").set(Object.assign({}, state.masterbank["0"]))
-          .then(()=>{ 
-            alert("Question is deleted successfully...");
-          });
+      .then(()=>{ 
+        alert("Question is deleted successfully...");
+      });
     }
   },
   //============================================================================

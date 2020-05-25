@@ -76,7 +76,7 @@
     </v-row>
     <!-- Bottom Button Card -->
       <v-card width="60%" flat style="bottom:10px;position:absolute;">
-        <v-btn depressed color="primary" class=" submit" @click="overlay1=!overlay1">Submit</v-btn>
+        <v-btn depressed color="primary" class=" submit" @click="overlay1=!overlay;isPaused=!isPaused">Submit</v-btn>
       </v-card>  
      </v-stepper>
      <v-overlay :value="overlay" :opacity="opacity" :absolute="absolute">
@@ -86,11 +86,12 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions v-if="claim">
-            <nuxt-link to="/admin"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-2 mr-2">Click here to submit the test</v-btn></nuxt-link>
+            <nuxt-link to="/admin"><v-btn outlined class="primary white--text ml-2 mr-2">Click here to submit the test</v-btn></nuxt-link>
         </v-card-actions>
          <v-card-actions v-else>
-            <nuxt-link to="/user"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-2 mr-2">Click here to submit the test</v-btn></nuxt-link>
-        </v-card-actions>
+            <nuxt-link to="/user"><v-btn outlined class="primary white--text ml-2 mr-2">Click here to submit the test</v-btn></nuxt-link>
+        </v-card-actions>    
+
       </v-card>
     </v-overlay>
 
@@ -102,11 +103,11 @@
         <v-divider></v-divider>
         <v-card-actions v-if="claim">
           <nuxt-link to="/admin"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-4">Yes</v-btn></nuxt-link>
-          <v-btn outlined @click="overlay1=false" class="primary white--text ml-4">Cancel</v-btn>
+          <v-btn outlined @click="overlay1=false;isPaused=!isPaused" class="primary white--text ml-4">Cancel</v-btn>
         </v-card-actions>
          <v-card-actions v-else>
           <nuxt-link to="/user"><v-btn outlined @click="Firestoreupdate()" class="primary white--text ml-4">Yes</v-btn></nuxt-link>
-          <v-btn outlined @click="overlay1=false" class="primary white--text ml-4">Cancel</v-btn>
+          <v-btn outlined @click="overlay1=false;isPaused=!isPaused" class="primary white--text ml-4">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </v-overlay>
@@ -130,7 +131,8 @@ import {mapState} from 'vuex'
       absolute: true,
       overlay:false,
       overlay1:false,
-      opacity:1
+      opacity:1,
+      isPaused:false,
       }
     },
     async created() {
@@ -150,6 +152,9 @@ import {mapState} from 'vuex'
           this.e1 = val
         }
       },
+      isPaused(val){
+        console.log("Is Paused=> ",this.isPaused);
+      }
     },
 
     methods: {
@@ -169,15 +174,17 @@ import {mapState} from 'vuex'
         var today = new Date();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         this.$store.commit("updateEndTime",time);
-
         this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
-         //this.$store.dispatch("assessment/fetchSubAns");
+         //this.$store.dispatch("assessmentFirestoreupdate/fetchSubAns");
       });
     },
-      startTimer() {
-      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
-        console.log("Timer Interval",this.timePassed);
-    }
+    startTimer() {
+      this.timerInterval = setInterval(() => {
+        if(!this.isPaused){
+        (this.timePassed += 1)
+        }
+      }, 1000);
+    },
     },
     computed:{
     ...mapGetters({
@@ -197,8 +204,8 @@ import {mapState} from 'vuex'
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         this.$store.commit("updateEndTime",time);
         this.$store.dispatch("UpdateAnswers", this.chosen)
-         //this.overlay = !this.overlay;
-         //this.$router.push("/admin");
+         this.overlay = !this.overlay;
+        //  this.$router.push("/admin");
       }
       const hours = Math.floor(timeLeft /60/60);
 

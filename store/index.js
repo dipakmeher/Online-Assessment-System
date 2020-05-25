@@ -141,8 +141,8 @@ export const actions={
     return db.collection("Assessment").doc(user.uid).set(Object.assign({}, state.projects["0"]))
     .then(async()=>{      
       const evaluateAnswer = functions.httpsCallable('evaluateAnswer');
-      await evaluateAnswer({ uid: user.uid }).then(result => {
-        dispatch("assessment/fetchSubAns",user.uid).then(()=>{
+      await evaluateAnswer({ uid: user.uid }).then(async result => {
+        await dispatch("assessment/fetchSubAns",user.uid).then(()=>{
           alert("ML code executed");
         })
       })

@@ -28,11 +28,6 @@ export const mutations = {
       state.result = payload;
       console.log("Set Result invoked=> ",payload);
     },
-    // setTime(state,payload){
-    //   state.time=payload;
-    //   state.msgupdated=true;
-    //   console.log("SetTime Mutation invoked.",state.msgupdated)
-    // },
     fetchTime(state,payload){
       state.time=payload;
       console.log("FetchTime Mutation invoked.",state.time);

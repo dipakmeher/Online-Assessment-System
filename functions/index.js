@@ -98,7 +98,7 @@ exports.updateUser = functions.https.onCall((data, context) => {
 })
 
 exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
-  await admin.firestore().collection("Assessment").doc(data.uid).get().then(querySnapshot => {
+  await admin.firestore().collection("Assessment").doc("EHJK1tbIj8ZmJK9yT3jZrvmNFKz1").get().then(querySnapshot => {
     if (querySnapshot.empty) {
     //this.$router.push('/HelloWorld')
     } else {
@@ -110,7 +110,6 @@ exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
       categories.push(querySnapshot.data());
       delete categories["0"]["start-time"];
       delete categories["0"]["end-time"];
-      console.log("Categories:- ",categories);
       admin.firestore().collection("Master-Bank").doc("Master-Bank").get().then(async querySnapshot => {
         if (querySnapshot.empty) {
         //this.$router.push('/HelloWorld')
@@ -128,7 +127,9 @@ exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
               temp.push(value.Answer);
             }
             else if(type === "Objective"){
-              var masterans = masterqid[value.Qid].Answer;
+              //var masterans = masterqid[value.Qid].Answer;
+              var choice = masterqid[value.Qid].Answer;
+              var masterans = masterqid[value.Qid].Choices[choice];
               if(masterans === value.Answer){
                 score++;
               }
@@ -136,6 +137,7 @@ exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
             }//End of Second For Loop
             Result["score"]=score;
             Result['subans']=temp;
+            console.log("Result=> ",Result);
             admin.firestore().collection("Result").doc(data.uid).set(Result)
             .then(()=>{
              console.log("Evaluate Answer ran successfully.");

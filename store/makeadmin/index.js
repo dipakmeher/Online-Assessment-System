@@ -74,23 +74,56 @@ export const actions = {
         })
     },
     evaluation({commit}){
-      db.collection("Assessment").doc("EHJK1tbIj8ZmJK9yT3jZrvmNFKz1").get().then(querySnapshot => {
-        if (querySnapshot.empty) {
-        //this.$router.push('/HelloWorld')
-        } else {
-          var categories = [];
-          var master = [];
-          var masterqid = [];
-          var subans={};
-          var Result={};
-          categories.push(querySnapshot.data());
-          delete categories["0"]["start-time"];
-          delete categories["0"]["end-time"];
-          for(const [key, value] of Object.entries(categories["0"])){
-            console.log("key=> ",key,"Value=> ",value);
-          }
-          console.log("Categories:- ",categories);
-        }
-      })
+      //  db.collection("Assessment").doc("EHJK1tbIj8ZmJK9yT3jZrvmNFKz1").get().then(querySnapshot => {
+      //   if (querySnapshot.empty) {
+      //   //this.$router.push('/HelloWorld')
+      //   } else {
+      //     var categories = [];
+      //     var master = [];
+      //     var masterqid = [];
+      //     var subans={};
+      //     var Result={};
+      //     categories.push(querySnapshot.data());
+      //     delete categories["0"]["start-time"];
+      //     delete categories["0"]["end-time"];
+      //     console.log("Categories:- ",categories);
+      //     db.collection("Master-Bank").doc("Master-Bank").get().then(async querySnapshot => {
+      //       if (querySnapshot.empty) {
+      //       //this.$router.push('/HelloWorld')
+      //       } else {
+      //         master.push(querySnapshot.data())
+      //         for (const [key, value] of Object.entries(master["0"])) {
+      //          masterqid[value.Qid] = value;  
+      //         }
+      //         var score = 0;
+      //         var temp=[];
+      //         // Main for loop
+      //         for(const [key, value] of Object.entries(categories["0"])) {
+      //           var type = value.type;
+      //           if(type === "Subjective"){
+      //             temp.push(value.Answer);
+      //           }
+      //           else if(type === "Objective"){
+      //             //var masterans = masterqid[value.Qid].Answer;
+      //             var choice = masterqid[value.Qid].Answer;
+      //             var masterans = masterqid[value.Qid].Choices[choice];
+      //             if(masterans === value.Answer){
+      //               score++;
+      //             }
+      //           }
+      //           }//End of Second For Loop
+      //           Result["score"]=score;
+      //           Result['subans']=temp;
+      //           console.log("Result=> ",Result);
+      //           // admin.firestore().collection("Result").doc(data.uid).set(Result)
+      //           // .then(()=>{
+      //           //  console.log("Evaluate Answer ran successfully.");
+      //           // }).catch(error=>{
+      //           //   console.log("Error:- ",error);
+      //           // });
+      //         }
+      //     })
+      //   }
+      // })
     }
 }

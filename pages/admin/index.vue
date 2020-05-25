@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-container>
-      <v-btn @click="transfer">Fetch Categories</v-btn>
+      <nuxt-link to="/slidegroup"><v-btn>Fetch Categories</v-btn></nuxt-link>
       <!-- <v-row>
         <v-col cols="4">
           <v-card class="success" min-height="100px">

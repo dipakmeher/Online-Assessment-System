@@ -151,9 +151,6 @@ import {mapState} from 'vuex'
         if (this.e1 > val) {
           this.e1 = val
         }
-      },
-      isPaused(val){
-        console.log("Is Paused=> ",this.isPaused);
       }
     },
 

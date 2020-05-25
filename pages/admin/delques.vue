@@ -1,73 +1,92 @@
 <template>
   <v-content>
-     <v-container class="container">
-         <v-app-bar class="white smallnav">
-           <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p>
-        </v-app-bar>
-    
-    <div  class="scrollmenu primary darken-2" id="cafelist">
-      <v-card  
-        class="ma-4 maincards"
-         v-for="(Questions,index) in projects" :key="index+1"
-         :id="index"
-        >
-         <v-btn class="outlined child" v-on:click="Delete(index)">x</v-btn>
-        <div class="questiondiv headline font-weight-bold">
-        {{Questions.Question}}
-        </div>
-        <br>
-
-        <div class="options">
-        <div class="radio radio-primary" v-if="Questions.type === 'Objective'"> 
-                    <label v-for="(choice,index1) in Questions.Choices" v-bind:key="index1"  class="title font-weight-bold">
-                      <input type="radio" :name="Questions.Question" :id=" 'radio-' + index" :value='choice' v-model="chosen[Questions.Question]"  />
-                      {{choice}}
-                      <br/>
-                    </label>
-                  </div>
-                  <div v-else>
-                    <v-textarea
-                      label="Write your answer here"
-                      auto-grow
-                      outlined
-                      rows="1"
-                      row-height="10"
-                      shaped
-                      v-model="chosen[Questions.Question]"
-                    ></v-textarea>
-                  </div> 
-                </div>   
-      </v-card>
-      </div>
-      </v-container>
+    <v-container class="container">
+      <v-app-bar class="yellow lighten-4 smallnav">
+        <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p>
+      </v-app-bar>
+      <v-card class="scrollmenu" height="300px" flat>
+        <v-list>
+          <v-list-item>
+            <v-row>
+              <v-col cols="8">
+                <v-card flat class="text-center">
+                  <p class="headline">Questions</p>
+                </v-card>
+                <v-divider horizontal></v-divider>
+              </v-col>
+          
+              <v-col cols="2">
+                <v-card flat class="text-center">
+                  <p class="headline">Type</p>
+                </v-card>
+                <v-divider horizontal></v-divider>
+              </v-col>
+              <v-col cols="2">
+                <!-- <v-card flat class="text-center">
+                  <p class="subtitle-1">Delete Btn</p>
+                </v-card>
+                <v-divider horizontal></v-divider> -->
+              </v-col>
+              
+            </v-row>
+          </v-list-item>
+          <v-row id="cafelist">
+            <v-list-item
+              v-for="(Questions,index) in projects"
+              :key="index"
+              :id="index"
+            >
+              <v-col cols="8">
+                <v-card flat>
+                  <v-list-item-content>
+                    {{Questions.Question}}
+                  </v-list-item-content>  
+                </v-card>
+                <v-divider horizontal></v-divider>
+              </v-col>
+              <v-col cols="2">
+                <v-card flat>
+                  <v-list-item-content>
+                    {{Questions.type}}
+                  </v-list-item-content>
+                  <v-divider horizontal></v-divider>  
+                </v-card>
+              </v-col>
+              <v-col cols="2">
+                <v-btn class="outlined child primary" v-on:click="Delete(index)">Delete</v-btn>
+              </v-col>
+            </v-list-item>
+          </v-row>
+        </v-list>
+      </v-card> 
+    </v-container>
   </v-content>
 </template>
 
 <script>
+import { functions } from "@/plugins/firebase";
+import { auth } from "@/plugins/firebase";
+import Cookie from "js-cookie";
 import {mapGetters} from 'vuex'
 import {mapState} from 'vuex'
-import {mapActions} from 'vuex' 
+import {mapActions} from 'vuex'
 export default {
-    layout:'adminlayout',
-    data() {
-    return {
-        chosen:[],
+   layout:'adminlayout',
+  data(){
+    return{
         id:'',
         noofque:this.$store.state.projectlen
     }
   },
   computed:{
-      ...mapGetters({
-          projects: 'getMasterBank',
-      }),
-      Quecount(){
-        return noofque;
-      }
+    ...mapGetters({
+        projects:'getMasterBank',
+    }),
   },
   methods:{
       Delete(index){
       this.$store.dispatch("DeleteQuestion",index).then(()=>{
-        this.noofque--;
+        this.noofque--; 
       });
 
     }
@@ -76,41 +95,21 @@ export default {
 </script>
 
 <style>
-.scrollmenu {
-  width: 70%;
-  height: 400px;
-  overflow: auto;
-  white-space: nowrap;
-}  
+
 .smallnav{
     width:70%;
     top:0;
+}
+.scrollmenu {
+    width:70%;
+    overflow: auto;
     white-space: nowrap;
-} 
-.maincards{
-  width: 300px;
-  height:340px ;
- display: inline-block;
-  color: white;
-  padding: 14px;
-  text-decoration: none;
-}
-.child {
-	position: absolute;
-	width: 30px;
-	height: 30px;
-	top: 0;
-	right: 0;
-}
-
+}  
 .container{
+  /* width:70%; */
   margin-left: 50px;
+  height: 30px;
+  margin-top: 20px;
   position: fixed;
 } 
-.options{
-  text-align: left; 
-}
-.questiondiv{
-  margin-top: 30px;
-}
 </style>

@@ -1,82 +1,86 @@
 <template>
-  <v-content class="container">
-    <v-container >
-      <v-card
-        class="mx-auto"
-        max-width="500"
-      >
-        <v-card-title class="title font-weight-regular justify-space-between">
-          <span>{{ currentTitle }}</span>
-          <v-avatar
-            color="primary lighten-2"
-            class="subheading white--text"
-            size="24"
-            v-text="step"
-          ></v-avatar>
-        </v-card-title>
-
-        <v-window v-model="step">
-          <v-window-item :value="1">
-            <v-card-text>
-              <h1>Instruction 1</h1>
-            </v-card-text>
-          </v-window-item>
-
-          <v-window-item :value="2">
-            <v-card-text>
-               <h1>Instruction 2</h1>
-            </v-card-text>
-          </v-window-item>
-          <v-window-item :value="3">
-            <v-card-text>
-               <h1>Ready for exam??</h1>
-                <v-btn @click="user/assessment"> Take Assessment</v-btn>
-            </v-card-text>
-          </v-window-item>
-        </v-window>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-btn
-            :disabled="step === 1"
-            text
-            @click="step--"
-          >
-            Back
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            :disabled="step === 3"
-            color="primary"
-            depressed
-            @click="step++"
-          >
-            Next
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-container>  
+  <v-content>
+     <v-container class="container">
+         <v-app-bar class="yellow lighten-4 smallnav">
+           <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p>
+        </v-app-bar>
+        <v-card class="scrollmenu" height="300px" flat>
+            <v-list>
+              <v-row id="cafelist">
+                <v-list-item
+                  v-for="(Questions,index) in projects"
+                  :key="index"
+                  :id="index"
+                >
+                  <v-col cols="10">
+                    <v-card flat>
+                      <v-list-item-content>
+                        {{Questions.Question}}
+                      </v-list-item-content>  
+                    </v-card>
+                   <v-divider horizontal></v-divider>
+                  </v-col>
+                  <v-col cols="2">
+                    <v-btn class="outlined child primary" v-on:click="Delete(index)">Delete</v-btn>
+                  </v-col>
+                </v-list-item>
+                 
+              </v-row>
+              <!-- </v-list-item-group> -->
+              
+            </v-list>
+        </v-card> 
+     </v-container>
   </v-content>
 </template>
+
 <script>
-  export default {
-    data: () => ({
-      step: 1,
+import { functions } from "@/plugins/firebase";
+import { auth } from "@/plugins/firebase";
+import Cookie from "js-cookie";
+import {mapGetters} from 'vuex'
+import {mapState} from 'vuex'
+import {mapActions} from 'vuex'
+export default {
+   layout:'adminlayout',
+  data(){
+    return{
+        id:'',
+        noofque:this.$store.state.projectlen
+    }
+  },
+  computed:{
+    ...mapGetters({
+        projects:'getMasterBank',
     }),
-    computed: {
-      currentTitle () {
-        switch (this.step) {
-          case 1: return 'Instruction 1'
-          case 2: return 'Instruction 2'
-          default: return 'Take Assessment'
-        }
-      },
-    },
+  },
+  methods:{
+      Delete(index){
+      this.$store.dispatch("DeleteQuestion",index).then(()=>{
+        this.noofque--; 
+      });
+
+    }
   }
-</script>
-<style scoped>
-.container{
-  margin-top:40px;
 }
+</script>
+
+<style>
+
+.smallnav{
+    width:70%;
+    top:0;
+}
+.scrollmenu {
+    width:70%;
+    overflow: auto;
+    white-space: nowrap;
+}  
+.container{
+  /* width:70%; */
+  margin-left: 50px;
+  height: 30px;
+  margin-top: 20px;
+  position: fixed;
+} 
 </style>

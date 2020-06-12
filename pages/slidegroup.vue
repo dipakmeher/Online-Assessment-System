@@ -1,35 +1,12 @@
 <template>
   <v-content>
      <v-container class="container">
-         <v-app-bar class="yellow lighten-4 smallnav">
+         <!-- <v-app-bar class="yellow lighten-4 smallnav" >
            <p class="ma-2 font-weight-medium subtitle-1">Total Questions:- <p class=" ma-1 display-1 font-weight-bold"> {{noofque}}</p>
         </v-app-bar>
         <v-card class="scrollmenu" height="300px" flat>
-            <v-list>
-              <v-row id="cafelist">
-                <v-list-item
-                  v-for="(Questions,index) in projects"
-                  :key="index"
-                  :id="index"
-                >
-                  <v-col cols="10">
-                    <v-card flat>
-                      <v-list-item-content>
-                        {{Questions.Question}}
-                      </v-list-item-content>  
-                    </v-card>
-                   <v-divider horizontal></v-divider>
-                  </v-col>
-                  <v-col cols="2">
-                    <v-btn class="outlined child primary" v-on:click="Delete(index)">Delete</v-btn>
-                  </v-col>
-                </v-list-item>
-                 
-              </v-row>
-              <!-- </v-list-item-group> -->
-              
-            </v-list>
-        </v-card> 
+            dipak
+        </v-card>  -->
      </v-container>
   </v-content>
 </template>
@@ -42,7 +19,6 @@ import {mapGetters} from 'vuex'
 import {mapState} from 'vuex'
 import {mapActions} from 'vuex'
 export default {
-   layout:'adminlayout',
   data(){
     return{
         id:'',

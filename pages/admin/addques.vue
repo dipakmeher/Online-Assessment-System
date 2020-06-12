@@ -1,6 +1,6 @@
 <template>
   <v-content>
-      <v-card class="main-card" min-width="60%" min-height="50%"> 
+      <v-card class="main-card" min-width="00" min-height="50%"> 
         <v-toolbar color="primary darken-2" dark flat>
           <v-toolbar-title class="addquestion display-1 font-weight-medium">Add Question</v-toolbar-title> 
         </v-toolbar>
@@ -125,15 +125,15 @@ export default {
 
 <style>
 .main-card{
-  margin-left: 80px;
+  margin:5%;
   margin-top: 20px;
-  position: fixed;
+  position: relative;
   overflow: auto;
 }
 .add-btn{
   margin-left: 38%;
 }
 .t1{
-  width: 150px;
+  width: 100%;
 }
 </style>

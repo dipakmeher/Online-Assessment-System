@@ -9,6 +9,13 @@
                 <v-toolbar-title>Signup form</v-toolbar-title> </v-toolbar>
               <v-card-text>
                 <v-form @submit.prevent="login" @submit.enter="login">
+                  <v-text-field
+                    v-model="account.name"
+                      type="text"
+                      class="form-control"
+                      placeholder="Your Name"
+                      prepend-icon="label"
+                  ></v-text-field>
 
                   <v-text-field
                     v-model="account.email"
@@ -55,6 +62,7 @@
 export default {
   data: () => ({
     account: {
+      name:"",
       email: "",
       password: ""
     },
@@ -75,6 +83,7 @@ export default {
           setTimeout(() => {
             this.isSuccess = false;
           }, 5000);
+          this.$store.dispatch("users/fbsignup", this.account)
         })
         .catch(error => {
           this.isError = true;
@@ -84,7 +93,7 @@ export default {
           }, 5000);
         });
 
-         this.$store.dispatch("users/fbsignup", this.account)
+        
     }
   }
 };

@@ -9,15 +9,21 @@
           <v-list-item>
             <v-row>
               <v-col cols="8">
-                <v-card flat class="text-center">
+                <v-card flat class="text-center hidden-sm-and-down">
                   <p class="headline">Questions</p>
+                </v-card>
+                <v-card flat class="text-center hidden-md-and-up">
+                  <p class="title-1">Questions</p>
                 </v-card>
                 <v-divider horizontal></v-divider>
               </v-col>
           
               <v-col cols="2">
-                <v-card flat class="text-center">
+                <v-card flat class="text-center hidden-sm-and-down">
                   <p class="headline">Type</p>
+                </v-card>
+                 <v-card flat class="text-center hidden-md-and-up">
+                  <p class="subtitle-1">Type</p>
                 </v-card>
                 <v-divider horizontal></v-divider>
               </v-col>
@@ -107,7 +113,7 @@ export default {
 }  
 .container{
   /* width:70%; */
-  margin-left: 50px;
+  margin: 5%;
   height: 30px;
   margin-top: 20px;
   position: fixed;

@@ -1,3 +1,4 @@
+import db from '@/plugins/firebase';
 import { auth } from "@/plugins/firebase";
 import Cookie from "js-cookie";
 import { functions } from "@/plugins/firebase";
@@ -49,7 +50,13 @@ export const actions = {
     }
   },
   async signup({ commit }, account) {
-      await auth.createUserWithEmailAndPassword(account.email, account.password);
+      console.log("Accounts:- ",account);
+      await auth.createUserWithEmailAndPassword(account.email, account.password).then(cred=>{
+        console.log("Creditials return:- ",cred.user.uid);
+        return db.collection('users').doc(cred.user.uid).set({
+          displayName:account.name
+        });
+      });
        //Get JWT from Firebase
        const token = await auth.currentUser.getIdToken();
        const { email, uid } = auth.currentUser;

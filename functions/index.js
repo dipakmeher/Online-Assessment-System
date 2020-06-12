@@ -38,65 +38,6 @@ exports.randomPicker = functions.https.onCall((data, context) => {
   });
 });
 
-exports.updateUser = functions.https.onCall((data, context) => {
-  var categories = [];
-  var master = [];
-  var masterqid = [];
-  var subans={};
-  var Result={};
-  admin.firestore().collection("Assessment").get().then(querySnapshot => {
-    if (querySnapshot.empty) {
-    //this.$router.push('/HelloWorld')
-    } else {
-     
-      querySnapshot.forEach(function(doc) {
-        categories[doc.id]=doc.data();
-      });
-      admin.firestore().collection("Master-Bank").doc("Master-Bank").get().then(async querySnapshot => {
-        if (querySnapshot.empty) {
-        //this.$router.push('/HelloWorld')
-        } else {
-          master.push(querySnapshot.data())
-          for (const [key, value] of Object.entries(master["0"])) {
-           masterqid[value.Qid] = value;  
-          }
-          // Main for loop
-          for(const [key, value] of Object.entries(categories)) {
-            var score = 0;
-            var temp=[];
-            var tempres={};
-            // Second For Loop
-            for(const [key1, value1] of Object.entries(value)) {
-              var type = value1.type;
-              if(type === "Subjective"){
-                temp.push(value1.Answer);
-              }
-              else if(type === "Objective"){
-                var masterans = masterqid[value1.Qid].Answer;
-                if(masterans === value1.Answer){
-                  score++;
-                }
-              }
-            }//End of Second For Loop
-            subans[key] = temp; 
-            tempres["score"]=score;
-            Result[key] = tempres;
-          }//End of Main Loop
-          return admin.firestore().collection("Question-Paper").doc("Result").set(Result)
-          .then(()=>{
-            return admin.firestore().collection("Question-Paper").doc("Subjective-Answers").set(subans)
-            .then(()=>{
-              console.log("Subjective Answer Updated");
-            })       
-          }).catch(error=>{
-            console.log("Error:- ",error);
-          });
-        }
-      })
-    }
-  })
-})
-
 exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
   await admin.firestore().collection("Assessment").doc("EHJK1tbIj8ZmJK9yT3jZrvmNFKz1").get().then(querySnapshot => {
     if (querySnapshot.empty) {

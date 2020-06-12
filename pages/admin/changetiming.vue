@@ -16,7 +16,7 @@
     </v-snackbar>
     <v-card class="main-card" max-width="400px" :elevation="24">
       <v-toolbar color="primary darken-2" dark flat>
-        <v-toolbar-title class="addquestion headline font-weight-medium">Change The Timings</v-toolbar-title> 
+        <v-toolbar-title class="addquestion headline font-weight-medium ">Change The Timings</v-toolbar-title> 
       </v-toolbar>
 
       <v-card-title>
@@ -91,16 +91,30 @@ methods: {
 
 <style>
 .main-card{
-  margin-left: 280px;
-  margin-top: 120px;
-}
-.timing{
-   margin-top: -15px;
-   margin-left: 80px;
-}
-.updatebtn{
-  bottom: 0;
-  margin-top: 15px;
-  margin-left: 130px;
+  margin-left: 30%;
+  margin-top: 15%;
+  }
+  .timing{
+    margin-top: -6%;
+    margin-left: 80px;
+  }
+  .updatebtn{
+    bottom: 0;
+    margin-top: 2%;
+    margin-left: 37%;
+  }
+@media only screen and (max-width: 600px) {
+  .main-card{
+    margin: 5%;
+  }
+  .timing{
+    margin-top: -6%;
+    margin-left: 10%;
+  }
+  .updatebtn{
+    bottom: 0;
+    margin-top: 2%;
+    margin-left: 37%;
+  }
 }
 </style>

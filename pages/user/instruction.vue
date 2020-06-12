@@ -88,4 +88,11 @@ import {mapActions} from 'vuex'
 .container{
   margin-top:40px;
 }
+@media only screen and (max-width: 960px) {
+  .container{
+    margin-top:40px;
+    margin-left:2px;
+    margin-right:2px;
+  }
+}
 </style>

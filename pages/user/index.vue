@@ -9,11 +9,10 @@
 <script>
  export default{
    layout:'userlayout',
-  created() {
-    this.$store.dispatch("fetchCategories");
-  },
-   async destroyed(){
-    await this.$store.dispatch("assessment/fetchTime");
+   async created() {
+    this.$store.dispatch("assessment/fetchTime");
+    this.$store.dispatch("fetchMasterBank");
+    this.$store.dispatch("makeadmin/fetchCategories");   
   },
  }
 </script>

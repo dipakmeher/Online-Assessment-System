@@ -54,7 +54,8 @@ export const actions = {
       await auth.createUserWithEmailAndPassword(account.email, account.password).then(cred=>{
         console.log("Creditials return:- ",cred.user.uid);
         return db.collection('users').doc(cred.user.uid).set({
-          displayName:account.name
+          displayName:account.name,
+          emailID:account.email
         });
       });
        //Get JWT from Firebase

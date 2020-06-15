@@ -4,7 +4,7 @@
       <v-col cols="3">
         <!-- <v-container class="purple" > -->
            <v-card tile flat height="640px" class="navcard" >
-            <v-navigation-drawer permanent min- width="320px" color="blue-grey lighten-5">
+            <v-navigation-drawer permanent width="330px" color="blue-grey lighten-5">
 
               <v-list rounded dense  >
                 <v-list-item  >
@@ -86,6 +86,7 @@
           v-model="drawer"
           absolute
           temporary
+          color="blue-grey lighten-5"
         >
           <v-list rounded dense  >
             <v-list-item  >

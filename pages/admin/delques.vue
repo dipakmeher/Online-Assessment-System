@@ -10,20 +10,17 @@
             <v-row>
               <v-col cols="8">
                 <v-card flat class="text-center hidden-sm-and-down">
-                  <p class="headline">Questions</p>
+                  <p class="text-h5 font-weight-bold">Questions</p>
                 </v-card>
                 <v-card flat class="text-center hidden-md-and-up">
-                  <p class="title-1">Questions</p>
+                  <p class="title-1 font-weight-bold">Questions</p>
                 </v-card>
                 <v-divider horizontal></v-divider>
               </v-col>
           
               <v-col cols="2">
                 <v-card flat class="text-center hidden-sm-and-down">
-                  <p class="headline">Type</p>
-                </v-card>
-                 <v-card flat class="text-center hidden-md-and-up">
-                  <p class="subtitle-1">Type</p>
+                  <p class="text-h5 font-weight-bold">Type</p>
                 </v-card>
                 <v-divider horizontal></v-divider>
               </v-col>
@@ -50,7 +47,7 @@
                 </v-card>
                 <v-divider horizontal></v-divider>
               </v-col>
-              <v-col cols="2">
+              <v-col cols="2" class="hidden-sm-and-down">
                 <v-card flat>
                   <v-list-item-content>
                     {{Questions.type}}
@@ -65,6 +62,10 @@
           </v-row>
         </v-list>
       </v-card> 
+
+      <!--For Small Screen-->
+      
+      <!-- For Small Screen -->
     </v-container>
   </v-content>
 </template>

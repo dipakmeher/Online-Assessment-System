@@ -62,10 +62,6 @@
           </v-row>
         </v-list>
       </v-card> 
-
-      <!--For Small Screen-->
-      
-      <!-- For Small Screen -->
     </v-container>
   </v-content>
 </template>

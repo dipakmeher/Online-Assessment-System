@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container>
       <nuxt-link to="/slidegroup"><v-btn>Fetch Categories</v-btn></nuxt-link>
       <!-- <v-row>
@@ -16,7 +16,7 @@
         </v-col>
       </v-row> -->
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

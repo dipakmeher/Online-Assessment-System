@@ -1,5 +1,5 @@
 <template>
-  <v-content class="primary" style="position:relative;">
+  <v-main class="primary" style="position:relative;">
     <v-app-bar app>
       <v-card flat class="navbar text-center display-1 font-weight-bold"  >
             <p class="ma-1">Gita Contest</p>
@@ -182,7 +182,7 @@
         </v-card-actions>
       </v-card>
     </v-overlay>
-  </v-content>
+  </v-main>
 </template>
 <script>
 import db from '@/plugins/firebase'
@@ -273,7 +273,6 @@ import {mapState} from 'vuex'
         // this.$store.commit("updateEndTime",time);
         // this.$store.dispatch("UpdateAnswers", this.chosen)
         //this.overlay = !this.overlay;
-        //  this.$router.push("/admin");
       }
       const hours = Math.floor(timeLeft /60/60);
 

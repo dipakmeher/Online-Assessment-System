@@ -1,5 +1,5 @@
 <template>
-  <v-content class="container">
+  <v-main class="container">
     <v-container >
       <v-card
         class="mx-auto"
@@ -57,7 +57,7 @@
         </v-card-actions>
       </v-card>
     </v-container>  
-  </v-content>
+  </v-main>
 </template>
 <script>
 import db from '@/plugins/firebase'

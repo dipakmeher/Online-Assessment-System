@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
@@ -51,7 +51,7 @@
       </v-card-title>
     </v-card>
    
-  </v-content>
+  </v-main>
 </template>
 
 <script>
@@ -91,8 +91,8 @@ methods: {
 
 <style>
 .main-card{
-  margin-left: 30%;
-  margin-top: 15%;
+  margin-left: 20%;
+  margin-top: 10%;
   }
   .timing{
     margin-top: -6%;

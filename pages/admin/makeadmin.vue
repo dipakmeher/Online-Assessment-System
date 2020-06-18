@@ -1,8 +1,8 @@
 <template>
-  <v-content>
+  <v-main>
      <v-container class="container">
          <v-app-bar class="yellow lighten-4 smallnav">
-           <p class="ma-2 font-weight-medium subtitle-1">Total User:-<p class=" ma-1 display-1 font-weight-bold"> {{user}}</p></p>
+           <p class="ma-2 font-weight-medium subtitle-1">Total User:-<p class=" ma-1 display-1 font-weight-bold"> {{user}}</p>
         </v-app-bar>
         <v-card class="scrollmenu hidden-sm-and-down" height="300px" flat>
             <v-list>
@@ -69,7 +69,7 @@
             </v-list>
         </v-card> 
      </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

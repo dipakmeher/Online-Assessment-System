@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <!-- <v-card class="evaluate-btn text-center" max-height="50px" max-width="110px">
       <v-card-title>Results</v-card-title> 
     </v-card> -->
@@ -82,7 +82,7 @@
         </v-card>
         <!--for small screen  -->
      </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

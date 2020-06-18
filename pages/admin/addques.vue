@@ -1,6 +1,6 @@
 <template>
-  <v-content>
-      <v-card class="main-card" min-width="00" min-height="50%"> 
+  <v-main>
+      <v-card class="main-card" min-width="65%" min-height="50%"> 
         <v-toolbar color="primary darken-2" dark flat>
           <v-toolbar-title class="addquestion display-1 font-weight-medium">Add Question</v-toolbar-title> 
         </v-toolbar>
@@ -43,7 +43,7 @@
           <v-btn class="primary darken-2 add-btn" @click="addData()">Add Question</v-btn>
         </v-form>
      </v-card>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
@@ -124,16 +124,32 @@ export default {
 </script>
 
 <style>
-.main-card{
-  margin:5%;
-  margin-top: 20px;
-  position: relative;
-  overflow: auto;
+@media only screen and (min-width: 960px) {
+  .main-card{
+    margin-left:40px;
+    margin-top: 20px;
+    position: fixed;
+    overflow: auto;
+  }
+  .add-btn{
+    margin-left: 38%;
+  }
+  .t1{
+    width: 100%;
+  }
 }
-.add-btn{
-  margin-left: 38%;
-}
-.t1{
-  width: 100%;
+@media only screen and (max-width: 959px) {
+  .main-card{
+    margin:5%;
+    margin-top: 20px;
+    position: relative;
+    overflow: auto;
+  }
+  .add-btn{
+    margin-left: 38%;
+  }
+  .t1{
+    width: 100%;
+  }
 }
 </style>

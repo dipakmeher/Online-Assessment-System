@@ -8,7 +8,8 @@ export const state = () => ({
     messages:[],
     time:0,
     msgupdated:false,
-    result:[]
+    result:[],
+    userresult:[]
 })
 
 export const getters = {
@@ -17,6 +18,9 @@ export const getters = {
   },
   getresult(state){
     return state.result;
+  },
+  getuserresult(state){
+    return state.userresult;
   }
 }
 
@@ -26,7 +30,10 @@ export const mutations = {
     },
     setResult(state,payload){
       state.result = payload;
-      console.log("Set Result invoked=> ",payload);
+    },
+    setUserResult(state,payload){
+      state.userresult = payload;
+      console.log("Set User Result:- ",payload);
     },
     fetchTime(state,payload){
       state.time=payload;
@@ -46,7 +53,7 @@ export const actions={
            var subanswer = {};
            var temp = querySnapshot.data().subans;
            if(temp.length === 0){
-                Result["nature"] = "Cannot be determind";
+                Result["nature"] = "Cannot be determined";
               }else{
                 // ML code
                 const getMetaData = async () => {
@@ -126,6 +133,15 @@ export const actions={
                return db.collection("Result").doc(payload).set(Result)
                .then(()=>{
                  alert("Document got update with Subjective answers");
+                 db.collection("users").doc(payload).get().then(async querySnapshot => {
+                   console.log("Users UID data:- ",querySnapshot.data());
+                   Result["displayName"]=querySnapshot.data().displayName;
+                   Result["emailID"]=querySnapshot.data().emailID;
+                   return db.collection("users").doc(payload).set(Result)
+                  .then(()=>{
+                    alert("Users got Updated.");
+                   })
+                    })
                }).catch(error=>{
                  console.log("Error:- ",error);
                });
@@ -146,6 +162,21 @@ export const actions={
        await commit("setResult",result);
       }
     })
+  },
+   // Show User Result
+   async showUserResult({commit}){
+    var user = this.state.users.user; 
+    db.collection("users").doc(user.uid).get().then(async querySnapshot => {
+      if (querySnapshot.empty) {
+      //this.$router.push('/HelloWorld')
+      } else {
+        console.log("Show user Result:- ",querySnapshot.data());
+        var Categories = [];
+        Categories.push(querySnapshot.data());
+        await commit("setUserResult",Categories);
+      }
+    });
+      //  await commit("setResult",result);
   },
   async fetchTime({commit}){
     db.collection("Question-Paper").doc('time').get().then(async querySnapshot => {

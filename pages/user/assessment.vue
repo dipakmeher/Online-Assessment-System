@@ -76,7 +76,7 @@
       </v-row>
 
     <!-- For small screen -->
-    <div class="visible-sm-and-down hidden-md-and-up">
+    <div class="hidden-md-and-up">
       <v-row>
         <v-col cols="12">
         <!-- Timer Card -->
@@ -270,9 +270,9 @@ import {mapState} from 'vuex'
         clearInterval(this.timerInterval);
         var today = new Date();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        // this.$store.commit("updateEndTime",time);
-        // this.$store.dispatch("UpdateAnswers", this.chosen)
-        //this.overlay = !this.overlay;
+        this.$store.commit("updateEndTime",time);
+        this.$store.dispatch("UpdateAnswers", this.chosen)
+        this.overlay = !this.overlay;
       }
       const hours = Math.floor(timeLeft /60/60);
 

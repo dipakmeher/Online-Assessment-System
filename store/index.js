@@ -97,11 +97,9 @@ export const actions={
         var valueCat=[];
         categories.push(querySnapshot.data());
         commit("setMasterBank", categories);
-        console.log("Master-Bank=> ",categories);
         for (const [key, value] of Object.entries(categories["0"])) {
          len = len + 1;
         }
-        console.log("len:- ",len);
         commit("setlen",len);
       }
     });

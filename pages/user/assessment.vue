@@ -145,7 +145,7 @@
     </div>
     <!-- Bottom Button Card -->
     <v-card flat class="bottombtncard success" width="10%">
-      <v-btn depressed color="primary" class=" submit" @click="overlay1=!overlay;isPaused=!isPaused">Submit</v-btn>
+      <v-btn depressed color="primary" class="submit" @click="overlay1=!overlay;isPaused=!isPaused">Submit</v-btn>
     </v-card> 
       <!-- <v-btn depressed color="primary" class=" submit hidden-md-and-up" @click="overlay1=!overlay;isPaused=!isPaused">Submit</v-btn> -->
     <!-- Bottom Button Card ends -->
@@ -206,10 +206,8 @@ import {mapState} from 'vuex'
       isPaused:false,
       }
     },
-    async created() {
-    // this.$store.dispatch("fetchCategories");
-    this.timeLimit = this.$store.state.assessment.time;
-   
+  async created() {
+    this.timeLimit = this.$store.state.assessment.time;   
   },
   mounted() {
     this.startTimer();
@@ -243,7 +241,7 @@ import {mapState} from 'vuex'
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         this.$store.commit("updateEndTime",time);
         this.$store.dispatch("UpdateAnswers", this.chosen).then(()=>{
-         //this.$store.dispatch("assessmentFirestoreupdate/fetchSubAns");
+         this.$store.dispatch("assessment/fetchSubAns");
       });
     },
     startTimer() {

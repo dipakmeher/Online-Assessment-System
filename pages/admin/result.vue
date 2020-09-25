@@ -14,15 +14,15 @@
                   v-for="(Questions,index) in projects"
                   :key="index"
                 >
-                  <v-col cols="6">
+                  <v-col cols="4">
                   <v-list-item-content>
-                    <v-list-item-title> {{index}}</v-list-item-title>
+                    <v-list-item-title class="text-center"> {{Questions.displayName}}</v-list-item-title>
                   </v-list-item-content>
                   </v-col>
                   <v-divider vertical></v-divider>
-                  <v-col cols="3" >
-                   <v-list-item-content class="ml-5">
-                    <v-list-item-title v-if="Questions.score <= 1">
+                  <v-col cols="4" >
+                   <v-list-item-content class="ml-5" >
+                    <v-list-item-title v-if="Questions.score <= 1" >
                       <v-chip class="red" text-color="white">{{Questions.score}}</v-chip>  
                     </v-list-item-title>
                     <v-list-item-title v-else-if="Questions.score <= 2">
@@ -35,7 +35,7 @@
                   </v-col>
                  
                   <v-divider vertical></v-divider>
-                  <v-col cols="3" >
+                  <v-col cols="4" >
                    <v-list-item-content class="ml-2">  
                     <v-list-item-title v-if="Questions.nature === 'Ignorance'">
                         <v-chip class="red" text-color="white">{{Questions.nature}}</v-chip>  
@@ -64,7 +64,7 @@
                 :key="index"
               >
                 <v-list-item-content>
-                  <v-list-item-title class="text-center text-sm-h5 text-subtitle-1"> {{index}}</v-list-item-title>
+                  <v-list-item-title class="text-center text-sm-h5 text-subtitle-1">  {{Questions.displayName}}</v-list-item-title>
                   <v-list-item-title class="text-center">
                   <v-chip class="red" v-if="Questions.score <= 1" text-color="white">Score = {{Questions.score}}</v-chip>  
                   <v-chip class="yellow" v-else-if="Questions.score <= 2" text-color="primary darken-4"> Score = {{Questions.score}}</v-chip>  

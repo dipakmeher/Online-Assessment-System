@@ -30,6 +30,7 @@ export const mutations = {
     },
     setResult(state,payload){
       state.result = payload;
+      console.log("Set Result Set:- ");
     },
     setUserResult(state,payload){
       state.userresult = payload;
@@ -52,6 +53,7 @@ export const actions={
            var Result = {};
            var subanswer = {};
            var temp = querySnapshot.data().subans;
+           console.log("Data:- ",querySnapshot.data().score);
            if(temp.length === 0){
                 Result["nature"] = "Cannot be determined";
               }else{
@@ -150,7 +152,7 @@ export const actions={
   },
   // showResult
   async showResult({commit}){
-    db.collection("Result").get().then(async querySnapshot => {
+    db.collection("users").get().then(async querySnapshot => {
       if (querySnapshot.empty) {
       //this.$router.push('/HelloWorld')
       } else {
@@ -160,6 +162,7 @@ export const actions={
           result[doc.id]=doc.data();
       });
        await commit("setResult",result);
+       console.log("result:->",result);
       }
     })
   },

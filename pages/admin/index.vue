@@ -1,21 +1,5 @@
 <template>
   <v-main>
-    <v-container>
-      <nuxt-link to="/slidegroup"><v-btn>Fetch Categories</v-btn></nuxt-link>
-      <!-- <v-row>
-        <v-col cols="4">
-          <v-card class="success" min-height="100px">
-            <v-btn @click="transfer">Checking UUID</v-btn>
-          </v-card>
-        </v-col>
-        <v-col cols="3">
-          <v-card class="primary"></v-card>
-        </v-col>
-        <v-col cols="3">
-          <v-card class="primary"></v-card>
-        </v-col>
-      </v-row> -->
-    </v-container>
   </v-main>
 </template>
 

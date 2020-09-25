@@ -39,7 +39,7 @@ exports.randomPicker = functions.https.onCall((data, context) => {
 });
 
 exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
-  await admin.firestore().collection("Assessment").doc("EHJK1tbIj8ZmJK9yT3jZrvmNFKz1").get().then(querySnapshot => {
+  await admin.firestore().collection("Assessment").doc(data.uid).get().then(querySnapshot => {
     if (querySnapshot.empty) {
     //this.$router.push('/HelloWorld')
     } else {
@@ -61,7 +61,7 @@ exports.evaluateAnswer = functions.https.onCall(async(data, context) => {
           }
           var score = 0;
           var temp=[];
-          // Main for loop
+          // Main for loopquerySnapshot.data().subans;
           for(const [key, value] of Object.entries(categories["0"])) {
             var type = value.type;
             if(type === "Subjective"){

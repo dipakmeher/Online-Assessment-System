@@ -70,7 +70,9 @@ import {mapActions} from 'vuex'
     }),
     async created(){
     await this.$store.dispatch("randomPicker").then(async ()=>{
+      alert("random picker");
       await this.$store.dispatch("fetchCategories");
+      alert("Fetch Categories");
     });
     },
     computed: {

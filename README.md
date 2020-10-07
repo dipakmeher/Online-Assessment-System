@@ -1,6 +1,6 @@
 # OnlineAssessment
 
-> My unreal Nuxt.js project
+> I have developed machine learning integrated an Online Assessment System by using Nuxtjs, Cloud Firestore, and Machine Learning, under the guidance of Prashant Kaushal, Technical Manager, Konsoftech Solutions Pvt. Ltd. It is a progressive web application that offers you the service of complete assessment and evaluation of your questions in the assessment. The evaluation of assessment is integrated with the Personality Predictor which not only evaluates the question paper but also predicts the personality of the person based on the answer given in the assessment.
 
 ## Build Setup
 

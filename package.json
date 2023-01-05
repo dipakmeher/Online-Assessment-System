@@ -29,7 +29,7 @@
     "jwt-decode": "^2.2.0",
     "net": "^1.0.2",
     "node-fetch": "^2.6.0",
-    "nuxt": "^2.12.2",
+    "nuxt": "^2.15.8",
     "nuxt-uid-module": "^0.2.0",
     "sentiment": "^5.0.2",
     "tls": "0.0.1",
